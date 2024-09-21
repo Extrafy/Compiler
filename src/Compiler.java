@@ -1,4 +1,6 @@
 import config.Config;
+import error.Error;
+import error.HandleError;
 import frontend.Lexer;
 import token.Token;
 import utils.InputOutput;
@@ -13,6 +15,14 @@ public class Compiler {
         List<Token> tokenList =  lexer.getTokenList();
         for (Token token: tokenList){
             InputOutput.write(token.toString());
+        }
+        if (Config.errorFlag){
+            HandleError handleError = HandleError.getInstance();
+            List<Error> errorList = handleError.getErrorList();
+            for (Error error: errorList){
+                System.out.println(error.toString());
+                InputOutput.writeError(error.toString());
+            }
         }
     }
 }

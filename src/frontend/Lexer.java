@@ -1,17 +1,19 @@
 package frontend;
 
+import config.Config;
+import error.Error;
+import error.ErrorType;
+import error.HandleError;
 import token.Token;
 import token.TokenType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Lexer {
     private int curPosition;
     private int curLine;
     private String value;
-    private int number;
+    private long number;
     private TokenType tokenType;
     private List<Token> tokenList = new ArrayList<Token>();
 
@@ -98,7 +100,7 @@ public class Lexer {
                     }
                 }
                 tokenType = TokenType.INTCON;
-                number = Integer.parseInt(value);
+                number = Long.parseLong(value);
                 Token token = new Token(tokenType, value, curLine);
                 tokenList.add(token);
                 resetting();
@@ -119,7 +121,260 @@ public class Lexer {
                 }
                 tokenType = TokenType.STRCON;
                 Token token = new Token(tokenType, value, curLine);
-                tokenList.add((token));
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '\''){
+                value += ch;
+                if(i + 1 < maxLength){
+                    i++;
+                    char t = source.charAt(i);
+                    if(t != '\\'){
+                        value += t;
+                        if(i + 1 < maxLength){
+                            i++;
+                            value += ch;
+                        }
+                    }
+                    else{
+                        value += t;
+                        if(i + 1 < maxLength){
+                            i++;
+                            char k = source.charAt(i);
+                            Set<Character> charSet = Set.of('\"', '\'', '\\', 'a', 'b', 't', 'n', 'v', 'f', '0');
+                            if(charSet.contains(k)){
+                                value += k;
+                                if(i + 1 < maxLength){
+                                    i++;
+                                    value += ch;
+                                }
+                            }
+                            else{
+                                System.out.println("字符常量不合法");
+                            }
+                        }
+                    }
+                }
+                tokenType = TokenType.CHRCON;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '!'){
+                value += ch;
+                if(next != '='){
+                    tokenType = TokenType.NOT;
+                }
+                else{
+                    tokenType = TokenType.NEQ;
+                    value += next;
+                    i++;
+                }
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '<'){
+                value += ch;
+                if(next != '='){
+                    tokenType = TokenType.LSS;
+                }
+                else{
+                    tokenType = TokenType.LEQ;
+                    value += next;
+                    i++;
+                }
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '>'){
+                value += ch;
+                if(next != '='){
+                    tokenType = TokenType.GRE;
+                }
+                else{
+                    tokenType = TokenType.GEQ;
+                    value += next;
+                    i++;
+                }
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '='){
+                value += ch;
+                if(next != '='){
+                    tokenType = TokenType.ASSIGN;
+                }
+                else{
+                    tokenType = TokenType.EQL;
+                    value += next;
+                    i++;
+                }
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '&'){
+                if(next == '&'){
+                    value = "&&";
+                    tokenType = TokenType.AND;
+                    i++;
+                    Token token = new Token(tokenType, value, curLine);
+                    tokenList.add(token);
+                    resetting();
+                }
+                else {
+                    HandleError.getInstance().addError(new Error(curLine, ErrorType.a));
+                    Config.errorFlag = true;
+                }
+            }
+
+            else if(ch == '|'){
+                if(next == '|'){
+                    value = "||";
+                    tokenType = TokenType.OR;
+                    i++;
+                    Token token = new Token(tokenType, value, curLine);
+                    tokenList.add(token);
+                    resetting();
+                }
+                else {
+                    HandleError.getInstance().addError(new Error(curLine, ErrorType.a));
+                    Config.errorFlag = true;
+                }
+            }
+
+            else if(ch == '/'){
+                if (next == '/'){
+                    for(int j = i+2; j < maxLength; j++){
+                        char t = source.charAt(j);
+                        if(t == '\n'){
+                            i = j;
+                            curLine++;
+                            break;
+                        }
+                    }
+                }
+                else if (next == '*'){
+                    for(int j = i+2; j < maxLength; j++){
+                        char t = source.charAt(j);
+                        if(t == '\n') curLine++;
+                        if(source.charAt(j) == '*' && j + 1 < maxLength && source.charAt(j+1) == '/'){
+                            i = j+1;
+                            break;
+                        }
+                    }
+                }
+                else {
+                    value += ch;
+                    tokenType = TokenType.DIV;
+                    Token token = new Token(tokenType, value, curLine);
+                    tokenList.add(token);
+                    resetting();
+                }
+            }
+
+            else if(ch == '+'){
+                value += ch;
+                tokenType = TokenType.PLUS;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '-'){
+                value += ch;
+                tokenType = TokenType.MINU;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '*'){
+                value += ch;
+                tokenType = TokenType.MULT;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '%'){
+                value += ch;
+                tokenType = TokenType.MOD;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == ';'){
+                value += ch;
+                tokenType = TokenType.SEMICN;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == ','){
+                value += ch;
+                tokenType = TokenType.COMMA;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '('){
+                value += ch;
+                tokenType = TokenType.LPARENT;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == ')'){
+                value += ch;
+                tokenType = TokenType.RPARENT;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '['){
+                value += ch;
+                tokenType = TokenType.LBRACK;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == ']'){
+                value += ch;
+                tokenType = TokenType.RBRACK;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '{'){
+                value += ch;
+                tokenType = TokenType.LBRACE;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
+                resetting();
+            }
+
+            else if(ch == '}'){
+                value += ch;
+                tokenType = TokenType.RBRACE;
+                Token token = new Token(tokenType, value, curLine);
+                tokenList.add(token);
                 resetting();
             }
         }
