@@ -10,7 +10,7 @@ public class InputOutput {
         String content = "";
         try {
             content = Files.readString(Path.of(filepath));  // 读取整个文件为字符串
-            System.out.println(content);
+//            System.out.println(content);
         } catch (IOException e) {
             e.printStackTrace();
         }

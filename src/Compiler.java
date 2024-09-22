@@ -20,7 +20,7 @@ public class Compiler {
             HandleError handleError = HandleError.getInstance();
             List<Error> errorList = handleError.getErrorList();
             for (Error error: errorList){
-                System.out.println(error.toString());
+//                System.out.println(error.toString());
                 InputOutput.writeError(error.toString());
             }
         }

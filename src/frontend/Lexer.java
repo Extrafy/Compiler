@@ -254,13 +254,18 @@ public class Lexer {
 
             else if(ch == '/'){
                 if (next == '/'){
+                    boolean flag = false; // 注释后面是否有回车
                     for(int j = i+2; j < maxLength; j++){
                         char t = source.charAt(j);
                         if(t == '\n'){
                             i = j;
                             curLine++;
+                            flag = true;
                             break;
                         }
+                    }
+                    if(!flag){
+                        i = maxLength - 1;
                     }
                 }
                 else if (next == '*'){
