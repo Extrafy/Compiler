@@ -6,6 +6,7 @@ import error.ErrorType;
 import error.HandleError;
 import token.Token;
 import token.TokenType;
+import utils.InputOutput;
 
 import java.util.*;
 
@@ -385,4 +386,9 @@ public class Lexer {
         }
     }
 
+    public void printLexerAnswer(){
+        for (Token token: tokenList){
+            InputOutput.write(token.toString());
+        }
+    }
 }
