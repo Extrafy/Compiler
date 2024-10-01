@@ -1,0 +1,8 @@
+int main(){
+    char c;
+    c = getchar()
+    if(1 & 2){
+        printf("output is %c\n", c);
+    }
+    return 0;
+}
