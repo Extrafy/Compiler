@@ -43,4 +43,5 @@ public enum TokenType {
     LBRACE, // {
     RBRACE, // }
     NONE, // none
+    ERROR, // & 和 |
 }

@@ -562,7 +562,7 @@ public class AST {
         private List<Token> commaTokens;
         private Token rBraceToken;
         private Token stringConst;
-        private String type;
+        private String type = "<InitVal>";
 
         public InitVal(List<Exp> expList, Token lBraceToken, List<Token> commaTokens, Token rBraceToken, Token stringConst) {
             this.expList = expList;
@@ -880,7 +880,9 @@ public class AST {
         private List<Stmt> stmtList;
         private Token elseToken;
         private Token forToken;
-        private List<ForStmt> forStmtList;
+
+        private ForStmt forStmt1;
+        private ForStmt forStmt2;
         private Token breakOrcontinueToken;
         private Token returnToken;
         private Token getintOrGetcharToken;
@@ -925,7 +927,7 @@ public class AST {
             this.elseToken = elseToken;
         }
 
-        public Stmt(StmtType stmtType, Token semicnToken, Token semicnToken2, Token lParentToken, Cond cond, Token rParentToken, List<Stmt> stmtList, Token forToken, List<ForStmt> forStmtList) {
+        public Stmt(StmtType stmtType, Token semicnToken, Token semicnToken2, Token lParentToken, Cond cond, Token rParentToken, List<Stmt> stmtList, Token forToken, ForStmt forStmt1, ForStmt forStmt2) {
             // 'for' '(' [ForStmt] ';' [Cond] ';' [ForStmt] ')' Stmt
             this.stmtType = stmtType;
             this.semicnToken = semicnToken;
@@ -935,7 +937,8 @@ public class AST {
             this.rParentToken = rParentToken;
             this.stmtList = stmtList;
             this.forToken = forToken;
-            this.forStmtList = forStmtList;
+            this.forStmt1 = forStmt1;
+            this.forStmt2 = forStmt2;
         }
 
         public Stmt(StmtType stmtType, Token semicnToken, Token breakOrcontinueToken) {
@@ -1033,8 +1036,12 @@ public class AST {
             return forToken;
         }
 
-        public List<ForStmt> getForStmtList() {
-            return forStmtList;
+        public ForStmt getForStmt1() {
+            return forStmt1;
+        }
+
+        public ForStmt getForStmt2() {
+            return forStmt2;
         }
 
         public Token getBreakOrcontinueToken() {
@@ -1087,6 +1094,7 @@ public class AST {
                         exp.print();
                     }
                     InputOutput.write(semicnToken.toString());
+                    break;
 
                 case Block:
                     block.print();
@@ -1107,42 +1115,48 @@ public class AST {
                 case For:
                     InputOutput.write(forToken.toString());
                     InputOutput.write(lParentToken.toString());
-                    if (cond != null && forStmtList.size() == 2){
-                        forStmtList.get(0).print();
+                    boolean hasForStmt1 = false;
+                    boolean hasCond = false;
+                    boolean hasForStmt2 = false;
+                    if (forStmt1 != null) hasForStmt1 =true;
+                    if (cond != null) hasCond = true;
+                    if (forStmt2 != null) hasForStmt2 = true;
+                    if (hasForStmt1 && hasCond && hasForStmt2){
+                        forStmt1.print();
                         InputOutput.write(semicnToken.toString());
                         cond.print();
                         InputOutput.write(semicnToken2.toString());
-                        forStmtList.get(1).print();
+                        forStmt2.print();
                     }
-                    else if (cond == null && forStmtList.size() == 2){
-                        forStmtList.get(0).print();
+                    else if (hasForStmt1 && !hasCond && hasForStmt2){
+                        forStmt1.print();
                         InputOutput.write(semicnToken.toString());
                         InputOutput.write(semicnToken2.toString());
-                        forStmtList.get(1).print();
+                        forStmt2.print();
                     }
-                    else if(cond != null && forStmtList.get(0)!=null && forStmtList.get(1) == null){
-                        forStmtList.get(0).print();
-                        InputOutput.write(semicnToken.toString());
-                        cond.print();
-                        InputOutput.write(semicnToken2.toString());
-                    }
-                    else if(cond != null && forStmtList.get(1)!=null && forStmtList.get(0) == null){
+                    else if(hasForStmt1 && hasCond && !hasForStmt2){
+                        forStmt1.print();
                         InputOutput.write(semicnToken.toString());
                         cond.print();
                         InputOutput.write(semicnToken2.toString());
-                        forStmtList.get(1).print();
                     }
-                    else if (cond == null && forStmtList.get(0)==null && forStmtList.get(1) != null){
+                    else if(!hasForStmt1 && hasCond && hasForStmt2){
+                        InputOutput.write(semicnToken.toString());
+                        cond.print();
+                        InputOutput.write(semicnToken2.toString());
+                        forStmt2.print();
+                    }
+                    else if (!hasForStmt1 && !hasCond && hasForStmt2){
                         InputOutput.write(semicnToken.toString());
                         InputOutput.write(semicnToken2.toString());
-                        forStmtList.get(1).print();
+                        forStmt2.print();
                     }
-                    else if (cond == null && forStmtList.get(1)==null && forStmtList.get(0) != null){
-                        forStmtList.get(0).print();
+                    else if (hasForStmt1 && !hasCond && !hasForStmt2){
+                        forStmt1.print();
                         InputOutput.write(semicnToken.toString());
                         InputOutput.write(semicnToken2.toString());
                     }
-                    else if (cond != null && forStmtList.isEmpty()){
+                    else if (!hasForStmt1 && hasCond && !hasForStmt2){
                         InputOutput.write(semicnToken.toString());
                         cond.print();
                         InputOutput.write(semicnToken2.toString());
@@ -1153,6 +1167,7 @@ public class AST {
                     }
                     InputOutput.write(rParentToken.toString());
                     stmtList.get(0).print();
+                    break;
 
                 case Break:
 
@@ -1380,7 +1395,9 @@ public class AST {
             InputOutput.write(getType());
             if(opToken != null){
                 InputOutput.write(opToken.toString());
-                lOrExp.print();
+                if (lOrExp != null){
+                    lOrExp.print();
+                }
             }
         }
 
@@ -1794,7 +1811,9 @@ public class AST {
             InputOutput.write(getType());
             if(opToken != null){
                 InputOutput.write(opToken.toString());
-                lAndExp.print();
+                if (lAndExp != null) {
+                    lAndExp.print();
+                }
             }
         }
 

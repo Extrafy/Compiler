@@ -233,6 +233,11 @@ public class Lexer {
                     resetting();
                 }
                 else {
+                    value = "&";
+                    tokenType = TokenType.ERROR;
+                    Token token = new Token(tokenType, value, curLine);
+                    tokenList.add(token);
+                    resetting();
                     HandleError.getInstance().addError(new Error(curLine, ErrorType.a));
                     Config.errorFlag = true;
                 }
@@ -248,6 +253,11 @@ public class Lexer {
                     resetting();
                 }
                 else {
+                    value = "|";
+                    tokenType = TokenType.ERROR;
+                    Token token = new Token(tokenType, value, curLine);
+                    tokenList.add(token);
+                    resetting();
                     HandleError.getInstance().addError(new Error(curLine, ErrorType.a));
                     Config.errorFlag = true;
                 }

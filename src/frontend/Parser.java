@@ -44,6 +44,20 @@ public class Parser {
             }
             return t;
         }
+        else if (tokenType == TokenType.AND) {
+            if (idx < tokenList.size() - 1) {
+                idx++;
+                curToken = tokenList.get(idx);
+            }
+            return new Token(TokenType.AND, "&&", curToken.getLine());
+        }
+        else if (tokenType == TokenType.OR){
+            if (idx < tokenList.size() - 1) {
+                idx++;
+                curToken = tokenList.get(idx);
+            }
+            return new Token(TokenType.OR, "||", curToken.getLine());
+        }
         else if (tokenType == TokenType.SEMICN) {
             Config.errorFlag = true;
             HandleError.getInstance().addError(new Error(tokenList.get(idx - 1).getLine(), ErrorType.i));
@@ -369,9 +383,10 @@ public class Parser {
             // 'for' '(' [ForStmt] ';' [Cond] ';' [ForStmt] ')' Stmt
             Token forToken = expect(TokenType.FORTK);
             Token lParentToken = expect(TokenType.LPARENT);
-            List<AST.ForStmt> forStmtList = new ArrayList<>();
+            AST.ForStmt forStmt1 = null;
+            AST.ForStmt forStmt2 = null;
             if (curToken.getTokenType() != TokenType.SEMICN){
-                forStmtList.add(parseForStmt());
+                forStmt1 = parseForStmt();
             }
             Token semicnToken1 = expect(TokenType.SEMICN);
             AST.Cond cond = null;
@@ -380,12 +395,12 @@ public class Parser {
             }
             Token semicnToken2 = expect(TokenType.SEMICN);
             if(curToken.getTokenType() != TokenType.RPARENT){
-                forStmtList.add(parseForStmt());
+                forStmt2 = parseForStmt();
             }
             Token rParentToken = expect(TokenType.RPARENT);
             List<AST.Stmt> stmtList = new ArrayList<>();
             stmtList.add(parseStmt());
-            return new AST.Stmt(AST.Stmt.StmtType.For, semicnToken1, semicnToken2, lParentToken, cond, rParentToken, stmtList, forToken, forStmtList);
+            return new AST.Stmt(AST.Stmt.StmtType.For, semicnToken1, semicnToken2, lParentToken, cond, rParentToken, stmtList, forToken, forStmt1, forStmt2);
         }
         else if(curToken.getTokenType() == TokenType.BREAKTK){
             // 'break' ';'
@@ -674,7 +689,7 @@ public class Parser {
         AST.EqExp eqExp = parseEqExp();
         Token op = null;
         AST.LAndExp lAndExp = null;
-        if (curToken.getTokenType() == TokenType.AND){
+        if (curToken.getTokenType() == TokenType.AND || curToken.getTokenType() == TokenType.ERROR){
             op = expect(TokenType.AND);
             lAndExp = parseLAndExp();
         }
@@ -686,7 +701,7 @@ public class Parser {
         AST.LAndExp lAndExp = parseLAndExp();
         Token op = null;
         AST.LOrExp lOrExp = null;
-        if (curToken.getTokenType() == TokenType.OR){
+        if (curToken.getTokenType() == TokenType.OR || curToken.getTokenType() == TokenType.ERROR){
             op = expect(TokenType.OR);
             lOrExp = parseLOrExp();
         }

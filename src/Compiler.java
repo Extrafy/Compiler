@@ -24,10 +24,7 @@ public class Compiler {
         }
         if (Config.errorFlag){
             HandleError handleError = HandleError.getInstance();
-            List<Error> errorList = handleError.getErrorList();
-            for (Error error: errorList){
-                InputOutput.writeError(error.toString());
-            }
+            handleError.printErrors();
         }
     }
 }
