@@ -439,45 +439,50 @@ public class Parser {
             Token semicnToken = expect(TokenType.SEMICN);
             return new AST.Stmt(AST.Stmt.StmtType.Printf, semicnToken, lParentToken, rParentToken, printfToken, stringConst, commaTokens, expList);
         }
+        else if(curToken.getTokenType() == TokenType.SEMICN){
+            // ';'
+            AST.Exp exp = null;
+            Token semicnToken = expect(TokenType.SEMICN);
+            return new AST.Stmt(AST.Stmt.StmtType.Exp, exp, semicnToken);
+        }
         else {
-            int assign = idx;
-            for (int i = idx; i < tokenList.size() && tokenList.get(i).getLine() == curToken.getLine(); i++){
-                if(tokenList.get(i).getTokenType() == TokenType.ASSIGN){
-                    assign = i;
-                }
-            }
-            if (assign > idx){
+//            int assign = idx;
+//            for (int i = idx; i < tokenList.size() && tokenList.get(i).getLine() == curToken.getLine(); i++){
+//                if(tokenList.get(i).getTokenType() == TokenType.ASSIGN){
+//                    assign = i;
+//                }
+//            }
+            int temp = idx;
+            AST.Exp exp = parseExp();
+            if (curToken.getTokenType() == TokenType.ASSIGN) {
                 // LVal '=' Exp ';'
                 // LVal '=' 'getint''('')'';'
                 // LVal '=' 'getchar''('')'';'
+                idx = temp; //回溯
+                curToken = tokenList.get(idx);
+                exp = null;
                 AST.LVal lVal = parseLval();
                 Token assignToken = expect(TokenType.ASSIGN);
-                if(curToken.getTokenType() == TokenType.GETINTTK){
+                if (curToken.getTokenType() == TokenType.GETINTTK) {
                     Token getintToken = expect(TokenType.GETINTTK);
                     Token lParentToken = expect(TokenType.LPARENT);
                     Token rParentToken = expect(TokenType.RPARENT);
                     Token semicnToken = expect(TokenType.SEMICN);
                     return new AST.Stmt(AST.Stmt.StmtType.LValAssignGetint, lVal, assignToken, semicnToken, lParentToken, rParentToken, getintToken);
-                }
-                else if(curToken.getTokenType() == TokenType.GETCHARTK){
+                } else if (curToken.getTokenType() == TokenType.GETCHARTK) {
                     Token getcharToken = expect(TokenType.GETCHARTK);
                     Token lParentToken = expect(TokenType.LPARENT);
                     Token rParentToken = expect(TokenType.RPARENT);
                     Token semicnToken = expect(TokenType.SEMICN);
                     return new AST.Stmt(AST.Stmt.StmtType.LValAssignGetchar, lVal, assignToken, semicnToken, lParentToken, rParentToken, getcharToken);
-                }
-                else {
-                    AST.Exp exp = parseExp();
+                } else {
+                    AST.Exp exp1 = parseExp();
                     Token semicnToken = expect(TokenType.SEMICN);
-                    return new AST.Stmt(AST.Stmt.StmtType.LValAssignExp, lVal, assignToken, exp, semicnToken);
+                    return new AST.Stmt(AST.Stmt.StmtType.LValAssignExp, lVal, assignToken, exp1, semicnToken);
                 }
             }
             else {
                 // [Exp] ';'
-                AST.Exp exp = null;
-                if (isExp()){
-                    exp = parseExp();
-                }
                 Token semicnToken = expect(TokenType.SEMICN);
                 return new AST.Stmt(AST.Stmt.StmtType.Exp, exp, semicnToken);
             }
