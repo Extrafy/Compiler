@@ -29,7 +29,7 @@ public class Error {
         return errorLine == error.errorLine;
     }
 
-    public int compare(Error error) {
+    public int compareTo(Error error) {
         if (equals(error)) {
             return 0;
         }

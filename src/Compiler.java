@@ -3,6 +3,7 @@ import error.Error;
 import error.HandleError;
 import frontend.Lexer;
 import frontend.Parser;
+import symbol.SymbolTable;
 import token.Token;
 import utils.InputOutput;
 
@@ -21,6 +22,10 @@ public class Compiler {
         parser.analyse();
         if (Config.parserFlag){
             parser.printParseAnswer();
+        }
+        HandleError.getInstance().compUnitError(Parser.getInstance().getAst().compUnit);
+        if (Config.symbolFlag){
+            SymbolTable.getRootSymbolTable().printSymbols();
         }
         if (Config.errorFlag){
             HandleError handleError = HandleError.getInstance();

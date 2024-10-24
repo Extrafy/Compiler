@@ -111,7 +111,14 @@ public class Lexer {
                 value += ch;
                 for (int j = i + 1; j < maxLength; j++){
                     char t = source.charAt(j);
-                    if(t != '\"'){
+                    if(t == '\\'){
+                        value += t;
+                        if (j + 1 < maxLength){
+                            value += source.charAt(j + 1);
+                        }
+                        j++;
+                    }
+                    else if(t != '\"'){
                         value += t;
                     }
                     else {

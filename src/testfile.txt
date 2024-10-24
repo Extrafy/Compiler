@@ -1,0 +1,35 @@
+void f1(int x){
+    return ;
+}
+
+void f2(int x[]){
+    return ;
+}
+
+void f3(char c){
+    return ;
+}
+
+void f4(char c[]){
+    return ;
+}
+
+int main(){
+    int x = 10;
+    int t[5] = {1, 2, 3, 4, 5};
+    char c = 'a';
+    char s[5] = "abcd";
+    f1(x); // 合法
+    f1(c); // 合法，具体原因见下方第五章中的解释  @@ char 传 int 合法
+    f1(t[0]); // 合法  @@ int数组元素传 int
+    f1(s[0]); // 合法，具体原因见下方第五章中的解释 @@ char数组元素传 int
+    f1(t); // 不合法
+    f2(t); // 合法
+    f2(s); // 不合法
+    f3(x); // 合法，具体原因见下方第五章中的解释 @@ int 传 char
+    f3(c); // 合法
+    f3(t[0]); // 合法，具体原因见下方第五章中的解释 @@ int数组元素传char
+    f3(s[0]); // 合法 @@ char数组元素传 char
+    f4(t); // 不合法
+    f4(s); // 合法
+}
