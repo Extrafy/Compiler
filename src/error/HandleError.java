@@ -204,7 +204,7 @@ public class HandleError {
                 else {
                     paramSymbolType = SymbolType.CharArray;
                 }
-                params.add(new FuncParam(funcFParam.getIdent().getValue(), size, paramSymbolType));
+                params.add(new FuncParam(funcFParam.getIdent().getValue(), size, paramSymbolType));  // 没有考虑常量数组
             }
             symbolStack.put(funcDef.getIdent().getValue(), new FuncSymbol(funcDef.getIdent().getValue(),symbolType, symbolStack.getStackTop().declLineNum, funcReturnType, params));
         }
@@ -523,7 +523,16 @@ public class HandleError {
                             else {
                                 Symbol symbol2 = symbolStack.get(funcRParam.getName());
                                 if (symbol2 instanceof VarSymbol){
-                                    funcRParamTypes.add(funcRParam.getSymbolType());
+                                    if (((VarSymbol) symbol2).getDimension() - funcRParam.getDimension() == 0){
+                                        if (symbol2.getSymbolType() == SymbolType.IntArray) {
+                                            funcRParamTypes.add(SymbolType.Int);
+                                        }
+                                        else if (symbol2.getSymbolType() == SymbolType.CharArray){
+                                            funcRParamTypes.add(SymbolType.Char);
+                                        }
+                                        else funcRParamTypes.add(funcRParam.getSymbolType());
+                                    }
+                                    else funcRParamTypes.add(funcRParam.getSymbolType());
                                 }
                                 else if (symbol2 instanceof  FuncSymbol){
                                     FuncSymbol funcSymbol2 = (FuncSymbol) symbol2;
@@ -540,11 +549,27 @@ public class HandleError {
                         }
                     }
                 }
-                if (!Objects.equals(funcFParamTypes, funcRParamTypes)){
-                    HandleError.getInstance().addError(new Error(unaryExp.getIdent().getLine(), ErrorType.e));
+                for (int i = 0; i < funcFParamTypes.size() && i < funcRParamTypes.size(); i++) {
+                    SymbolType fParam = funcFParamTypes.get(i);
+                    SymbolType rParam = funcRParamTypes.get(i);
+                    if ((isArray(fParam) && !isArray(rParam)) || (!isArray(fParam) && isArray(rParam))){
+                        HandleError.getInstance().addError(new Error(unaryExp.getIdent().getLine(), ErrorType.e));
+                        break;
+                    }
+                    else if ((fParam == SymbolType.CharArray && rParam == SymbolType.IntArray) || (rParam == SymbolType.CharArray && fParam == SymbolType.IntArray)){
+                        HandleError.getInstance().addError(new Error(unaryExp.getIdent().getLine(), ErrorType.e));
+                        break;
+                    }
                 }
+//                if (!Objects.equals(funcFParamTypes, funcRParamTypes)){
+//                    HandleError.getInstance().addError(new Error(unaryExp.getIdent().getLine(), ErrorType.e));
+//                }
             }
         }
+    }
+
+    public boolean isArray(SymbolType symbolType){
+        return symbolType == SymbolType.IntArray || symbolType == SymbolType.CharArray;
     }
 
     public FuncParam getFuncParamInUnaryExp(AST.UnaryExp unaryExp){
@@ -553,7 +578,18 @@ public class HandleError {
             return getFuncParamInPrimaryExp(unaryExp.getPrimaryExp());
         }
         else if (unaryExp.getIdent() != null){
-            return symbolStack.get(unaryExp.getIdent().getValue()) instanceof FuncSymbol ? new FuncParam(unaryExp.getIdent().getValue(), 0 , symbolStack.get(unaryExp.getIdent().getValue()).getSymbolType()) : null;
+            Symbol symbol = symbolStack.get(unaryExp.getIdent().getValue());
+            if (symbol instanceof FuncSymbol){
+                FuncSymbol funcSymbol = (FuncSymbol) symbol;
+                if (funcSymbol.getReturnType() == FuncSymbol.FuncReturnType.INT){
+                    return new FuncParam(unaryExp.getIdent().getValue(), 0 , SymbolType.Int);
+                }
+                else if (funcSymbol.getReturnType() == FuncSymbol.FuncReturnType.CHAR){
+                    return new FuncParam(unaryExp.getIdent().getValue(), 0, SymbolType.Char);
+                }
+                else return new FuncParam(unaryExp.getIdent().getValue(), 0, SymbolType.VoidFunc); // 错误
+            }
+            else return null; // 错误
         }
         else {
             return getFuncParamInUnaryExp(unaryExp.getUnaryExp());
