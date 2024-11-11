@@ -49,9 +49,40 @@ public class IRModule {
             function.getValue().refreshArgReg();
             if (!function.getValue().isLibFunc()){
                 for (MyNode<BasicBlock, Function> basicBlock : function.getValue().getBlockList()){
-                    if ()
+                    if (basicBlock.getValue().getInstructions().isEmpty()){
+                        BuildFactory.getInstance().checkBlockEnd(basicBlock.getValue());
+                    }
+                    basicBlock.getValue().setName(String.valueOf(Value.REG_NUM++));
+                    basicBlock.getValue().refreshReg();
                 }
             }
         }
+    }
+
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (GlobalVar globalVar : globalVars) {
+            s.append(globalVar.toString()).append("\n");
+        }
+        if (!globalVars.isEmpty()) {
+            s.append("\n");
+        }
+        refreshRegNum();
+        for (MyNode<Function, IRModule> function : functions) {
+            if (function.getValue().isLibFunc()) {
+                s.append("declare ").append(function.getValue().toString()).append("\n\n");
+            }
+            else {
+                s.append("define dso_local ").append(function.getValue().toString()).append("{\n");
+                for (MyNode<BasicBlock, Function> basicBlock : function.getValue().getBlockList()) {
+                    if (basicBlock != function.getValue().getBlockList().getBegin()) {
+                        s.append("\n");
+                    }
+                    s.append(";<label>:").append(basicBlock.getValue().getName()).append(":\n").append(basicBlock.getValue().toString());
+                }
+                s.append("}\n\n");
+            }
+        }
+        return s.toString();
     }
 }
