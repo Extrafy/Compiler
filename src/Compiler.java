@@ -31,5 +31,9 @@ public class Compiler {
             HandleError handleError = HandleError.getInstance();
             handleError.printErrors();
         }
+        if (!HandleError.getInstance().getErrorList().isEmpty()){
+            return;
+        }
+
     }
 }

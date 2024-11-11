@@ -33,4 +33,8 @@ public class InputOutput {
     public static void writeError(String error){
         write(error, Config.errorPath);
     }
+
+    public static void writeLlvmIr(String content){
+        write(content, Config.llvmPath);
+    }
 }
