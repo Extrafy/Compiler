@@ -1,35 +1,163 @@
-void f1(int x){
-    return ;
-}
+//#include <stdio.h>
 
-void f2(int x[]){
-    return ;
-}
+const int const_var1=17,const_var2=(7+17)/8;
+const int arr[3] = {1, 2, 3};
+const char const_var3='c';
 
-void f3(char c){
-    return ;
+const char s[5] = "abcd";
+char str[5]="abcd";
+const int cot_var1=const_var1+const_var2;
+int var1=5;
+int var2=2,var3=10;
+char var4=6+1,var5=8;
+//const char* str = "Hello, world!";
+int f3(int arr1[],int arr2[],int para1,int para2){ //返回值为int，有形参：普通变量，一维数组变量
+    int i;
+    i=0;
+    1;
+    for(;i==0;i=i+1){
+        para1=para1+para2;
+    }
+    return arr1[i]*(arr2[i]+para1)-para2;
 }
-
-void f4(char c[]){
-    return ;
+int f4(int para1,int para2){
+    return para1+para2;
 }
-
+char f5(char para1,char para2){
+    return para1+para2;
+}
+int f7(int para){
+    return para;
+}
+char f8(char para){
+    return para;
+}
+int f6(){
+    return 0;
+}
+void f2(int para){ //返回值为void，有形参
+    printf("%d\n",para);
+    return;
+}
+void f9(){
+    return;
+}
 int main(){
-    int x = 10;
-    int t[5] = {1, 2, 3, 4, 5};
-    char c = 'a';
-    char s[5] = "abcd";
-    f1(x); // 合法
-    f1(c); // 合法，具体原因见下方第五章中的解释  @@ char 传 int 合法
-    f1(t[0]); // 合法  @@ int数组元素传 int
-    f1(s[0]); // 合法，具体原因见下方第五章中的解释 @@ char数组元素传 int
-    f1(t); // 不合法
-    f2(t); // 合法
-    f2(s); // 不合法
-    f3(x); // 合法，具体原因见下方第五章中的解释 @@ int 传 char
-    f3(c); // 合法
-    f3(t[0]); // 合法，具体原因见下方第五章中的解释 @@ int数组元素传char
-    f3(s[0]); // 合法 @@ char数组元素传 char
-    f4(t); // 不合法
-    f4(s); // 合法
+    printf("22371491\n");
+    int a=0;
+    f9();
+    int ff=1;
+    int arr[3];
+    int arr1[3] = {1, 2, 3};
+    int arr2[3]={4,5,6};
+    int o=f3(arr1,arr2,a,ff);
+    const int b=1;
+    char e='c';
+    e=f8('c');
+    a=(a + b)+b+10;
+    a=-a;
+    -a;
+    a;
+    a=a/2;
+    a=a%2;
+    if(!a){
+
+    }
+    e=f5('g','f');
+    int h=a+1;
+    h=a;
+    e=getchar();
+    int d=4,c=1;
+    int i;
+    i=f7(0);
+    c=getint();
+    c=f4(a,d);
+
+
+    for(i=0;i<d;i=i+1){
+        c=a*-1+(d/(i+1))%2+(b/-+-3);
+        printf("%d\n",c);
+        if(c>0){
+            printf("pass\n");
+        }else{
+            printf("failed\n");
+        }
+
+        if(i>=0){
+            continue;
+        }else{
+            break;
+        }
+
+    }
+    i=0;
+    for(;i<d;i=i+1){
+        break;
+    }
+    for(i=0;;i=i+1){
+        break;
+    }
+    for(i=0;i<d;){
+        break;
+    }
+    for(;;i=i+1){
+        break;
+    }
+    for(;i<d;){
+        break;
+    }
+    for(i=0;;){
+        break;
+    }
+    for(;;){
+        break;
+    }
+    if(!0){
+
+    }else
+    {
+
+    }
+
+    if(d>=a){
+
+    };
+    if(d<=a);
+    if(d==a);
+    if(d>a);
+    if(d<a);
+    if(d!=a);
+
+    {
+
+    }
+    ;
+    123;
+    'c';
+
+
+    f6();
+    if(!0){
+       f2(1);
+    }
+
+    if(0&&d!=a){
+
+    }
+    if(1||a>0){
+        //printf("pass\n");
+    }
+    if(!d==a||a>0&&1==1&&(d+1)%2/2){
+        //printf("enter\n");
+    }
+    return 0;
 }
+
+
+
+
+
+
+
+
+//主函数块

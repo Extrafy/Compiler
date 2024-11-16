@@ -8,7 +8,10 @@ public class Config {
 
     public static boolean lexerFlag = false;
     public static boolean parserFlag = false;
-    public static boolean symbolFlag = true;
+    public static boolean symbolFlag = false;
     public static boolean errorFlag = false;
-    public static boolean irFlag = false;
+    public static boolean irFlag = true;
+
+    public static boolean chToStr = true;
+    public static boolean addToMul = true;
 }

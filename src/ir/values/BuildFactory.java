@@ -99,6 +99,10 @@ public class BuildFactory {
         return new ConstString(value);
     }
 
+    public ConstChar getConstChar(String value) {
+        return new ConstChar(value);
+    }
+
     // Array
     public GlobalVar buildGlobalArray(String name, Type type, boolean isConst) {
         Value tmp = new ConstArray(type, ((ArrayType) type).getElementType(), ((ArrayType) type).getCapacity());
