@@ -30,6 +30,9 @@ public class BinaryInst extends Instruction{
         else if (leftIsI32 && rightIsI8){
             addOperands(leftValue, BuildFactory.getInstance().buildZext(rightValue, block, IntegerType.i8, IntegerType.i32));
         }
+        else if (leftIsI8 && rightIsI8){
+            addOperands(BuildFactory.getInstance().buildZext(leftValue, block, IntegerType.i8, IntegerType.i32), BuildFactory.getInstance().buildZext(rightValue, block, IntegerType.i8, IntegerType.i32));
+        }
         else {
             addOperands(leftValue, rightValue);
         }

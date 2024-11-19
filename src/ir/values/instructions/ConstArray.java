@@ -29,7 +29,7 @@ public class ConstArray extends Const {
         }
         else {
             for (int i = 0; i < ((ArrayType) type).getArrayLength(); i++){
-                array.add(ConstInt.charZero);
+                array.add(ConstInt.zero);
             }
         }
     }

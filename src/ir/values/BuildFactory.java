@@ -86,7 +86,15 @@ public class BuildFactory {
         AllocaInst tmp = new AllocaInst(basicBlock, isConst, allocaType);
         tmp.addInstToBlock(basicBlock);
         if (value != null) {
-            buildStore(basicBlock, tmp, value);
+            if (allocaType == IntegerType.i8 && value.getType() == IntegerType.i32){
+                Value truncValue = buildTrunc(value, basicBlock, IntegerType.i32, IntegerType.i8);
+                buildStore(basicBlock, tmp, truncValue);
+            }
+            else if (allocaType == IntegerType.i32 && value.getType() == IntegerType.i8){
+                Value zextValue = buildZext(value, basicBlock, IntegerType.i8, IntegerType.i32);
+                buildStore(basicBlock, tmp, zextValue);
+            }
+            else buildStore(basicBlock, tmp, value);
         }
         return tmp;
     }
@@ -105,6 +113,7 @@ public class BuildFactory {
 
     // Array
     public GlobalVar buildGlobalArray(String name, Type type, boolean isConst) {
+//        System.out.println(((ArrayType) type).getElementType());
         Value tmp = new ConstArray(type, ((ArrayType) type).getElementType(), ((ArrayType) type).getCapacity());
         return new GlobalVar(name, type, isConst, tmp);
     }

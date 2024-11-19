@@ -223,13 +223,13 @@ public class LLVMGenerator {
             visitConstExp(constDef.getConstExp());
             dims.add(saveValue);
             tmpDims = new ArrayList<>(dims);
-            Type type = null;
-            for (int i = dims.size() - 1; i >= 0; i--){
-                if (type == null){
-                    type = buildFactory.getArrayType(tmpType, dims.get(i));
-                }
-                else type = buildFactory.getArrayType(type, dims.get(i));
-            }
+            Type type = buildFactory.getArrayType(tmpType, dims.get(0));
+//            for (int i = dims.size() - 1; i >= 0; i--){
+//                if (type == null){
+//                    type = buildFactory.getArrayType(tmpType, dims.get(i));
+//                }
+//                else type = buildFactory.getArrayType(type, dims.get(i));
+//            }
             if (isGlobal){
                 tmpValue = buildFactory.buildGlobalArray(name, type, true);
                 ((ConstArray)((GlobalVar) tmpValue).getValue()).setInit(true);
@@ -430,11 +430,13 @@ public class LLVMGenerator {
                     buildFactory.buildInitArray(curArray, tmpOffset, tmpValue);
                 }
                 else {
+                    tmpValue = buildFactory.getConstInt(ascii, IntegerType.i8);
                     buildFactory.buildStore(curBlock, buildFactory.buildGEP(curBlock, curArray, tmpOffset), tmpValue);
                 }
 
                 tmpOffset++;
             }
+            isConst = false;
         }
         else if (initVal.getExpList().size() == 1  && !isArray){
             // Exp
@@ -488,6 +490,7 @@ public class LLVMGenerator {
                     tmpOffset ++;
 //                    depth = Math.max(depth, tmpDepth);
                 }
+                isConst = false;
 //                depth ++;
 //                int size = 1;
 //                for (int i = 1; i < depth; i++) {
@@ -588,7 +591,7 @@ public class LLVMGenerator {
                 tmpType = null;
                 for (int i = dims.size() - 1; i >= 0; i--) {
                     if (tmpType == null) {
-                        tmpType = IntegerType.i32;
+                        tmpType = funcFParam.getbType().getIntToken() != null ? IntegerType.i32 : IntegerType.i8;
                     }
                     tmpType = buildFactory.getArrayType(tmpType, dims.get(i));
                 }
@@ -816,7 +819,17 @@ public class LLVMGenerator {
                 else {
                     tmpType = ((FunctionType)curFunction.getType()).getReturnType(); //???
                     visitExp(stmt.getExp());
-                    buildFactory.buildRet(curBlock,tmpValue);
+//                    System.out.println(tmpValue.toString());
+//                    System.out.println(tmpValue.getType());
+                    if (tmpValue.getType() == IntegerType.i32 && ((FunctionType)curFunction.getType()).getReturnType() == IntegerType.i8){
+                        Value truncValue = buildFactory.buildTrunc(tmpValue, curBlock, IntegerType.i32, IntegerType.i8);
+                        buildFactory.buildRet(curBlock,truncValue);
+                    }
+                    else if (tmpValue.getType() == IntegerType.i8 && ((FunctionType)curFunction.getType()).getReturnType() == IntegerType.i32){
+                        Value zextValue = buildFactory.buildZext(tmpValue, curBlock, IntegerType.i8, IntegerType.i32);
+                        buildFactory.buildRet(curBlock, zextValue);
+                    }
+                    else buildFactory.buildRet(curBlock,tmpValue);
                 }
                 break;
 
@@ -891,10 +904,18 @@ public class LLVMGenerator {
                 }
                 for (int i = 0; i < stringConst.length(); i++) {
                     if (stringConst.charAt(i) == '%') {
-                        buildFactory.buildCall(curBlock, (Function) getValue("putint"), new ArrayList<Value>() {{
-                            add(args.remove(0));
-                        }});
-                        i++;
+                        if (stringConst.charAt(i+1) == 'd'){
+                            buildFactory.buildCall(curBlock, (Function) getValue("putint"), new ArrayList<Value>() {{
+                                add(args.remove(0));
+                            }});
+                            i++;
+                        }
+                        else {
+                            buildFactory.buildCall(curBlock, (Function) getValue("putch"), new ArrayList<Value>() {{
+                                add(args.remove(0));
+                            }});
+                            i++;
+                        }
                     }
                     else {
                         if (Config.chToStr) {
@@ -1026,7 +1047,9 @@ public class LLVMGenerator {
                 // 数组
                 // is an array, maybe arr[1][2] or arr[][2]
                 List<Value> indexList = new ArrayList<>();
+//                System.out.println(tmpType.toString());
                 visitExp(lVal.getExp());
+//                System.out.println(tmpValue.getName());
                 indexList.add(tmpValue);
                 tmpValue = getValue(lVal.getIdent().getValue());
                 Value addr;
@@ -1035,7 +1058,8 @@ public class LLVMGenerator {
                 if (targetType instanceof PointerType) {
                     // arr[][3]
                     tmpValue = buildFactory.buildLoad(curBlock, tmpValue);
-                } else {
+                }
+                else {
                     // arr[1][2]
                     indexList.add(0, ConstInt.zero);
                 }
@@ -1081,7 +1105,7 @@ public class LLVMGenerator {
             else if (tmpType == IntegerType.i8){
                 tmpValue = buildFactory.getConstInt(Integer.parseInt(number.getIntConst().getValue()), IntegerType.i8);
             }
-
+            else tmpValue = buildFactory.getConstInt(Integer.parseInt(number.getIntConst().getValue()), IntegerType.i32);
         }
     }
 
@@ -1098,7 +1122,7 @@ public class LLVMGenerator {
     }
 
     public void visitUnaryExp(AST.UnaryExp unaryExp){
-        // UnaryExp → PrimaryExp | Ident '(' [FuncRParams] ')' | UnaryOp UnaryExp
+        // UnaryExp → PrimaryExp | Ident '(' [FuncRParams] ')' | UnaryOp UnaryExp  // ??? return fun();
         if (unaryExp.getPrimaryExp() != null){
             visitPrimaryExp(unaryExp.getPrimaryExp());
         }
