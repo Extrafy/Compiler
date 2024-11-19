@@ -254,7 +254,11 @@ public class LLVMGenerator {
             String str = constInitVal.getStringConst().getValue();
             tmpDepth = 1;
             for (int i = 1; i < str.length() - 1; i++){
-                int ascii = (int)str.charAt(i);
+                int ascii = (int)str.charAt(i); // '\n' ???
+                if (ascii == 92){
+                    ascii = 10;
+                    i++;
+                }
                 tmpValue = buildFactory.getConstInt(ascii, IntegerType.i8);
                 if (isGlobal){
                     buildFactory.buildInitArray(curArray, tmpOffset, tmpValue);
@@ -424,7 +428,11 @@ public class LLVMGenerator {
             tmpValue = null;
             tmpDepth = 1;
             for (int i = 1; i < str.length() - 1; i++) {
-                int ascii = (int)str.charAt(i);
+                int ascii = (int)str.charAt(i); // '\n' ???
+                if (ascii == 92){
+                    ascii = 10;
+                    i++;
+                }
                 if (isGlobal) {
                     tmpValue = buildFactory.getConstInt(ascii, IntegerType.i8);
                     buildFactory.buildInitArray(curArray, tmpOffset, tmpValue);
@@ -1112,12 +1120,54 @@ public class LLVMGenerator {
     public void visitCharacter(AST.Character character){
         // Character → CharConst
         // ???
+        String str = character.getCharConst().getValue();
         if (isConst){
-            saveValue = (int) character.getCharConst().getValue().charAt(1);
+            char ch1 = str.charAt(1);
+            if (ch1 != '\\'){
+                saveValue = (int) ch1;
+            }
+            else {
+                String s1 = str.substring(1, 3);
+                Map<String, Character> escapeMap = new HashMap<>();
+                escapeMap.put("\\a", (char) 7);
+                escapeMap.put("\\b", (char) 8);
+                escapeMap.put("\\n", (char) 10); // 换行符
+                escapeMap.put("\\t", (char) 9); // 制表符
+                escapeMap.put("\\v", (char) 11);
+                escapeMap.put("\\f", (char) 12);
+                escapeMap.put("\\0", (char) 0);
+                escapeMap.put("\\\\", (char) 92); // 反斜杠
+                escapeMap.put("\\\'", (char) 39); // 单引号
+                escapeMap.put("\\\"", (char) 34); // 双引号
+                if (escapeMap.containsKey(s1)) {
+                    saveValue =  (int) escapeMap.get(s1); // 返回 ASCII 值
+                }
+                else throw new RuntimeException("字符错误");
+            }
         }
         else {
-            int ascii = character.getCharConst().getValue().charAt(1);
-            tmpValue = buildFactory.getConstChar(ascii);
+            char ch1 = str.charAt(1);
+            if (ch1 != '\\'){
+                tmpValue = buildFactory.getConstChar((int) ch1);
+            }
+            else {
+                String s1 = str.substring(1, 3);
+                Map<String, Character> escapeMap = new HashMap<>();
+                escapeMap.put("\\a", (char) 7);
+                escapeMap.put("\\b", (char) 8);
+                escapeMap.put("\\n", (char) 10); // 换行符
+                escapeMap.put("\\t", (char) 9); // 制表符
+                escapeMap.put("\\v", (char) 11);
+                escapeMap.put("\\f", (char) 12);
+                escapeMap.put("\\0", (char) 0);
+                escapeMap.put("\\\\", (char) 92); // 反斜杠
+                escapeMap.put("\\\'", (char) 39); // 单引号
+                escapeMap.put("\\\"", (char) 34); // 双引号
+                if (escapeMap.containsKey(s1)) {
+                    tmpValue = buildFactory.getConstChar((int) escapeMap.get(s1));
+                }
+                else throw new RuntimeException("字符错误");
+            }
         }
     }
 
