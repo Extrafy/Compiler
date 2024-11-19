@@ -91,15 +91,15 @@ public class BuildFactory {
         return tmp;
     }
 
-    public ConstInt getConstInt(int value) {
-        return new ConstInt(value);
+    public ConstInt getConstInt(int value, Type type) {
+        return new ConstInt(value, type);
     }
 
     public ConstString getConstString(String value) {
         return new ConstString(value);
     }
 
-    public ConstChar getConstChar(String value) {
+    public ConstChar getConstChar(int value) {
         return new ConstChar(value);
     }
 
@@ -124,23 +124,32 @@ public class BuildFactory {
     }
 
     // ConvInst
-    public Value buildZext(Value value, BasicBlock basicBlock) {
-        if (value instanceof ConstInt) {
+    public Value buildZext(Value value, BasicBlock basicBlock, Type from, Type to) {
+        if (value instanceof ConstInt) { // ??? constchar?
             return new ConstInt(((ConstInt) value).getValue());
         }
-        ConvInst tmp = new ConvInst(basicBlock, Operator.Zext, value);
+        ConvInst tmp = new ConvInst(basicBlock, Operator.Zext, value, from, to);
         tmp.addInstToBlock(basicBlock);
         return tmp;
     }
 
-    public ConvInst buildBitcast(Value value, BasicBlock basicBlock) {
-        ConvInst tmp = new ConvInst(basicBlock, Operator.Bitcast, value);
+    public Value buildTrunc(Value value, BasicBlock basicBlock, Type from, Type to) {
+        if (value instanceof ConstInt) { // ??? constchar?
+            return new ConstInt(((ConstInt) value).getValue(), IntegerType.i8); // ???
+        }
+        ConvInst tmp = new ConvInst(basicBlock, Operator.Trunc, value, from, to);
+        tmp.addInstToBlock(basicBlock);
+        return tmp;
+    }
+
+    public ConvInst buildBitcast(Value value, BasicBlock basicBlock, Type from, Type to) {
+        ConvInst tmp = new ConvInst(basicBlock, Operator.Bitcast, value, from, to);
         tmp.addInstToBlock(basicBlock);
         return tmp;
     }
 
     public BinaryInst buildConvToI1(Value val, BasicBlock basicBlock) {
-        BinaryInst tmp = new BinaryInst(basicBlock, Operator.Ne, val, getConstInt(0));
+        BinaryInst tmp = new BinaryInst(basicBlock, Operator.Ne, val, getConstInt(0, IntegerType.i32));
         tmp.addInstToBlock(basicBlock);
         return tmp;
     }

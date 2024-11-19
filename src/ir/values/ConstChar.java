@@ -6,19 +6,19 @@ import ir.types.Type;
 import java.util.Objects;
 
 public class ConstChar extends Const{
-    private String value;
+    private int value;
 
     public ConstChar(){
-        super("\0", IntegerType.i8);
-        this.value = "\0";
+        super("", IntegerType.i8);
+        this.value = 0;
     }
 
-    public ConstChar(String value) {
-        super(value, IntegerType.i8);
+    public ConstChar(int value) {
+        super(String.valueOf(value), IntegerType.i8);
         this.value = value;
     }
 
-    public String getValue(){
+    public int getValue(){
         return value;
     }
 
@@ -26,7 +26,7 @@ public class ConstChar extends Const{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ConstChar temp = (ConstChar) o;
-        return Objects.equals(value, temp.value);
+        return value == temp.value;
     }
 
     public String toString() {

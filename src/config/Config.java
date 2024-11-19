@@ -13,5 +13,5 @@ public class Config {
     public static boolean irFlag = true;
 
     public static boolean chToStr = true;
-    public static boolean addToMul = true;
+    public static boolean addToMul = false;
 }

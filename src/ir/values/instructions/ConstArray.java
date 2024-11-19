@@ -1,6 +1,7 @@
 package ir.values.instructions;
 
 import ir.types.ArrayType;
+import ir.types.IntegerType;
 import ir.types.Type;
 import ir.values.Const;
 import ir.values.ConstInt;
@@ -21,8 +22,15 @@ public class ConstArray extends Const {
         this.elementType = elementType;
         this.array = new ArrayList<>();
         this.capacity = capacity;
-        for (int i = 0; i < ((ArrayType) type).getArrayLength(); i++){
-            array.add(ConstInt.zero);
+        if (elementType == IntegerType.i8){
+            for (int i = 0; i < ((ArrayType) type).getArrayLength(); i++){
+                array.add(ConstInt.charZero);
+            }
+        }
+        else {
+            for (int i = 0; i < ((ArrayType) type).getArrayLength(); i++){
+                array.add(ConstInt.charZero);
+            }
         }
     }
 

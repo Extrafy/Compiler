@@ -14,13 +14,21 @@ public class BinaryInst extends Instruction{
         // ???可能需要修改
         boolean leftIsI1 = leftValue.getType() instanceof IntegerType && ((IntegerType) leftValue.getType()).isI1();
         boolean rightIsI1 = rightValue.getType() instanceof IntegerType && ((IntegerType) rightValue.getType()).isI1();
+        boolean leftIsI8 = leftValue.getType() instanceof IntegerType && ((IntegerType) leftValue.getType()).isI8();
+        boolean rightIsI8 = rightValue.getType() instanceof IntegerType && ((IntegerType) rightValue.getType()).isI8();
         boolean leftIsI32 = leftValue.getType() instanceof IntegerType && ((IntegerType) leftValue.getType()).isI32();
         boolean rightIsI32 = rightValue.getType() instanceof IntegerType && ((IntegerType) rightValue.getType()).isI32();
         if (leftIsI1 && rightIsI32) {
-            addOperands(BuildFactory.getInstance().buildZext(leftValue, block), rightValue);
+            addOperands(BuildFactory.getInstance().buildZext(leftValue, block, IntegerType.i1, IntegerType.i32), rightValue);
         }
         else if (leftIsI32 && rightIsI1) {
-            addOperands(leftValue, BuildFactory.getInstance().buildZext(rightValue, block));
+            addOperands(leftValue, BuildFactory.getInstance().buildZext(rightValue, block, IntegerType.i1, IntegerType.i32));
+        }
+        else if (leftIsI8 && rightIsI32){
+            addOperands(BuildFactory.getInstance().buildZext(leftValue, block, IntegerType.i8, IntegerType.i32), rightValue);
+        }
+        else if (leftIsI32 && rightIsI8){
+            addOperands(leftValue, BuildFactory.getInstance().buildZext(rightValue, block, IntegerType.i8, IntegerType.i32));
         }
         else {
             addOperands(leftValue, rightValue);
@@ -109,25 +117,39 @@ public class BinaryInst extends Instruction{
         String s = getName() + " = ";
         switch (this.getOperator()) {
             case Add:
-                s += "add i32 ";
+                s += "add ";
+                s += this.getOperands().get(0).getType().toString();
+                s += " ";
                 break;
             case Sub:
-                s += "sub i32 ";
+                s += "sub ";
+                s += this.getOperands().get(0).getType().toString();
+                s += " ";
                 break;
             case Mul:
-                s += "mul i32 ";
+                s += "mul ";
+                s += this.getOperands().get(0).getType().toString();
+                s += " ";
                 break;
             case Div:
-                s += "sdiv i32 ";
+                s += "sdiv ";
+                s += this.getOperands().get(0).getType().toString();
+                s += " ";
                 break;
             case Mod:
-                s += "srem i32 ";
+                s += "srem ";
+                s += this.getOperands().get(0).getType().toString();
+                s += " ";
                 break;
             case Shl:
-                s += "shl i32 ";
+                s += "shl ";
+                s += this.getOperands().get(0).getType().toString();
+                s += " ";
                 break;
             case Shr:
-                s += "ashr i32 ";
+                s += "ashr ";
+                s += this.getOperands().get(0).getType().toString();
+                s += " ";
                 break;
             case And:
                 s += "and " + this.getOperands().get(0).getType().toString() + " ";

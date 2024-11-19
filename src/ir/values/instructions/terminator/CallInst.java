@@ -37,8 +37,10 @@ public class CallInst extends TerminatorInst{
     private Value convertType(Value value, BasicBlock basicBlock, Type curType, Type realType) {
         // 可能需要修改
         boolean isCurI1 = curType instanceof IntegerType && ((IntegerType) curType).isI1();
+        boolean isCurI8 = curType instanceof IntegerType && ((IntegerType) curType).isI8();
         boolean isCurI32 = curType instanceof IntegerType && ((IntegerType) curType).isI32();
         boolean isRealI1 = realType instanceof IntegerType && ((IntegerType) realType).isI1();
+        boolean isRealI8 = realType instanceof IntegerType && ((IntegerType) realType).isI8();
         boolean isRealI32 = realType instanceof IntegerType && ((IntegerType) realType).isI32();
         if (!isCurI1 && !isCurI32 && !isRealI1 && !isRealI32) {
             return value;
@@ -47,10 +49,16 @@ public class CallInst extends TerminatorInst{
             return value;
         }
         else if (isCurI1 && isRealI32) {
-            return BuildFactory.getInstance().buildZext(value, basicBlock);
+            return BuildFactory.getInstance().buildZext(value, basicBlock, IntegerType.i1, IntegerType.i32);
+        }
+        else if (isCurI8 && isRealI32) {
+            return BuildFactory.getInstance().buildZext(value, basicBlock, IntegerType.i8, IntegerType.i32);
         }
         else if (isCurI32 && isRealI1) {
             return BuildFactory.getInstance().buildConvToI1(value, basicBlock);
+        }
+        else if (isCurI32 && isRealI8) {
+            return BuildFactory.getInstance().buildTrunc(value, basicBlock, IntegerType.i32, IntegerType.i8);
         }
         else {
             return value;
