@@ -825,7 +825,7 @@ public class LLVMGenerator {
                     buildFactory.buildRet(curBlock);
                 }
                 else {
-                    tmpType = ((FunctionType)curFunction.getType()).getReturnType(); //???
+                    //tmpType = ((FunctionType)curFunction.getType()).getReturnType(); //???
                     visitExp(stmt.getExp());
 //                    System.out.println(tmpValue.toString());
 //                    System.out.println(tmpValue.getType());

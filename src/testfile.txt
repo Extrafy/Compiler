@@ -1,12 +1,8 @@
-char fun(){
-    return 'a';
-}
-
+char s[10] = "adwa";
 int main()
 {
-    char a = 'a';
-    if(fun() && 'a' && a){
-        a = 12;
-    }
-    return a;
+    int b = 2;
+    char tt = 1;
+    s[tt] = b;
+    return 0;
 }
