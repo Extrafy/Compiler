@@ -28,4 +28,8 @@ public class IntegerType implements Type{
     public String toString(){
         return "i" + Integer.toString(bit);
     }
+
+    public int getSize() {
+        return bit / 8;
+    }
 }

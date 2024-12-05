@@ -1,8 +1,15 @@
-char s[10] = "adwa";
-int main()
-{
-    int b = 2;
-    char tt = 1;
-    s[tt] = b;
+int a = 2;
+int aa;
+int b[10] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+int bb[10];
+
+char c = 'c';
+char cc;
+char d[10] = "dwacsa";
+char dd[10];
+
+int main() {
+    printf("This is a string\n");
+    printf("%d\n",a);
     return 0;
 }

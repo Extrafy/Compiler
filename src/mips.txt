@@ -1,0 +1,182 @@
+# LLVM to Mips 
+.macro putstr
+	li	$v0,	4
+	syscall
+.end_macro
+
+.macro putint
+	li	$v0,	1
+	syscall
+.end_macro
+
+.macro getint
+	li	$v0,	5
+	syscall
+.end_macro
+
+.macro putchar
+	li	$v0,	11
+	syscall
+.end_macro
+
+.macro getchar
+	li	$v0,	12
+	syscall
+.end_macro
+
+.data
+a:
+.word	2
+
+aa:
+.word	0
+
+b:
+.word	1
+.word	2
+.word	3
+.word	4
+.word	5
+.word	6
+.word	7
+.word	8
+.word	9
+.word	10
+
+c:
+.byte	99
+
+cc:
+.byte	0
+
+d:
+.byte	100
+.byte	119
+.byte	97
+.byte	99
+.byte	115
+.byte	97
+.byte	0
+.byte	0
+.byte	0
+.byte	0
+
+bb:
+.space	40
+
+dd:
+.space	10
+
+_str_0:
+.asciiz	"This is a string\n"
+
+.text
+main:
+	add	$sp,	$sp,	-4
+b0_0:
+	la	$t9,	_str_0
+	move	$a0,	$t9
+	putstr
+	la	$t9,	a
+	lw	$t9,	0($t9)
+	move	$a0,	$t9
+	putint
+	li	$a0,	10
+	putchar
+	li	$v0,	0
+	add	$sp, 	$sp,	4
+	li	$v0,	10
+	syscall
+
+
+# LLVM to Mips 
+.macro putstr
+	li	$v0,	4
+	syscall
+.end_macro
+
+.macro putint
+	li	$v0,	1
+	syscall
+.end_macro
+
+.macro getint
+	li	$v0,	5
+	syscall
+.end_macro
+
+.macro putchar
+	li	$v0,	11
+	syscall
+.end_macro
+
+.macro getchar
+	li	$v0,	12
+	syscall
+.end_macro
+
+.data
+a:
+.word	2
+
+aa:
+.word	0
+
+b:
+.word	1
+.word	2
+.word	3
+.word	4
+.word	5
+.word	6
+.word	7
+.word	8
+.word	9
+.word	10
+
+c:
+.byte	99
+
+cc:
+.byte	0
+
+d:
+.byte	100
+.byte	119
+.byte	97
+.byte	99
+.byte	115
+.byte	97
+.byte	0
+.byte	0
+.byte	0
+.byte	0
+
+bb:
+.space	40
+
+dd:
+.space	10
+
+_str_0:
+.asciiz	"This is a string\n"
+
+.text
+main:
+	add	$sp,	$sp,	-4
+b0_0:
+	la	$t9,	_str_0
+	move	$a0,	$t9
+	putstr
+	la	$t9,	a
+	lw	$t9,	0($t9)
+	move	$a0,	$t9
+	putint
+	li	$a0,	10
+	putchar
+	li	$v0,	0
+	add	$sp, 	$sp,	4
+	li	$v0,	10
+	syscall
+
+

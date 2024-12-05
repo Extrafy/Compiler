@@ -1,5 +1,11 @@
 package ir.values.instructions.mem;
 
+import backend.MipsBuilder;
+import backend.MipsBuildingContext;
+import backend.instructions.MipsBinary;
+import backend.operands.MipsOperand;
+import backend.operands.MipsRealReg;
+import backend.parts.MipsFunction;
 import ir.types.ArrayType;
 import ir.types.PointerType;
 import ir.types.Type;
@@ -43,5 +49,21 @@ public class AllocaInst extends MemInst{
     @Override
     public String toString() {
         return this.getName() + " = alloca " + this.getAllocaType();
+    }
+
+    public void buildMips() {
+        MipsFunction curFunction = MipsBuildingContext.f(MipsBuildingContext.curIrFunction);
+        // 在栈上已经分配出的空间
+        int allocaedSize = curFunction.getAllocaSize();
+        MipsOperand allocaedSizeOperand = MipsBuilder.buildImmOperand(allocaedSize, true, MipsBuildingContext.curIrFunction, getParent());
+        // 记录 分配出指向类型那么多的空间
+        int newSize = allocaType.getSize();
+        curFunction.addAllocaSize(newSize);
+//        System.out.println("在函数分配空间" + curFunction.getName() + ", newSize:" + newSize+ ", name:" + this);
+
+        // 向当前Alloca指令对应的Mips对象内，存入分配好的空间的首地址，即一开始的allocaedSize
+        // 栈在一开始就已经分配好了空间，这里只需要向上生长即可
+        MipsOperand dst = MipsBuilder.buildOperand(this, true, MipsBuildingContext.curIrFunction, getParent());
+        MipsBuilder.buildBinary(MipsBinary.BinaryType.ADDU, dst, MipsRealReg.SP, allocaedSizeOperand, getParent());
     }
 }

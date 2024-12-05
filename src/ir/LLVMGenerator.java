@@ -163,7 +163,7 @@ public class LLVMGenerator {
         addSymbol("getint", buildFactory.buildLibraryFunction("getint", IntegerType.i32, new ArrayList<>()));
         addSymbol("getchar", buildFactory.buildLibraryFunction("getchar", IntegerType.i32, new ArrayList<>()));
         addSymbol("putint", buildFactory.buildLibraryFunction("putint", VoidType.voidType, new ArrayList<>(Collections.singleton(IntegerType.i32))));
-        addSymbol("putch", buildFactory.buildLibraryFunction("putch", VoidType.voidType, new ArrayList<>(Collections.singleton(IntegerType.i32))));
+        addSymbol("putchar", buildFactory.buildLibraryFunction("putchar", VoidType.voidType, new ArrayList<>(Collections.singleton(IntegerType.i32))));
         addSymbol("putstr", buildFactory.buildLibraryFunction("putstr", VoidType.voidType, new ArrayList<>(Collections.singleton(new PointerType(IntegerType.i8)))));
 
         // CompUnit → {Decl} {FuncDef} MainFuncDef
@@ -919,7 +919,7 @@ public class LLVMGenerator {
                             i++;
                         }
                         else {
-                            buildFactory.buildCall(curBlock, (Function) getValue("putch"), new ArrayList<Value>() {{
+                            buildFactory.buildCall(curBlock, (Function) getValue("putchar"), new ArrayList<Value>() {{
                                 add(args.remove(0));
                             }});
                             i++;
@@ -933,7 +933,7 @@ public class LLVMGenerator {
                             }
                             String str = stringConst.substring(i, j);
                             if (str.length() == 1) {
-                                buildFactory.buildCall(curBlock, (Function) getValue("putch"), new ArrayList<Value>() {{
+                                buildFactory.buildCall(curBlock, (Function) getValue("putchar"), new ArrayList<Value>() {{
                                     add(buildFactory.getConstInt(str.charAt(0), IntegerType.i32));
                                 }});
                             }
@@ -950,7 +950,7 @@ public class LLVMGenerator {
                         }
                         else {
                             int finalI = i;
-                            buildFactory.buildCall(curBlock, (Function) getValue("putch"), new ArrayList<Value>() {{
+                            buildFactory.buildCall(curBlock, (Function) getValue("putchar"), new ArrayList<Value>() {{
                                 add(buildFactory.getConstInt(stringConst.charAt(finalI), IntegerType.i32));
                             }});
                         }

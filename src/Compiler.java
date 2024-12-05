@@ -1,3 +1,4 @@
+import backend.MipsBuilder;
 import config.Config;
 import error.Error;
 import error.HandleError;
@@ -39,6 +40,13 @@ public class Compiler {
         if (Config.irFlag){
             LLVMGenerator.getInstance().visitCompUnit(Parser.getInstance().getAst().compUnit);
             InputOutput.writeLlvmIr(IRModule.getInstance().toString());
+        }
+        if (Config.mipsFlag){
+            MipsBuilder mipsBuilder = new MipsBuilder(IRModule.getInstance());
+            // 生成目标代码
+            mipsBuilder.process();
+            // 输出目标代码
+            mipsBuilder.outputResult();
         }
     }
 }

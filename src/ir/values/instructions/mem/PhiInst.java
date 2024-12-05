@@ -37,4 +37,24 @@ public class PhiInst extends MemInst{
         }
         return s.toString();
     }
+
+    // 直接跳过生成，最后手动插入
+    public void buildMips() {
+    }
+//
+//    public Value getInputValForBlock(BasicBlock block) {
+//        // ???mips
+//        for (int i = 0;i < getOperands().size(); i++){
+//            if (this.getNode().getParent().getValue().getPredecessors().get(i) == block){
+//
+//            }
+//        }
+//        for (int i = 1; i <= predecessorNum; i++) {
+//            if (getOp(i + predecessorNum) == block) {
+//                return getOp(i);
+//            }
+//        }
+//        System.out.println("block not found for phi!");
+//        return null;
+//    }
 }

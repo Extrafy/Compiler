@@ -1,5 +1,6 @@
 package ir.values;
 
+import ir.opt.Loop;
 import ir.types.FunctionType;
 import ir.types.LabelType;
 import ir.types.VoidType;
@@ -12,6 +13,7 @@ import utils.MyList;
 import utils.MyNode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class BasicBlock extends Value{
@@ -91,5 +93,116 @@ public class BasicBlock extends Value{
             s.append("\t").append(instruction.getValue().toString()).append("\n");
         }
         return s.toString();
+    }
+
+    // =========== IR analyze ===============
+    /**
+     * 前驱与后继块
+     */
+    private final HashSet<BasicBlock> preBlocks = new HashSet<>();
+    private final HashSet<BasicBlock> sucBlocks = new HashSet<>();
+    public void addPreBlock(BasicBlock preBlock) {
+        preBlocks.add(preBlock);
+    }
+    public void addSucBlock(BasicBlock sucBlock) {
+        sucBlocks.add(sucBlock);
+    }
+    public HashSet<BasicBlock> getSucBlocks() {
+        return sucBlocks;
+    }
+    public HashSet<BasicBlock> getPreBlocks() {
+        return preBlocks;
+    }
+
+    // =========================================
+    /**
+     * 支配者块
+     */
+    private final ArrayList<BasicBlock> domers = new ArrayList<>();
+    /**
+     * 直接支配的基本块
+     */
+    private final ArrayList<BasicBlock> idomees = new ArrayList<>();
+    /**
+     * 直接支配基本块
+     */
+    private BasicBlock Idomer;
+    /**
+     * 在支配树中的深度
+     */
+    private int domLevel;
+
+    /**
+     * 支配边际，即刚好不被当前基本块支配的基本块
+     */
+    private final HashSet<BasicBlock> dominanceFrontier = new HashSet<>();
+    public ArrayList<BasicBlock> getDomers() {
+        return domers;
+    }
+    /**
+     * 当前块是否是另一个块的支配者
+     */
+    public boolean isDominating(BasicBlock other) {
+        return other.domers.contains(this);
+    }
+
+    public ArrayList<BasicBlock> getIdomees()
+    {
+        return idomees;
+    }
+
+    public void setIdomer(BasicBlock idomer)
+    {
+        Idomer = idomer;
+    }
+
+    public void setDomLevel(int domLevel) {
+        this.domLevel = domLevel;
+    }
+
+    public int getDomLevel()
+    {
+        return domLevel;
+    }
+
+    public HashSet<BasicBlock> getDominanceFrontier() {
+        return dominanceFrontier;
+    }
+    public BasicBlock getIdomer()
+    {
+        return Idomer;
+    }
+
+    // =========================================
+    /**
+     * 当前块直属的循环
+     */
+    private Loop loop = null;
+    /**
+     * 获得循环深度
+     * 如果不在循环中，则深度为 1
+     * @return 循环深度
+     */
+    public int getLoopDepth() {
+        if (loop == null) {
+            return 0;
+        }
+        return loop.getLoopDepth();
+    }
+
+    public void setLoop(Loop loop) {
+        this.loop = loop;
+    }
+
+    public Loop getLoop() {
+        return loop;
+    }
+
+
+    // ============ Mips generate ==============
+    public void buildMips(){
+        for(MyNode node : instructions){
+            ((Instruction)node.getValue()).buildMips();
+        }
     }
 }

@@ -19,6 +19,14 @@ public class ConstString extends Const{
         return value;
     }
 
+    /**
+     * 构建Mips代码时调用
+     * 将llvm中的\0a转换为\n
+     */
+    public String getContent() {
+        return value.replace("\\0a\\00", "\\n");
+    }
+
     public String toString() {
         return "[" + length + " x " + ((PointerType) getType()).getTargetType() + "] c\"" + value + "\"";
     }

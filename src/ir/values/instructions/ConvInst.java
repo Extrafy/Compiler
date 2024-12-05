@@ -1,5 +1,6 @@
 package ir.values.instructions;
 
+import backend.MipsBuildingContext;
 import ir.types.IntegerType;
 import ir.types.PointerType;
 import ir.types.Type;
@@ -64,6 +65,21 @@ public class ConvInst extends Instruction{
         }
         else {
             return null;
+        }
+    }
+
+    public void buildMips() {
+        switch (this.getOperator()){
+            case Zext -> {
+                Value i1 = this.getOperands().get(0);
+                if(i1 instanceof BinaryInst && ((BinaryInst) i1).isCond()){
+                    ((BinaryInst) i1).buildMips1();
+                    // 将Zext结果与i1的解析结果页进行绑定
+                    MipsBuildingContext.addOperandMapping(this, MipsBuildingContext.op(i1));
+                } else {
+                    System.out.println("[Zext]操作数i1不为Icmp类型");
+                }
+            }
         }
     }
 }
