@@ -65,12 +65,35 @@ public class BuildFactory {
 
     // BinaryInst
     public BinaryInst buildBinary(BasicBlock basicBlock, Operator op, Value left, Value right) {
-        BinaryInst tmp = new BinaryInst(basicBlock, op, left, right);
-        if (op == Operator.And || op == Operator.Or) {
-            tmp = buildBinary(basicBlock, Operator.Ne, tmp, ConstInt.zero);
+//        System.out.println(left);
+//        System.out.println(right);
+        if (op == Operator.Mod){
+            Value opValue1 = left;
+            Value opValue2 = right;
+            if(opValue2 instanceof ConstInt && ((ConstInt) opValue2).getValue() == 1){
+                BinaryInst tmp = new BinaryInst(basicBlock, op, left, right);
+                tmp.addInstToBlock(basicBlock);
+                return tmp;
+            }
+            else {
+                // 不能优化，则直接替换为公式
+                Value div = new BinaryInst(basicBlock, Operator.Div, opValue1, opValue2);
+                ((BinaryInst)div).addInstToBlock(basicBlock);
+                Value mul = new BinaryInst(basicBlock, Operator.Mul, div, opValue2);
+                ((BinaryInst)mul).addInstToBlock(basicBlock);
+                Value sub = new BinaryInst(basicBlock, Operator.Sub, opValue1, mul);
+                ((BinaryInst)sub).addInstToBlock(basicBlock);
+                return (BinaryInst) sub;
+            }
         }
-        tmp.addInstToBlock(basicBlock);
-        return tmp;
+        else {
+            BinaryInst tmp = new BinaryInst(basicBlock, op, left, right);
+            if (op == Operator.And || op == Operator.Or) {
+                tmp = buildBinary(basicBlock, Operator.Ne, tmp, ConstInt.zero);
+            }
+            tmp.addInstToBlock(basicBlock);
+            return tmp;
+        }
     }
 
     public BinaryInst buildNot(BasicBlock basicBlock, Value value) {

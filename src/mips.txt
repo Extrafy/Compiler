@@ -25,548 +25,260 @@
 .end_macro
 
 .data
-const_int_a:
-.word	0
-
-const_int_b1:
-.word	1
-
-const_int_b2:
-.word	0
-.word	1
-.word	2
-.word	3
-.word	4
-
-str:
-.word	104
-.word	101
-.word	108
-.word	108
-.word	111
-.word	33
-.word	0
-.word	0
-.word	0
-.word	0
-
-char_a:
-.word	97
-
-char_b1:
-.word	98
-
-char_b2:
-.word	97
-.word	98
-.word	99
-.word	100
-.word	101
-
-char_b3:
-.word	119
-.word	111
-.word	114
-.word	108
-.word	100
-.word	33
-.word	0
-.word	0
-.word	0
-.word	0
-
-int_b2:
-.space	20
-
 _str_0:
-.asciiz	"test_stmt_getint_getchar_printf\00"
+.asciiz	"0\n"
 
 _str_1:
-.asciiz	"test_Lval_exp success!\n"
-
-_str_2:
-.asciiz	"test_primary_exp success!\n"
-
-_str_3:
-.asciiz	"test_unary_exp success!\n"
-
-_str_4:
-.asciiz	"test_mul_exp success!\n"
-
-_str_5:
-.asciiz	"test_add_exp_success!\n"
-
-_str_6:
-.asciiz	"test_rel_exp success!\n"
-
-_str_7:
-.asciiz	"test_Eqexp success!\n"
-
-_str_8:
-.asciiz	"test_Lexp success!\n"
-
-_str_9:
-.asciiz	"22371236\n"
+.asciiz	"19182620\n"
 
 .text
 main:
-	add	$sp,	$sp,	-4
-b0_83:
-	la	$a3,	_str_9
-	addiu	$a0,	$a3,	0
-	addiu	$a0,	$a0,	0
+	add	$sp,	$sp,	-124
+b0_3:
+	addiu	$s1,	$sp,	0
+	addiu	$k0,	$sp,	4
+	addiu	$s5,	$sp,	8
+	addiu	$t3,	$sp,	12
+	addiu	$s0,	$sp,	16
+	addiu	$t9,	$sp,	20
+	addiu	$t6,	$sp,	24
+	li	$t5,	1
+	sw	$t5,	0($t6)
+	addiu	$t5,	$sp,	28
+	addiu	$v1,	$sp,	32
+	addiu	$t5,	$sp,	36
+	addiu	$t5,	$sp,	40
+	li	$t5,	-1
+	addiu	$t4,	$sp,	44
+	sw	$t5,	0($t4)
+	addiu	$t2,	$sp,	48
+	li	$t5,	2
+	sw	$t5,	0($t2)
+	addiu	$t7,	$sp,	52
+	addiu	$t1,	$sp,	56
+	addiu	$fp,	$sp,	60
+	sw	$zero,	0($fp)
+	getint
+	move	$t5,	$v0
+	sw	$t5,	0($t7)
+b19_4:
+	lw	$t5,	0($t2)
+	lw	$ra,	0($t7)
+	blt	$t5,	$ra,	b23_5
+b32_7:
+	jal	jian
+	move	$v0,	$v0
+	sw	$v0,	0($s5)
+	lw	$t5,	0($s5)
+	move	$a0,	$t5
+	putint
+	li	$a0,	10
+	putchar
+	lw	$t5,	0($s5)
+	addiu	$t5,	$t5,	1
+	sw	$t5,	0($t3)
+	lw	$t5,	0($s5)
+	sll	$t5,	$t5,	1
+	sw	$t5,	0($s0)
+	lw	$t5,	0($s0)
+	blt	$t5,	5,	b46_10
+b51_11:
+	lw	$ra,	0($s5)
+	sra	$t5,	$ra,	31
+	srl	$t5,	$t5,	31
+	addu	$t5,	$ra,	$t5
+	sra	$t5,	$t5,	1
+	sw	$t5,	0($t9)
+b54_12:
+	lw	$t5,	0($t9)
+	bne	$t5,	0,	b59_13
+b62_14:
+	lw	$ra,	0($t2)
+	lw	$t5,	0($v1)
+	addiu	$t5,	$t5,	1
+	addu	$t5,	$ra,	$t5
+	sw	$t5,	0($t4)
+b67_15:
+	bne	$zero,	0,	b69_16
+b71_18:
+b72_19:
+	li	$t5,	1
+	bne	$t5,	0,	b74_20
+b76_22:
+	lw	$t5,	0($s5)
+	lw	$ra,	0($t3)
+	beq	$t5,	$ra,	b80_23
+b100_32:
+	lw	$a0,	0($s1)
+	lw	$a1,	0($k0)
 	move	$a0,	$a0
+	move	$a1,	$a1
+	jal	keke
+	move	$v0,	$v0
+	lw	$a0,	0($t3)
+	lw	$fp,	0($s0)
+	lw	$ra,	0($t9)
+	lw	$t5,	0($t6)
+	move	$a0,	$a0
+	putint
+	li	$a0,	10
+	putchar
+	move	$a0,	$fp
+	putint
+	li	$a0,	10
+	putchar
+	move	$a0,	$ra
+	putint
+	li	$a0,	10
+	putchar
+	move	$a0,	$t5
+	putint
+	li	$a0,	10
+	putchar
+	la	$t5,	_str_1
+	addiu	$t5,	$t5,	0
+	addiu	$t5,	$t5,	0
+	move	$a0,	$t5
 	putstr
-	jal	test
+	la	$t5,	_str_1
+	addiu	$t5,	$t5,	0
+	addiu	$t5,	$t5,	0
+	move	$a0,	$t5
+	putstr
+	la	$t5,	_str_1
+	addiu	$t5,	$t5,	0
+	addiu	$t5,	$t5,	0
+	move	$a0,	$t5
+	putstr
 	li	$v0,	0
-	add	$sp, 	$sp,	4
+	add	$sp, 	$sp,	124
 	li	$v0,	10
 	syscall
 
-print_int_arr:
-	sw	$t7,	-4($sp)
-	sw	$s3,	-8($sp)
-	sw	$s5,	-12($sp)
-	sw	$t8,	-16($sp)
-	add	$sp,	$sp,	-28
-b2_0:
-	move	$a1,	$a1
+b80_23:
+	lw	$t5,	0($t3)
+	lw	$ra,	0($s0)
+	bge	$t5,	$ra,	b84_24
+b99_31:
+	j	b100_32
+b84_24:
+	lw	$t5,	0($s0)
+	lw	$ra,	0($t9)
+	ble	$t5,	$ra,	b88_25
+b98_30:
+	j	b99_31
+b88_25:
+	lw	$ra,	0($t9)
+	lw	$t5,	0($t6)
+	bne	$ra,	$t5,	b92_26
+b97_29:
+	j	b98_30
+b92_26:
+	lw	$t5,	0($s5)
+	bgt	$t5,	1,	b95_27
+b96_28:
+	j	b97_29
+b95_27:
+	li	$t5,	1
+	sw	$t5,	0($s1)
+	j	b96_28
+b74_20:
+	j	b76_22
+b69_16:
+b70_17:
+	j	b67_15
+b59_13:
+	lw	$t5,	0($t6)
+	addiu	$t5,	$t5,	1
+	sw	$t5,	0($t6)
+	j	b62_14
+b46_10:
+	lw	$ra,	0($s5)
+	sra	$t5,	$ra,	31
+	srl	$t5,	$t5,	31
+	addu	$t5,	$ra,	$t5
+	sra	$t5,	$t5,	1
+	sll	$t5,	$t5,	1
+	subu	$t5,	$ra,	$t5
+	sw	$t5,	0($t9)
+	j	b54_12
+b23_5:
+	lw	$t5,	0($t7)
+	lw	$ra,	0($t2)
+	div	$t5,	$ra
+	mflo	$a2
+	mul	$ra,	$a2,	$ra
+	subu	$t5,	$t5,	$ra
+	sw	$t5,	0($t1)
+	lw	$t5,	0($t1)
+	beq	$t5,	0,	b41_8
+b43_9:
+	lw	$t5,	0($t2)
+	addiu	$t5,	$t5,	1
+	sw	$t5,	0($t2)
+b31_6:
+	j	b19_4
+b41_8:
+	li	$t5,	1
+	sw	$t5,	0($fp)
+	la	$t5,	_str_0
+	addiu	$a0,	$t5,	0
+	addiu	$a0,	$a0,	0
 	move	$a0,	$a0
-	addiu	$s3,	$sp,	0
-	sw	$a0,	0($s3)
-	addiu	$t8,	$sp,	4
-	sw	$a1,	0($t8)
-	addiu	$t7,	$sp,	8
-	sw	$zero,	0($t7)
-	sw	$zero,	0($t7)
-b6_1:
-	lw	$s5,	0($t7)
-	lw	$a3,	0($t8)
-	blt	$s5,	$a3,	b10_2
-b18_4:
-	li	$a0,	10
-	putchar
-	add	$sp, 	$sp,	28
-	lw	$t7,	-4($sp)
-	lw	$s3,	-8($sp)
-	lw	$s5,	-12($sp)
-	lw	$t8,	-16($sp)
-	jr	$ra
-b10_2:
-	lw	$a3,	0($t7)
-	lw	$s5,	0($s3)
-	sll	$a3,	$a3,	2
-	addu	$a3,	$s5,	$a3
-	lw	$a3,	0($a3)
-	move	$a0,	$a3
-	putint
-	li	$a0,	32
-	putchar
-b15_3:
-	lw	$a3,	0($t7)
-	addiu	$a3,	$a3,	1
-	sw	$a3,	0($t7)
-	j	b6_1
-
-test_stmt_1_3:
-b0_5:
-	la	$a3,	char_a
-	sw	$s5,	0($a3)
-	li	$a3,	2
+	putstr
+	j	b43_9
+de:
+b0_0:
 		jr	$ra
 
-test_stmt_if_else:
-b0_6:
-	li	$a3,	1
-	blt	$a3,	2,	b2_7
-b3_8:
-	li	$a3,	1
-	bgt	$a3,	2,	b5_9
-b6_10:
-b7_11:
-		jr	$ra
-b5_9:
-	j	b7_11
-b2_7:
-	j	b3_8
-
-test_stmt_for_break_continue:
-	sw	$t7,	-4($sp)
-	sw	$s5,	-8($sp)
-	sw	$t8,	-12($sp)
-	add	$sp,	$sp,	-20
-b0_12:
-	addiu	$s5,	$sp,	0
-	sw	$zero,	0($s5)
-	addiu	$t7,	$sp,	4
-	li	$a3,	1
-	sw	$a3,	0($t7)
-	sw	$zero,	0($s5)
-b3_13:
-	lw	$a3,	0($s5)
-	lw	$t8,	0($t7)
-	blt	$a3,	$t8,	b7_14
-b13_16:
-	sw	$zero,	0($s5)
-b14_17:
-	lw	$a3,	0($s5)
-	lw	$t8,	0($t7)
-	blt	$a3,	$t8,	b18_18
-b22_20:
-	sw	$zero,	0($s5)
-b23_21:
-b24_22:
-b28_24:
-	sw	$zero,	0($s5)
-b29_25:
-	lw	$t8,	0($s5)
-	lw	$a3,	0($t7)
-	blt	$t8,	$a3,	b33_26
-b37_28:
-b38_29:
-b39_30:
-b43_32:
-	sw	$zero,	0($s5)
-b44_33:
-	lw	$a3,	0($s5)
-	lw	$t7,	0($t7)
-	blt	$a3,	$t7,	b48_34
-b50_36:
-	sw	$zero,	0($s5)
-b51_37:
-b52_38:
-b54_40:
-b55_41:
-b56_42:
-b58_44:
-	add	$sp, 	$sp,	20
-	lw	$t7,	-4($sp)
-	lw	$s5,	-8($sp)
-	lw	$t8,	-12($sp)
-	jr	$ra
-b48_34:
-	j	b50_36
-b33_26:
-	lw	$a3,	0($s5)
-	addiu	$a3,	$a3,	1
-	sw	$a3,	0($s5)
-b36_27:
-	j	b29_25
-b18_18:
-b19_19:
-	lw	$a3,	0($s5)
-	addiu	$a3,	$a3,	1
-	sw	$a3,	0($s5)
-	j	b14_17
-b7_14:
-	lw	$a3,	0($s5)
-	addiu	$a3,	$a3,	1
-	sw	$a3,	0($s5)
-b10_15:
-	lw	$a3,	0($s5)
-	addiu	$a3,	$a3,	1
-	sw	$a3,	0($s5)
-	j	b3_13
-
-test_stmt_return_null:
-b0_45:
-		jr	$ra
-
-test_stmt_return_exp:
-b0_46:
-	li	$v0,	1
-		jr	$ra
-
-test_stmt_getint_getchar_printf:
-	sw	$t7,	-4($sp)
-	sw	$t8,	-8($sp)
+keke:
+	sw	$t5,	-4($sp)
+	sw	$ra,	-8($sp)
 	add	$sp,	$sp,	-16
-b0_47:
-	addiu	$t8,	$sp,	0
-	li	$t7,	1
-	sw	$t7,	0($t8)
-	addiu	$t7,	$sp,	4
-	sw	$a3,	0($t7)
+b2_1:
+	move	$a1,	$a1
+	move	$t5,	$a0
+	addiu	$a2,	$sp,	0
+	sw	$t5,	0($a2)
+	addiu	$t5,	$sp,	4
+	sw	$a1,	0($t5)
+	lw	$ra,	0($a2)
+	lw	$t5,	0($t5)
+	addu	$t5,	$ra,	$t5
+	sw	$t5,	0($a2)
+	li	$v0,	0
+	add	$sp, 	$sp,	16
+	lw	$t5,	-4($sp)
+	lw	$ra,	-8($sp)
+	jr	$ra
+
+jian:
+	sw	$t5,	-4($sp)
+	sw	$t7,	-8($sp)
+	sw	$fp,	-12($sp)
+	sw	$ra,	-16($sp)
+	add	$sp,	$sp,	-28
+b0_2:
+	addiu	$t7,	$sp,	0
+	addiu	$ra,	$sp,	4
+	addiu	$fp,	$sp,	8
+	getint
+	move	$t5,	$v0
+	sw	$t5,	0($t7)
 	getint
 	move	$v0,	$v0
-	sw	$v0,	0($t8)
-	getchar
-	move	$a3,	$v0
-	sw	$a3,	0($t7)
-	la	$a3,	_str_0
-	addiu	$a0,	$a3,	0
-	addiu	$a0,	$a0,	0
-	move	$a0,	$a0
-	putstr
-	move	$a0,	$s5
-	putchar
-	move	$a0,	$s5
-	putchar
-	move	$a0,	$s5
-	putchar
-	move	$a0,	$s5
-	putchar
-	move	$a0,	$s5
-	putchar
-	move	$a0,	$s5
-	putchar
-	move	$a0,	$s5
-	putchar
-	li	$a0,	10
-	putchar
-	add	$sp, 	$sp,	16
-	lw	$t7,	-4($sp)
-	lw	$t8,	-8($sp)
-	jr	$ra
-
-test_block:
-b0_48:
-		jr	$ra
-
-add_int:
-	sw	$s5,	-4($sp)
-	add	$sp,	$sp,	-12
-b2_49:
-	move	$a1,	$a1
-	move	$a0,	$a0
-	addiu	$a3,	$sp,	0
-	sw	$a0,	0($a3)
-	addiu	$s5,	$sp,	4
-	sw	$a1,	0($s5)
-	lw	$a3,	0($a3)
-	lw	$s5,	0($s5)
-	addu	$a3,	$a3,	$s5
-	move	$v0,	$a3
-	add	$sp, 	$sp,	12
-	lw	$s5,	-4($sp)
-	jr	$ra
-
-read_char:
-	sw	$s5,	-4($sp)
-	add	$sp,	$sp,	-8
-b1_50:
-	move	$a3,	$a0
-	addiu	$s5,	$sp,	0
-	sw	$a3,	0($s5)
-	lw	$v0,	0($s5)
+	sw	$v0,	0($ra)
+	lw	$t5,	0($t7)
+	lw	$ra,	0($ra)
+	subu	$t5,	$t5,	$ra
+	sw	$t5,	0($fp)
+	lw	$v0,	0($fp)
 	move	$v0,	$v0
-	add	$sp, 	$sp,	8
-	lw	$s5,	-4($sp)
-	jr	$ra
-
-test_Lval_exp:
-b0_51:
-	la	$a3,	const_int_a
-	lw	$a3,	0($a3)
-	la	$a3,	char_a
-	lw	$a3,	0($a3)
-	la	$a3,	char_b2
-	addiu	$a3,	$a3,	0
-	addiu	$a3,	$a3,	0
-	lw	$a3,	0($a3)
-	la	$a3,	_str_1
-	addiu	$a0,	$a3,	0
-	addiu	$a0,	$a0,	0
-	move	$a0,	$a0
-	putstr
-		jr	$ra
-
-test_primary_exp:
-b0_52:
-	la	$a3,	char_a
-	lw	$a3,	0($a3)
-	la	$a3,	_str_2
-	addiu	$a0,	$a3,	0
-	addiu	$a0,	$a0,	0
-	move	$a0,	$a0
-	putstr
-		jr	$ra
-
-test_func_int:
-	add	$sp,	$sp,	-4
-b1_53:
-	move	$a0,	$a0
-	addiu	$a3,	$sp,	0
-	sw	$a0,	0($a3)
-	add	$sp, 	$sp,	4
-	jr	$ra
-
-test_func_int_arr:
-	add	$sp,	$sp,	-4
-b1_54:
-	move	$a0,	$a0
-	addiu	$a3,	$sp,	0
-	sw	$a0,	0($a3)
-	add	$sp, 	$sp,	4
-	jr	$ra
-
-test_func_mul_int:
-	sw	$s5,	-4($sp)
-	add	$sp,	$sp,	-12
-b2_55:
-	move	$a1,	$a1
-	move	$a3,	$a0
-	addiu	$s5,	$sp,	0
-	sw	$a3,	0($s5)
-	addiu	$a3,	$sp,	4
-	sw	$a1,	0($a3)
-	add	$sp, 	$sp,	12
-	lw	$s5,	-4($sp)
-	jr	$ra
-
-test_unary_exp:
-	sw	$ra,	-4($sp)
-	add	$sp,	$sp,	-4
-b0_56:
-	li	$a0,	0
-	jal	test_func_int
-	la	$a3,	int_b2
-	addiu	$a3,	$a3,	0
-	addiu	$a3,	$a3,	0
-	lw	$a0,	0($a3)
-	move	$a0,	$a0
-	jal	test_func_int
-	la	$a3,	int_b2
-	addiu	$a0,	$a3,	0
-	addiu	$a0,	$a0,	0
-	move	$a0,	$a0
-	jal	test_func_int_arr
-	li	$a0,	0
-	li	$a1,	1
-	jal	test_func_mul_int
-	li	$a3,	-1
-	li	$a3,	1
-	beq	$a3,	0,	b6_57
-b7_58:
-	la	$a3,	_str_3
-	addiu	$a3,	$a3,	0
-	addiu	$a3,	$a3,	0
-	move	$a0,	$a3
-	putstr
-	add	$sp, 	$sp,	4
-	lw	$ra,	-4($sp)
-	jr	$ra
-b6_57:
-	j	b7_58
-
-test_mul_exp:
-b0_59:
-	li	$a3,	1
-	sll	$a3,	$a3,	0
-	li	$a3,	1
-	move	$zero,	$zero
-	la	$a3,	_str_4
-	addiu	$a3,	$a3,	0
-	addiu	$a3,	$a3,	0
-	move	$a0,	$a3
-	putstr
-		jr	$ra
-
-test_add_exp:
-b0_60:
-	li	$a3,	2
-	li	$a3,	0
-	la	$a3,	_str_5
-	addiu	$a0,	$a3,	0
-	addiu	$a0,	$a0,	0
-	move	$a0,	$a0
-	putstr
-		jr	$ra
-
-test_rel_exp:
-b0_61:
-	li	$a3,	1
-	blt	$a3,	2,	b2_62
-b3_63:
-	li	$a3,	1
-	bgt	$a3,	2,	b5_64
-b6_65:
-	li	$a3,	1
-	ble	$a3,	2,	b8_66
-b9_67:
-	li	$a3,	1
-	bge	$a3,	2,	b11_68
-b12_69:
-	la	$a3,	_str_6
-	addiu	$a0,	$a3,	0
-	addiu	$a0,	$a0,	0
-	move	$a0,	$a0
-	putstr
-		jr	$ra
-b11_68:
-	j	b12_69
-b8_66:
-	j	b9_67
-b5_64:
-	j	b6_65
-b2_62:
-	j	b3_63
-
-test_Eqexp:
-b0_70:
-	li	$a3,	1
-	beq	$a3,	1,	b2_71
-b3_72:
-	li	$a3,	1
-	bne	$a3,	1,	b5_73
-b6_74:
-	la	$a3,	_str_7
-	addiu	$a0,	$a3,	0
-	addiu	$a0,	$a0,	0
-	move	$a0,	$a0
-	putstr
-		jr	$ra
-b5_73:
-	j	b6_74
-b2_71:
-	j	b3_72
-
-test_Lexp:
-b0_75:
-	li	$a3,	1
-	bne	$a3,	0,	b5_78
-b3_77:
-	li	$a3,	1
-	bne	$a3,	0,	b7_79
-b10_81:
-	li	$a3,	1
-	bne	$a3,	0,	b7_79
-b8_80:
-	la	$a3,	_str_8
-	addiu	$a0,	$a3,	0
-	addiu	$a0,	$a0,	0
-	move	$a0,	$a0
-	putstr
-		jr	$ra
-b7_79:
-	j	b8_80
-b5_78:
-	li	$a3,	1
-	bne	$a3,	0,	b2_76
-	j	b3_77
-b2_76:
-	j	b3_77
-
-test:
-	sw	$ra,	-4($sp)
-	add	$sp,	$sp,	-4
-b0_82:
-	jal	test_stmt_1_3
-	jal	test_stmt_for_break_continue
-	jal	test_stmt_getint_getchar_printf
-	jal	test_stmt_if_else
-	jal	test_stmt_return_exp
-	move	$v0,	$v0
-	jal	test_stmt_return_null
-	jal	test_Eqexp
-	jal	test_Lval_exp
-	jal	test_add_exp
-	jal	test_mul_exp
-	jal	test_primary_exp
-	jal	test_rel_exp
-	jal	test_unary_exp
-	add	$sp, 	$sp,	4
-	lw	$ra,	-4($sp)
+	add	$sp, 	$sp,	28
+	lw	$t5,	-4($sp)
+	lw	$t7,	-8($sp)
+	lw	$fp,	-12($sp)
+	lw	$ra,	-16($sp)
 	jr	$ra
 
 

@@ -7,10 +7,7 @@ import backend.operands.MipsOperand;
 import backend.parts.MipsBlock;
 import ir.types.IntegerType;
 import ir.types.VoidType;
-import ir.values.BasicBlock;
-import ir.values.BuildFactory;
-import ir.values.ConstInt;
-import ir.values.Value;
+import ir.values.*;
 import ir.values.instructions.BinaryInst;
 import ir.values.instructions.Operator;
 
@@ -97,7 +94,7 @@ public class BrInst extends TerminatorInst{
         MipsBlock curBlock = MipsBuildingContext.b(getParent()); // 当前块
         // 有条件跳转
         if(isCondBr()){
-            if(this.getOperands().get(0) instanceof ConstInt){
+            if(this.getOperands().get(0) instanceof ConstInt || this.getOperands().get(0) instanceof ConstChar){
                 System.out.println("[Br] 错误：条件为ConstInt");
             }
             // 将关于跳转的块 转换为mips块
@@ -108,8 +105,10 @@ public class BrInst extends TerminatorInst{
             // 获得具体的跳转条件
             MipsCondType type = MipsCondType.IrCondType2MipsCondType(condition.getOperator());
             // 获得两个比较数
+//            System.out.println(condition.getOperand(0) + " " + condition.getOperand(1));
             MipsOperand src1 = MipsBuilder.buildOperand(condition.getOperand(0), false, MipsBuildingContext.curIrFunction, getParent());
             MipsOperand src2 = MipsBuilder.buildOperand(condition.getOperand(1), true, MipsBuildingContext.curIrFunction, getParent());
+//            System.out.println(src1.toString() + src2.toString());
             // 将trueBlock设置为跳转地址
             MipsBuilder.buildBranch(type, src1, src2, trueBlock, getParent());
             // 登记后续块

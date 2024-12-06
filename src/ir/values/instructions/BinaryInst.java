@@ -14,15 +14,14 @@ import backend.parts.MipsBlock;
 import ir.types.IntegerType;
 import ir.types.Type;
 import ir.types.VoidType;
-import ir.values.BasicBlock;
-import ir.values.BuildFactory;
-import ir.values.ConstInt;
-import ir.values.Value;
+import ir.values.*;
 
 public class BinaryInst extends Instruction{
 
+    private BasicBlock belongBlock;
     public BinaryInst(BasicBlock block, Operator op , Value leftValue, Value rightValue) {
         super(VoidType.voidType, op, block);
+        this.belongBlock = block;
         // ???可能需要修改
         boolean leftIsI1 = leftValue.getType() instanceof IntegerType && ((IntegerType) leftValue.getType()).isI1();
         boolean rightIsI1 = rightValue.getType() instanceof IntegerType && ((IntegerType) rightValue.getType()).isI1();
@@ -152,6 +151,8 @@ public class BinaryInst extends Instruction{
                 s += " ";
                 break;
             case Mod:
+//                System.out.println(this.getOperands().get(0));
+//                System.out.println(this.getOperands().get(1));
                 s += "srem ";
                 s += this.getOperands().get(0).getType().toString();
                 s += " ";
@@ -206,14 +207,27 @@ public class BinaryInst extends Instruction{
                 MipsOperand dst = MipsBuilder.buildOperand(this, false, MipsBuildingContext.curIrFunction, getParent());
 
                 // op1 op2均为常数 则直接move dst Imm(op1+op2)
-                if (op1 instanceof ConstInt && op2 instanceof ConstInt) {
-                    int imm1 = ((ConstInt)op1).getValue();
-                    int imm2 = ((ConstInt)op2).getValue();
+                if ((op1 instanceof ConstInt || op1 instanceof ConstChar) && (op2 instanceof ConstInt || op2 instanceof ConstChar)) {
+                    int imm1 = 0;
+                    if (op1 instanceof ConstInt) {
+                        imm1 = ((ConstInt)op1).getValue();
+                    }
+                    else imm1 = ((ConstChar)op1).getValue();
+                    int imm2 = 0;
+                    if (op2 instanceof ConstInt) {
+                        imm2 = ((ConstInt)op2).getValue();
+                    }
+                    else imm2 = ((ConstChar)op2).getValue();
                     MipsBuilder.buildMove(dst, new MipsImm(imm1 + imm2), getParent());
                 }
                 // op1 是常数，op2不是常数
                 //  则op2应当作为rs, op1的值作为imm，二者需要互换位置
                 else if (op1 instanceof ConstInt) {
+                    src1 = MipsBuilder.buildOperand(op2, false, MipsBuildingContext.curIrFunction, getParent());
+                    src2 = MipsBuilder.buildOperand(op1, true, MipsBuildingContext.curIrFunction, getParent());
+                    MipsBuilder.buildBinary(MipsBinary.BinaryType.ADDU, dst, src1, src2, getParent());
+                }
+                else if (op1 instanceof ConstChar){
                     src1 = MipsBuilder.buildOperand(op2, false, MipsBuildingContext.curIrFunction, getParent());
                     src2 = MipsBuilder.buildOperand(op1, true, MipsBuildingContext.curIrFunction, getParent());
                     MipsBuilder.buildBinary(MipsBinary.BinaryType.ADDU, dst, src1, src2, getParent());
@@ -238,9 +252,13 @@ public class BinaryInst extends Instruction{
                 Value op2 = this.getOperands().get(1);
 
                 // 除数是常数，可以进行常数优化
-                if (op2 instanceof ConstInt) {
+                if (op2 instanceof ConstInt || op2 instanceof ConstChar) {
                     // 获得除数常量
-                    int imm = ((ConstInt) op2).getValue();
+                    int imm = 0;
+                    if (op2 instanceof ConstInt) {
+                        imm = ((ConstInt) op2).getValue();
+                    }
+                    else imm = ((ConstChar) op2).getValue();
                     // 除数为 1 ，无需生成中间代码，,将 ir 映射成被除数，直接记录即可
                     if (imm == 1) {
                         MipsBuildingContext.addOperandMapping(this, src1);
@@ -283,9 +301,17 @@ public class BinaryInst extends Instruction{
                 MipsOperand dst = MipsBuilder.buildOperand(this, false, MipsBuildingContext.curIrFunction, getParent());
 
                 // op1 op2均为常数 则直接move dst Imm(op1+op2)
-                if (op1 instanceof ConstInt && op2 instanceof ConstInt) {
-                    int imm1 = ((ConstInt)op1).getValue();
-                    int imm2 = ((ConstInt)op2).getValue();
+                if ((op1 instanceof ConstInt || op1 instanceof ConstChar) && (op2 instanceof ConstInt || op2 instanceof ConstChar)) {
+                    int imm1 = 0;
+                    if (op1 instanceof ConstInt) {
+                        imm1 = ((ConstInt)op1).getValue();
+                    }
+                    else imm1 = ((ConstChar)op1).getValue();
+                    int imm2 = 0;
+                    if (op2 instanceof ConstInt) {
+                        imm2 = ((ConstInt)op2).getValue();
+                    }
+                    else imm2 = ((ConstChar)op2).getValue();
                     MipsBuilder.buildMove(dst, new MipsImm(imm1 - imm2), getParent());
                 }
                 // op2 是常数，op1不是常数
@@ -293,6 +319,12 @@ public class BinaryInst extends Instruction{
                 // 需要手动调用buildOperand内的一个分支，将-imm2送进去，以构造-op2
                 else if (op2 instanceof ConstInt) {
                     int imm2 = ((ConstInt)op2).getValue();
+                    src1 = MipsBuilder.buildOperand(op1, false, MipsBuildingContext.curIrFunction, getParent());
+                    src2 = MipsBuilder.buildImmOperand(-imm2, true, MipsBuildingContext.curIrFunction, getParent());
+                    MipsBuilder.buildBinary(MipsBinary.BinaryType.ADDU, dst, src1, src2, getParent());
+                }
+                else if (op2 instanceof ConstChar) {
+                    int imm2 = ((ConstChar)op2).getValue();
                     src1 = MipsBuilder.buildOperand(op1, false, MipsBuildingContext.curIrFunction, getParent());
                     src2 = MipsBuilder.buildImmOperand(-imm2, true, MipsBuildingContext.curIrFunction, getParent());
                     MipsBuilder.buildBinary(MipsBinary.BinaryType.ADDU, dst, src1, src2, getParent());
@@ -313,12 +345,17 @@ public class BinaryInst extends Instruction{
             case Lt,Le,Gt,Ge,Eq,Ne ->{
                 MipsCondType mipsCondType = MipsCondType.IrCondType2MipsCondType(getOperator());
                 Value op1 = this.getOperands().get(0), op2 = this.getOperands().get(1);
-
                 // 均为常数的场合，我们直接进行比较，得到结果（0或者1）即可
                 // 比较的结果生成MipsImm并记录，不必生成目标代码
                 if(op1 instanceof ConstInt && op2 instanceof ConstInt){
                     int val1 = ((ConstInt)op1).getValue();
                     int val2 = ((ConstInt)op2).getValue();
+                    MipsOperand mipsOperand = new MipsImm(MipsCondType.doCondCalculation(mipsCondType, val1, val2));
+                    MipsBuildingContext.addOperandMapping(this, mipsOperand);
+                }
+                else if(op1 instanceof ConstChar && op2 instanceof ConstChar){
+                    int val1 = ((ConstChar)op1).getValue();
+                    int val2 = ((ConstChar)op2).getValue();
                     MipsOperand mipsOperand = new MipsImm(MipsCondType.doCondCalculation(mipsCondType, val1, val2));
                     MipsBuildingContext.addOperandMapping(this, mipsOperand);
                 }

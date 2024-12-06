@@ -11,6 +11,7 @@ import backend.parts.MipsModule;
 import config.Config;
 import ir.IRModule;
 import ir.values.*;
+import ir.values.instructions.ConvInst;
 import utils.InputOutput;
 import utils.Pair;
 
@@ -214,7 +215,17 @@ public class MipsBuilder {
             }
             // 如果是整型常数
             else if (irValue instanceof ConstInt) {
+
                 return buildImmOperand(((ConstInt) irValue).getValue(), isImm, irFunction, irBlock);
+            }
+            // 如果是字符型常数
+            else if (irValue instanceof ConstChar) {
+                return buildImmOperand(((ConstChar) irValue).getValue(), isImm, irFunction, irBlock);
+            }
+            else if ((irValue instanceof ConvInst) && (((ConvInst)irValue).getOperands().get(0) instanceof ConstChar)){
+                // ???mips
+                Value temp = ((ConvInst)irValue).getOperands().get(0);
+                return buildImmOperand(((ConstChar) temp).getValue(), isImm, irFunction, irBlock);
             }
             // 如果是指令，那么需要生成一个目的寄存器
             else {
@@ -321,8 +332,8 @@ public class MipsBuilder {
 
     // ================== 构建手动实现的优化乘法 =======================
     public static void buildOptMul(MipsOperand dst, Value op1, Value op2, Function irFunction, BasicBlock irBlock){
-        Boolean isOp1ConstInt = op1 instanceof ConstInt;
-        Boolean isOp2ConstInt = op2 instanceof ConstInt;
+        Boolean isOp1ConstInt = op1 instanceof ConstInt || op1 instanceof ConstChar;
+        Boolean isOp2ConstInt = op2 instanceof ConstInt || op2 instanceof ConstChar;
 
         MipsOperand src1, src2;
         // 如果有常数，那么可以尝试进行优化
@@ -331,12 +342,18 @@ public class MipsBuilder {
             // 取出常数，送入imm
             if (isOp1ConstInt) {
                 src1 = buildOperand(op2, false, MipsBuildingContext.curIrFunction, irBlock);
-                imm = ((ConstInt) op1).getValue();
+                if (op1 instanceof ConstInt) {
+                    imm = ((ConstInt) op1).getValue();
+                }
+                else imm = ((ConstChar) op1).getValue();
             }
             // op1非ConstInt
             else {
                 src1 = buildOperand(op1, false, MipsBuildingContext.curIrFunction, irBlock);
-                imm = ((ConstInt) op2).getValue();
+                if (op2 instanceof ConstInt) {
+                    imm = ((ConstInt) op2).getValue();
+                }
+                else imm = ((ConstChar) op2).getValue();
             }
             // 根据常数imm获取优化操作序列
             ArrayList<Pair<Boolean, Integer>> mulOptItems = MipsMath.getMulOptItems(imm);

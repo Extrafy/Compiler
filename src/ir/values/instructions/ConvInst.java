@@ -76,20 +76,16 @@ public class ConvInst extends Instruction{
         switch (this.getOperator()){
             case Zext -> {
                 // ???mips 这里i8 to i1可能有问题
-//                System.out.println("zext: " + this.getOperands());
                 Value i1 = this.getOperands().get(0);
 //                System.out.println(i1.toString());
-                if(i1 instanceof BinaryInst && ((BinaryInst) i1).isCond()){
-                    ((BinaryInst) i1).buildMips1();
-                    // 将Zext结果与i1的解析结果页进行绑定
+                if (i1 instanceof BinaryInst){
+                    if(((BinaryInst) i1).isCond()){
+                        ((BinaryInst) i1).buildMips1();
+                    }
+//                    else ((BinaryInst) i1).buildMips();
                     MipsBuildingContext.addOperandMapping(this, MipsBuildingContext.op(i1));
                 }
                 else if (i1 instanceof LoadInst && i1.getType() == IntegerType.i8){
-//                    ((LoadInst) i1).buildMips();
-                    MipsBuildingContext.addOperandMapping(this, MipsBuildingContext.op(i1));
-                }
-                else if (i1 instanceof BinaryInst){
-//                    ((BinaryInst) i1).buildMips(); ???mips
                     MipsBuildingContext.addOperandMapping(this, MipsBuildingContext.op(i1));
                 }
                 else if (i1 instanceof ConstChar){
@@ -106,7 +102,7 @@ public class ConvInst extends Instruction{
                     if(((BinaryInst) i1).isCond()){
                         ((BinaryInst) i1).buildMips1();
                     }
-                    else ((BinaryInst) i1).buildMips();
+//                    else ((BinaryInst) i1).buildMips();
                     MipsBuildingContext.addOperandMapping(this, MipsBuildingContext.op(i1));
                 }
                 else if (i1 instanceof LoadInst && i1.getType() == IntegerType.i32){

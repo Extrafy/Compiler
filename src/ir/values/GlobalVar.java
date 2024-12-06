@@ -97,9 +97,17 @@ public class GlobalVar extends User{
         }
         // char变量
         else if(((value instanceof ConstInt)  && (((ConstInt)value).getIntType() == IntegerType.i8)) || (value instanceof ConstChar)){
-            mipsGlobalVariable = new MipsGlobalVariable(getName(), new ArrayList<>(){{
-                add(((ConstInt) value).getValue());
-            }}, true);
+            if (value instanceof ConstChar){
+                mipsGlobalVariable = new MipsGlobalVariable(getName(), new ArrayList<>(){{
+                    add(((ConstChar) value).getValue());
+                }}, true);
+            }
+            else {
+                mipsGlobalVariable = new MipsGlobalVariable(getName(), new ArrayList<>(){{
+                    add(((ConstInt) value).getValue());
+                }}, true);
+            }
+
         }
         // char数组
         else if((value instanceof ConstArray) && (((ConstArray) value).getElementType() == IntegerType.i8)){

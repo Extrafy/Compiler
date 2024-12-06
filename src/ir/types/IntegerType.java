@@ -30,6 +30,9 @@ public class IntegerType implements Type{
     }
 
     public int getSize() {
-        return bit / 8;
+//        return bit / 8;
+        return 4; // i1可能有问题 ???mips
     }
+
+
 }

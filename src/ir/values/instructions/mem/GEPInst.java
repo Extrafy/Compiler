@@ -9,10 +9,7 @@ import ir.types.ArrayType;
 import ir.types.IntegerType;
 import ir.types.PointerType;
 import ir.types.Type;
-import ir.values.BasicBlock;
-import ir.values.ConstInt;
-import ir.values.GlobalVar;
-import ir.values.Value;
+import ir.values.*;
 import ir.values.instructions.Operator;
 
 import java.util.ArrayList;
@@ -137,8 +134,12 @@ public class GEPInst extends MemInst{
         int elementSize = elementType.getSize();
 
         // 为常数
-        if (irOffset instanceof ConstInt) {
-            int offsetIndex = ((ConstInt) irOffset).getValue();
+        if (irOffset instanceof ConstInt || irOffset instanceof ConstChar) {
+            int offsetIndex = 0;
+            if (irOffset instanceof ConstInt) {
+                offsetIndex = ((ConstInt) irOffset).getValue();
+            }
+            else offsetIndex = ((ConstChar) irOffset).getValue();
             // 低一维偏移的具体值
             int totalOffset = elementSize * offsetIndex;
             // 不存在偏移，直接将this映射到base的op即可
@@ -155,7 +156,7 @@ public class GEPInst extends MemInst{
         else {
             // 利用mid寄存器周转
             // mid = offset = elementSize * offset
-            MipsBuilder.buildOptMul(mid, irOffset, new ConstInt(elementSize, IntegerType.i32), MipsBuildingContext.curIrFunction, getParent());
+            MipsBuilder.buildOptMul(mid, irOffset, new ConstInt(elementSize, IntegerType.i32), MipsBuildingContext.curIrFunction, getParent());// ???mips ConstChar
             // dst = base + mid
             MipsBuilder.buildBinary(MipsBinary.BinaryType.ADDU, dst, base, mid, getParent());
         }
