@@ -252,7 +252,7 @@ public class Function extends Value{
 
         public Argument(Type type, int idx, boolean isLibFunc){
             super(isLibFunc ? "" : "%" + REG_NUM++, type);
-            this.idx = idx;
+            this.idx = REG_NUM-1;
         }
 
         public int getIdx(){

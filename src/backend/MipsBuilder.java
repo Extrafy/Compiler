@@ -218,6 +218,8 @@ public class MipsBuilder {
             }
             // 如果是指令，那么需要生成一个目的寄存器
             else {
+//                System.out.println(111);
+//                System.out.println(irValue.toString());
                 return allocVirtualReg(irValue, irFunction);
             }
         }
@@ -231,7 +233,7 @@ public class MipsBuilder {
      */
     public static MipsOperand buildArgOperand(Value irArg, Function irFunction){
         MipsFunction mipsFunction = MipsBuildingContext.f(irFunction);
-        int argNumber = ((Function.Argument)irArg).getIdx();   // 第几个参数
+        int argNumber = ((Function.Argument)irArg).getIdx();// 第几个参数
         MipsBlock firstBlock = MipsBuildingContext.b(irFunction.getHeadBlock()); // 头块
 
         // 分配虚拟寄存器, 构建映射
@@ -313,7 +315,7 @@ public class MipsBuilder {
      */
     public static MipsVirtualReg allocVirtualReg(Function irFunction){
         MipsVirtualReg vr = new MipsVirtualReg();
-        MipsBuildingContext.f(irFunction).addUsedVirtualReg(vr);
+        MipsBuildingContext.f(irFunction).addUsedVirtualReg(vr);// hear
         return vr;
     }
 

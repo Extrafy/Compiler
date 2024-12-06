@@ -34,9 +34,9 @@ public class RetInst extends TerminatorInst{
     }
 
     public void buildMips() {
-        Value returnValue = getOperands().get(0);
         // 带返回值，则存入v0
-        if(returnValue != null){
+        if(!getOperands().isEmpty()){
+            Value returnValue = getOperands().get(0);
             MipsOperand returnOperand = MipsBuilder.buildOperand(returnValue, true, MipsBuildingContext.curIrFunction, getParent());
             MipsBuilder.buildMove(MipsRealReg.V0, returnOperand, getParent());
         }

@@ -266,9 +266,11 @@ public class BinaryInst extends Instruction{
             }
 
             case Mod -> {
-                if(((ConstInt) this.getOperands().get(3)).getValue() != 1){
-                    System.out.println("[Srem.buildMips] 取余时y不等于1，计算错误");
-                }
+//                System.out.println(this.getOperands());
+//                System.out.println(this.getOperands().get(1).toString());
+//                if(((ConstInt) this.getOperands().get(1)).getValue() != 1){
+//                    System.out.println("[Srem.buildMips] 取余时y不等于1，计算错误");// 取余优化之后
+//                }
                 MipsOperand dst = MipsBuilder.buildOperand(this, false, MipsBuildingContext.curIrFunction, getParent());
                 MipsBuilder.buildMove(dst, MipsRealReg.ZERO, getParent());
             }
