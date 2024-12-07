@@ -10,12 +10,15 @@ import backend.parts.MipsFunction;
 import backend.parts.MipsModule;
 import config.Config;
 import ir.IRModule;
+import ir.types.IntegerType;
 import ir.values.*;
 import ir.values.instructions.ConvInst;
+import ir.values.instructions.Operator;
 import utils.InputOutput;
 import utils.Pair;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MipsBuilder {
     private IRModule irModule;
@@ -215,8 +218,21 @@ public class MipsBuilder {
             }
             // 如果是整型常数
             else if (irValue instanceof ConstInt) {
-
-                return buildImmOperand(((ConstInt) irValue).getValue(), isImm, irFunction, irBlock);
+                if (((ConstInt)irValue).getIntType() == IntegerType.i32){
+                    return buildImmOperand(((ConstInt) irValue).getValue(), isImm, irFunction, irBlock);
+                }
+                else {
+//                    System.out.println(((ConstInt) irValue).getValue());
+                    int number = 0;
+                    try {
+                        number = ((ConstInt) irValue).getValue();
+                        number = number & 0xff;
+//                        System.out.println("转换后的整数为: " + number);
+                    } catch (NumberFormatException e) {
+                        System.out.println("字符串转换为整数失败: " + e.getMessage());
+                    }
+                    return buildImmOperand(number, isImm, irFunction, irBlock);
+                }
             }
             // 如果是字符型常数
             else if (irValue instanceof ConstChar) {
@@ -229,7 +245,6 @@ public class MipsBuilder {
             }
             // 如果是指令，那么需要生成一个目的寄存器
             else {
-//                System.out.println(111);
 //                System.out.println(irValue.toString());
                 return allocVirtualReg(irValue, irFunction);
             }

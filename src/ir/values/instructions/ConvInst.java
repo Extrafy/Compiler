@@ -82,7 +82,6 @@ public class ConvInst extends Instruction{
                     if(((BinaryInst) i1).isCond()){
                         ((BinaryInst) i1).buildMips1();
                     }
-//                    else ((BinaryInst) i1).buildMips();
                     MipsBuildingContext.addOperandMapping(this, MipsBuildingContext.op(i1));
                 }
                 else if (i1 instanceof LoadInst && i1.getType() == IntegerType.i8){
@@ -91,12 +90,18 @@ public class ConvInst extends Instruction{
                 else if (i1 instanceof ConstChar){
                     MipsBuildingContext.addOperandMapping(this, MipsBuildingContext.op(i1));
                 }
+                else if (i1 instanceof ConstInt && ((ConstInt)i1).getIntType() == IntegerType.i8){
+                    MipsBuildingContext.addOperandMapping(this, MipsBuildingContext.op(i1));
+                }
+                else if (i1 instanceof CallInst){
+                    MipsBuildingContext.addOperandMapping(this, MipsBuildingContext.op(i1));
+                }
                 else {
+//                    System.out.println(this.getOperands());
                     System.out.println("[Zext]出错");
                 }
             }
             case Trunc -> {
-//                System.out.println("trunc: " + this.getOperands());
                 Value i1 = this.getOperands().get(0);
                 if (i1 instanceof BinaryInst){
                     if(((BinaryInst) i1).isCond()){
@@ -106,7 +111,6 @@ public class ConvInst extends Instruction{
                     MipsBuildingContext.addOperandMapping(this, MipsBuildingContext.op(i1));
                 }
                 else if (i1 instanceof LoadInst && i1.getType() == IntegerType.i32){
-//                    ((LoadInst) i1).buildMips();
                     MipsBuildingContext.addOperandMapping(this, MipsBuildingContext.op(i1));
                 }
                 else if (i1 instanceof CallInst){

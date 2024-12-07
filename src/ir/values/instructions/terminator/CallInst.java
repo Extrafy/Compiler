@@ -12,14 +12,13 @@ import ir.types.FunctionType;
 import ir.types.IntegerType;
 import ir.types.Type;
 import ir.types.VoidType;
-import ir.values.BasicBlock;
-import ir.values.BuildFactory;
-import ir.values.Function;
-import ir.values.Value;
+import ir.values.*;
+import ir.values.instructions.ConvInst;
 import ir.values.instructions.Operator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CallInst extends TerminatorInst{
     public CallInst(BasicBlock block, Function function, List<Value> args) {
@@ -129,10 +128,23 @@ public class CallInst extends TerminatorInst{
             MipsOperand src;
             // 前四个参数存储在a0-3内
             if (i < 4) {
-                src = MipsBuilder.buildOperand(irArg, true, MipsBuildingContext.curIrFunction, getParent());
-                MipsMove move = MipsBuilder.buildMove(new MipsRealReg("a" + i), src, getParent());
-                // 加入use，保护寄存器分配时不消除move
-                call.addUseReg(move.getDst());
+                if (irArg instanceof ConvInst && ((ConvInst)irArg).getFrom() == IntegerType.i8 && Objects.equals(mipsFunction.getName(), "putint")){
+                    src = MipsBuilder.buildOperand(irArg, true, MipsBuildingContext.curIrFunction, getParent());
+                    Value temp = new ConstInt(255);
+                    MipsOperand src2;
+                    src2 = MipsBuilder.buildOperand(temp, true, MipsBuildingContext.curIrFunction, getParent());
+                    MipsBinary addBinary = MipsBuilder.buildBinary(MipsBinary.BinaryType.AND, src, src, src2, getParent());
+                    MipsMove move = MipsBuilder.buildMove(new MipsRealReg("a" + i), src, getParent());
+                    // 加入use，保护寄存器分配时不消除move
+                    call.addUseReg(addBinary.getDst());
+                    call.addUseReg(move.getDst());
+                }
+                else {
+                    src = MipsBuilder.buildOperand(irArg, true, MipsBuildingContext.curIrFunction, getParent());
+                    MipsMove move = MipsBuilder.buildMove(new MipsRealReg("a" + i), src, getParent());
+                    // 加入use，保护寄存器分配时不消除move
+                    call.addUseReg(move.getDst());
+                }
             }
             // 后面的参数先存进寄存器里，再store进内存
             else {

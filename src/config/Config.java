@@ -23,7 +23,7 @@ public class Config {
 
     // 是否开启窥孔优化
 //    public static boolean openPeepHoleOpt = false;
-    public static boolean openPeepHoleOpt = false;
+    public static boolean openPeepHoleOpt = true;
 
     // 是否开启寄存器分配
 //    public static boolean openRegAllocOpt = false;

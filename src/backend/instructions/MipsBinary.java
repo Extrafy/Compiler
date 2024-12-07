@@ -13,6 +13,7 @@ public class MipsBinary extends MipsInstruction {
         SLTU("sltu"),
         SLT("slt"),
         SMMUL("smmul"),
+        AND("and"),
         SMMADD("smmadd");
 
         public String name;

@@ -24,7 +24,11 @@ public class ConstString extends Const{
      * 将llvm中的\0a转换为\n
      */
     public String getContent() {
-        return value.replace("\\0a\\00", "\\n");
+        String t = value.replace("\\0a\\00", "\\n");
+        t = t.replace("\\0a", "\\n");
+        t = t.replace("\\00", "\\0");
+//        System.out.println(t);
+        return t;
     }
 
     public String toString() {

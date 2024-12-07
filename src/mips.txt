@@ -26,259 +26,31 @@
 
 .data
 _str_0:
-.asciiz	"0\n"
-
-_str_1:
-.asciiz	"19182620\n"
+.asciiz	"lack 1, situation 3 and \0"
 
 .text
 main:
-	add	$sp,	$sp,	-124
-b0_3:
-	addiu	$s1,	$sp,	0
-	addiu	$k0,	$sp,	4
-	addiu	$s5,	$sp,	8
-	addiu	$t3,	$sp,	12
-	addiu	$s0,	$sp,	16
-	addiu	$t9,	$sp,	20
-	addiu	$t6,	$sp,	24
-	li	$t5,	1
-	sw	$t5,	0($t6)
-	addiu	$t5,	$sp,	28
-	addiu	$v1,	$sp,	32
-	addiu	$t5,	$sp,	36
-	addiu	$t5,	$sp,	40
-	li	$t5,	-1
-	addiu	$t4,	$sp,	44
-	sw	$t5,	0($t4)
-	addiu	$t2,	$sp,	48
-	li	$t5,	2
-	sw	$t5,	0($t2)
-	addiu	$t7,	$sp,	52
-	addiu	$t1,	$sp,	56
-	addiu	$fp,	$sp,	60
-	sw	$zero,	0($fp)
-	getint
-	move	$t5,	$v0
-	sw	$t5,	0($t7)
-b19_4:
-	lw	$t5,	0($t2)
-	lw	$ra,	0($t7)
-	blt	$t5,	$ra,	b23_5
-b32_7:
-	jal	jian
-	move	$v0,	$v0
-	sw	$v0,	0($s5)
-	lw	$t5,	0($s5)
-	move	$a0,	$t5
-	putint
-	li	$a0,	10
-	putchar
-	lw	$t5,	0($s5)
-	addiu	$t5,	$t5,	1
-	sw	$t5,	0($t3)
-	lw	$t5,	0($s5)
-	sll	$t5,	$t5,	1
-	sw	$t5,	0($s0)
-	lw	$t5,	0($s0)
-	blt	$t5,	5,	b46_10
-b51_11:
-	lw	$ra,	0($s5)
-	sra	$t5,	$ra,	31
-	srl	$t5,	$t5,	31
-	addu	$t5,	$ra,	$t5
-	sra	$t5,	$t5,	1
-	sw	$t5,	0($t9)
-b54_12:
-	lw	$t5,	0($t9)
-	bne	$t5,	0,	b59_13
-b62_14:
-	lw	$ra,	0($t2)
-	lw	$t5,	0($v1)
-	addiu	$t5,	$t5,	1
-	addu	$t5,	$ra,	$t5
-	sw	$t5,	0($t4)
-b67_15:
-	bne	$zero,	0,	b69_16
-b71_18:
-b72_19:
-	li	$t5,	1
-	bne	$t5,	0,	b74_20
-b76_22:
-	lw	$t5,	0($s5)
-	lw	$ra,	0($t3)
-	beq	$t5,	$ra,	b80_23
-b100_32:
-	lw	$a0,	0($s1)
-	lw	$a1,	0($k0)
-	move	$a0,	$a0
-	move	$a1,	$a1
-	jal	keke
-	move	$v0,	$v0
-	lw	$a0,	0($t3)
-	lw	$fp,	0($s0)
-	lw	$ra,	0($t9)
-	lw	$t5,	0($t6)
-	move	$a0,	$a0
-	putint
-	li	$a0,	10
-	putchar
-	move	$a0,	$fp
-	putint
-	li	$a0,	10
-	putchar
-	move	$a0,	$ra
-	putint
-	li	$a0,	10
-	putchar
-	move	$a0,	$t5
-	putint
-	li	$a0,	10
-	putchar
-	la	$t5,	_str_1
-	addiu	$t5,	$t5,	0
-	addiu	$t5,	$t5,	0
-	move	$a0,	$t5
-	putstr
-	la	$t5,	_str_1
-	addiu	$t5,	$t5,	0
-	addiu	$t5,	$t5,	0
-	move	$a0,	$t5
-	putstr
-	la	$t5,	_str_1
-	addiu	$t5,	$t5,	0
-	addiu	$t5,	$t5,	0
-	move	$a0,	$t5
-	putstr
-	li	$v0,	0
-	add	$sp, 	$sp,	124
-	li	$v0,	10
-	syscall
-
-b80_23:
-	lw	$t5,	0($t3)
-	lw	$ra,	0($s0)
-	bge	$t5,	$ra,	b84_24
-b99_31:
-	j	b100_32
-b84_24:
-	lw	$t5,	0($s0)
-	lw	$ra,	0($t9)
-	ble	$t5,	$ra,	b88_25
-b98_30:
-	j	b99_31
-b88_25:
-	lw	$ra,	0($t9)
-	lw	$t5,	0($t6)
-	bne	$ra,	$t5,	b92_26
-b97_29:
-	j	b98_30
-b92_26:
-	lw	$t5,	0($s5)
-	bgt	$t5,	1,	b95_27
-b96_28:
-	j	b97_29
-b95_27:
-	li	$t5,	1
-	sw	$t5,	0($s1)
-	j	b96_28
-b74_20:
-	j	b76_22
-b69_16:
-b70_17:
-	j	b67_15
-b59_13:
-	lw	$t5,	0($t6)
-	addiu	$t5,	$t5,	1
-	sw	$t5,	0($t6)
-	j	b62_14
-b46_10:
-	lw	$ra,	0($s5)
-	sra	$t5,	$ra,	31
-	srl	$t5,	$t5,	31
-	addu	$t5,	$ra,	$t5
-	sra	$t5,	$t5,	1
-	sll	$t5,	$t5,	1
-	subu	$t5,	$ra,	$t5
-	sw	$t5,	0($t9)
-	j	b54_12
-b23_5:
-	lw	$t5,	0($t7)
-	lw	$ra,	0($t2)
-	div	$t5,	$ra
-	mflo	$a2
-	mul	$ra,	$a2,	$ra
-	subu	$t5,	$t5,	$ra
-	sw	$t5,	0($t1)
-	lw	$t5,	0($t1)
-	beq	$t5,	0,	b41_8
-b43_9:
-	lw	$t5,	0($t2)
-	addiu	$t5,	$t5,	1
-	sw	$t5,	0($t2)
-b31_6:
-	j	b19_4
-b41_8:
-	li	$t5,	1
-	sw	$t5,	0($fp)
-	la	$t5,	_str_0
-	addiu	$a0,	$t5,	0
+	add	$sp,	$sp,	-8
+b0_1:
+	jal	func3
+	move	$t3,	$v0
+	la	$a2,	_str_0
+	addiu	$a0,	$a2,	0
 	addiu	$a0,	$a0,	0
 	move	$a0,	$a0
 	putstr
-	j	b43_9
-de:
-b0_0:
-		jr	$ra
-
-keke:
-	sw	$t5,	-4($sp)
-	sw	$ra,	-8($sp)
-	add	$sp,	$sp,	-16
-b2_1:
-	move	$a1,	$a1
-	move	$t5,	$a0
-	addiu	$a2,	$sp,	0
-	sw	$t5,	0($a2)
-	addiu	$t5,	$sp,	4
-	sw	$a1,	0($t5)
-	lw	$ra,	0($a2)
-	lw	$t5,	0($t5)
-	addu	$t5,	$ra,	$t5
-	sw	$t5,	0($a2)
+	move	$a0,	$t3
+	putchar
+	li	$a0,	10
+	putchar
 	li	$v0,	0
-	add	$sp, 	$sp,	16
-	lw	$t5,	-4($sp)
-	lw	$ra,	-8($sp)
-	jr	$ra
+	add	$sp, 	$sp,	8
+	li	$v0,	10
+	syscall
 
-jian:
-	sw	$t5,	-4($sp)
-	sw	$t7,	-8($sp)
-	sw	$fp,	-12($sp)
-	sw	$ra,	-16($sp)
-	add	$sp,	$sp,	-28
-b0_2:
-	addiu	$t7,	$sp,	0
-	addiu	$ra,	$sp,	4
-	addiu	$fp,	$sp,	8
-	getint
-	move	$t5,	$v0
-	sw	$t5,	0($t7)
-	getint
-	move	$v0,	$v0
-	sw	$v0,	0($ra)
-	lw	$t5,	0($t7)
-	lw	$ra,	0($ra)
-	subu	$t5,	$t5,	$ra
-	sw	$t5,	0($fp)
-	lw	$v0,	0($fp)
-	move	$v0,	$v0
-	add	$sp, 	$sp,	28
-	lw	$t5,	-4($sp)
-	lw	$t7,	-8($sp)
-	lw	$fp,	-12($sp)
-	lw	$ra,	-16($sp)
-	jr	$ra
+func3:
+b0_0:
+	li	$v0,	97
+		jr	$ra
 
 
