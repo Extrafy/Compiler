@@ -10,18 +10,17 @@ declare void @putchar(i32)
 
 declare void @putstr(i8*)
 
-define dso_local i8 @func3(){
+define dso_local i32 @func3(){
 ;<label>:0:
-	ret i8 97
+	ret i32 1
 }
 
 define dso_local i32 @main(){
 ;<label>:0:
-	%1 = call i8 @func3()
+	%1 = call i32 @func3()
 	%2 = getelementptr inbounds [25 x i8], [25 x i8]* @_str_0, i32 0, i32 0
 	call void @putstr(i8* %2)
-	%3 = zext i8 %1 to i32
-	call void @putchar(i32 %3)
+	call void @putint(i32 %1)
 	call void @putchar(i32 10)
 	ret i32 0
 }

@@ -1,7 +1,7 @@
-char func3(){
-    return 'a';
+int func3(){
+    return 1;
 }
 int main(){
-    printf("lack 1, situation 3 and %c\n",func3());
+    printf("lack 1, situation 3 and %d\n",func3());
     return 0;
 }

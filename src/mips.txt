@@ -30,27 +30,25 @@ _str_0:
 
 .text
 main:
-	add	$sp,	$sp,	-8
+	add	$sp,	$sp,	-12
 b0_1:
 	jal	func3
-	move	$t3,	$v0
-	la	$a2,	_str_0
-	addiu	$a0,	$a2,	0
-	addiu	$a0,	$a0,	0
-	move	$a0,	$a0
+	move	$t0,	$v0
+	la	$t6,	_str_0
+	move	$a0,	$t6
 	putstr
-	move	$a0,	$t3
-	putchar
+	move	$a0,	$t0
+	putint
 	li	$a0,	10
 	putchar
 	li	$v0,	0
-	add	$sp, 	$sp,	8
+	add	$sp, 	$sp,	12
 	li	$v0,	10
 	syscall
 
 func3:
 b0_0:
-	li	$v0,	97
+	li	$v0,	1
 		jr	$ra
 
 
