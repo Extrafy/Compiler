@@ -25,30 +25,323 @@
 .end_macro
 
 .data
+N:
+.word	10
+
+a:
+.word	0
+.word	1
+.word	2
+.word	3
+.word	4
+.word	5
+.word	6
+.word	7
+.word	8
+.word	9
+
 _str_0:
-.asciiz	"lack 1, situation 3 and \0"
+.asciiz	", \0"
 
 .text
 main:
-	add	$sp,	$sp,	-12
-b0_1:
-	jal	func3
-	move	$t0,	$v0
-	la	$t6,	_str_0
-	move	$a0,	$t6
+	add	$sp,	$sp,	-56
+b0_5:
+	move	$s5,	$sp
+	li	$fp,	2
+	sw	$fp,	0($s5)
+	addiu	$t4,	$sp,	4
+	li	$fp,	5
+	sw	$fp,	0($t4)
+	addiu	$k1,	$sp,	8
+	li	$fp,	1
+	sw	$fp,	0($k1)
+	addiu	$k0,	$sp,	12
+	li	$fp,	2
+	sw	$fp,	0($k0)
+	getint
+	sw	$v0,	0($s5)
+	getint
+	sw	$v0,	0($t4)
+	lw	$fp,	0($s5)
+	lw	$s7,	0($t4)
+	mul	$fp,	$fp,	$s7
+	subu	$fp,	$zero,	$fp
+	li	$a0,	4
+	jal	fib
+	mul	$fp,	$fp,	$v0
+	move	$s7,	$fp
+	la	$fp,	a
+	addiu	$fp,	$fp,	4
+	lw	$fp,	0($fp)
+	sll	$fp,	$fp,	0
+	addu	$s7,	$s7,	$fp
+	li	$t1,	1
+	sra	$fp,	$t1,	31
+	srl	$fp,	$fp,	31
+	addu	$fp,	$t1,	$fp
+	sra	$fp,	$fp,	1
+	subu	$s7,	$s7,	$fp
+	li	$fp,	1717986919
+	mult	$s7,	$fp
+	mfhi	$fp
+	sra	$fp,	$fp,	1
+	srl	$at,	$s7,	31
+	addu	$fp,	$at,	$fp
+	sw	$fp,	0($s5)
+	li	$fp,	5923
+	sll	$at,	$fp,	3
+	subu	$t1,	$at,	$fp
+	li	$fp,	-1840700269
+	mthi	$t1
+	madd	$t1,	$fp
+	mfhi	$fp
+	sra	$fp,	$fp,	5
+	srl	$at,	$t1,	31
+	addu	$s7,	$at,	$fp
+	li	$fp,	56
+	mul	$fp,	$s7,	$fp
+	subu	$s7,	$t1,	$fp
+	li	$fp,	57
+	mul	$s7,	$s7,	$fp
+	li	$a0,	5
+	jal	fib
+	addiu	$fp,	$v0,	2
+	move	$a0,	$fp
+	jal	fib
+	subu	$s3,	$s7,	$v0
+	lw	$s7,	0($k1)
+	lw	$fp,	0($k0)
+	addu	$t1,	$s7,	$fp
+	li	$s7,	89
+	sra	$fp,	$s7,	31
+	srl	$fp,	$fp,	31
+	addu	$fp,	$s7,	$fp
+	sra	$s7,	$fp,	1
+	li	$fp,	36
+	mul	$fp,	$s7,	$fp
+	addiu	$s7,	$fp,	-53
+	li	$fp,	6
+	mul	$fp,	$s7,	$fp
+	subu	$t1,	$t1,	$fp
+	li	$fp,	56
+	li	$s7,	45
+	mul	$s7,	$fp,	$s7
+	li	$fp,	1616928865
+	mult	$s7,	$fp
+	mfhi	$fp
+	sra	$fp,	$fp,	5
+	srl	$at,	$s7,	31
+	addu	$fp,	$at,	$fp
+	addiu	$fp,	$fp,	-56
+	li	$k0,	56
+	li	$s7,	35
+	mul	$s7,	$k0,	$s7
+	sra	$k0,	$s7,	31
+	srl	$k0,	$k0,	30
+	addu	$s7,	$s7,	$k0
+	sra	$s7,	$s7,	2
+	addu	$fp,	$fp,	$s7
+	addiu	$fp,	$fp,	-9
+	sll	$fp,	$fp,	1
+	subu	$fp,	$t1,	$fp
+	addu	$fp,	$s3,	$fp
+	sw	$fp,	0($t4)
+	li	$fp,	-6
+	addiu	$k0,	$sp,	16
+	sw	$fp,	0($k0)
+	la	$fp,	a
+	move	$s3,	$fp
+	la	$fp,	a
+	lw	$s7,	0($fp)
+	lw	$t1,	0($s5)
+	lw	$fp,	0($s5)
+	mul	$fp,	$t1,	$fp
+	addu	$fp,	$s7,	$fp
+	sw	$fp,	0($s3)
+	la	$fp,	a
+	move	$s7,	$fp
+	addiu	$s7,	$s7,	4
+	la	$fp,	a
+	addiu	$fp,	$fp,	4
+	lw	$fp,	0($fp)
+	lw	$s3,	0($s5)
+	lw	$t1,	0($s5)
+	mul	$t1,	$s3,	$t1
+	addu	$fp,	$fp,	$t1
+	sw	$fp,	0($s7)
+	la	$fp,	a
+	move	$s7,	$fp
+	addiu	$s7,	$s7,	8
+	la	$fp,	a
+	addiu	$fp,	$fp,	8
+	lw	$fp,	0($fp)
+	lw	$s3,	0($s5)
+	lw	$t1,	0($s5)
+	mul	$t1,	$s3,	$t1
+	addu	$fp,	$fp,	$t1
+	sw	$fp,	0($s7)
+	la	$fp,	a
+	move	$s7,	$fp
+	addiu	$s7,	$s7,	12
+	la	$fp,	a
+	addiu	$fp,	$fp,	12
+	lw	$fp,	0($fp)
+	lw	$s3,	0($s5)
+	lw	$t1,	0($s5)
+	mul	$t1,	$s3,	$t1
+	addu	$fp,	$fp,	$t1
+	sw	$fp,	0($s7)
+	la	$fp,	a
+	addiu	$fp,	$fp,	16
+	la	$s7,	a
+	addiu	$s7,	$s7,	16
+	lw	$s7,	0($s7)
+	lw	$s3,	0($s5)
+	lw	$t1,	0($s5)
+	mul	$t1,	$s3,	$t1
+	addu	$s7,	$s7,	$t1
+	sw	$s7,	0($fp)
+	la	$fp,	a
+	move	$s3,	$fp
+	addiu	$s3,	$s3,	20
+	la	$fp,	a
+	addiu	$fp,	$fp,	20
+	lw	$t1,	0($fp)
+	lw	$s7,	0($s5)
+	lw	$fp,	0($s5)
+	mul	$fp,	$s7,	$fp
+	addu	$fp,	$t1,	$fp
+	sw	$fp,	0($s3)
+	la	$fp,	a
+	addiu	$fp,	$fp,	24
+	la	$s7,	a
+	addiu	$s7,	$s7,	24
+	lw	$t1,	0($s7)
+	lw	$s3,	0($s5)
+	lw	$s7,	0($s5)
+	mul	$s7,	$s3,	$s7
+	addu	$s7,	$t1,	$s7
+	sw	$s7,	0($fp)
+	la	$fp,	a
+	move	$t1,	$fp
+	addiu	$t1,	$t1,	28
+	la	$fp,	a
+	addiu	$fp,	$fp,	28
+	lw	$s3,	0($fp)
+	lw	$s7,	0($s5)
+	lw	$fp,	0($s5)
+	mul	$fp,	$s7,	$fp
+	addu	$fp,	$s3,	$fp
+	sw	$fp,	0($t1)
+	la	$fp,	a
+	addiu	$fp,	$fp,	32
+	la	$s7,	a
+	addiu	$s7,	$s7,	32
+	lw	$t1,	0($s7)
+	lw	$s7,	0($s5)
+	lw	$s3,	0($s5)
+	mul	$s7,	$s7,	$s3
+	addu	$s7,	$t1,	$s7
+	sw	$s7,	0($fp)
+	la	$fp,	a
+	move	$s3,	$fp
+	addiu	$s3,	$s3,	36
+	la	$fp,	a
+	addiu	$fp,	$fp,	36
+	lw	$s7,	0($fp)
+	lw	$fp,	0($s5)
+	lw	$t1,	0($s5)
+	mul	$fp,	$fp,	$t1
+	addu	$fp,	$s7,	$fp
+	sw	$fp,	0($s3)
+	sw	$zero,	0($s5)
+b121_6:
+	lw	$fp,	0($s5)
+	blt	$fp,	10,	b124_7
+b132_9:
+	lw	$s7,	0($s5)
+	lw	$fp,	0($t4)
+	lw	$t1,	0($k0)
+	li	$a0,	10
+	putchar
+	move	$a0,	$s7
+	putint
+	la	$s7,	_str_0
+	move	$a0,	$s7
 	putstr
-	move	$a0,	$t0
+	move	$a0,	$fp
+	putint
+	la	$fp,	_str_0
+	move	$a0,	$fp
+	putstr
+	move	$a0,	$t1
 	putint
 	li	$a0,	10
 	putchar
 	li	$v0,	0
-	add	$sp, 	$sp,	12
+	add	$sp, 	$sp,	56
 	li	$v0,	10
 	syscall
 
-func3:
-b0_0:
+b124_7:
+	lw	$fp,	0($s5)
+	la	$s7,	a
+	sll	$at,	$fp,	2
+	addu	$s7,	$s7,	$at
+	lw	$a0,	0($s7)
+	putint
+	la	$fp,	_str_0
+	move	$a0,	$fp
+	putstr
+	lw	$fp,	0($s5)
+	addiu	$fp,	$fp,	1
+	sw	$fp,	0($s5)
+b131_8:
+	j	b121_6
+fib:
+	sw	$s7,	-4($sp)
+	sw	$fp,	-8($sp)
+	sw	$ra,	-12($sp)
+	add	$sp,	$sp,	-16
+b1_0:
+	move	$s7,	$sp
+	sw	$a0,	0($s7)
+	lw	$fp,	0($s7)
+	beq	$fp,	1,	b5_1
+b6_2:
+	lw	$fp,	0($s7)
+	beq	$fp,	2,	b9_3
+b10_4:
+	lw	$fp,	0($s7)
+	addiu	$fp,	$fp,	-1
+	move	$a0,	$fp
+	jal	fib
+	move	$fp,	$v0
+	lw	$s7,	0($s7)
+	addiu	$s7,	$s7,	-2
+	move	$a0,	$s7
+	jal	fib
+	addu	$fp,	$fp,	$v0
+	move	$v0,	$fp
+	add	$sp, 	$sp,	16
+	lw	$s7,	-4($sp)
+	lw	$fp,	-8($sp)
+	lw	$ra,	-12($sp)
+	jr	$ra
+b9_3:
+	li	$v0,	2
+	add	$sp, 	$sp,	16
+	lw	$s7,	-4($sp)
+	lw	$fp,	-8($sp)
+	lw	$ra,	-12($sp)
+	jr	$ra
+b5_1:
 	li	$v0,	1
-		jr	$ra
+	add	$sp, 	$sp,	16
+	lw	$s7,	-4($sp)
+	lw	$fp,	-8($sp)
+	lw	$ra,	-12($sp)
+	jr	$ra
 
 

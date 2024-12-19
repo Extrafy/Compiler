@@ -14,8 +14,11 @@ public class Config {
     public static boolean irFlag = true;
     public static boolean mipsFlag = true;
 
+    // llvm是否开启str输出
     public static boolean chToStr = true;
-    public static boolean addToMul = false;
+
+    // 是否开启运算优化
+    public static boolean addToMul = true;
 
     // 是否开启死代码，循环优化
 //    public static boolean openDeadCodeAndLoopOpt = false;
