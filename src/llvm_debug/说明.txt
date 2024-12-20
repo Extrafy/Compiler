@@ -1,0 +1,14 @@
+以此文件夹为wsl根目录为例，下面介绍如何使用wsl进行llvm调试
+
+项目结构：
+
+├─llvm-test
+│  ├─libsysy.c          //  库函数c程序
+│  ├─libsysy.h         //   库函数引用头文件
+│  ├─lib.ll               //   库函数的 llvm 程序，需要首先运行 start.sh 后生成
+│  ├─main.c           //   要翻译的测试c程序，运行 start.sh 后使用系统 llvm 编译，将生成的 llvm代码输出到 out.ll 中，并在命令行中运行 out.ll
+│  ├─my.ll              //   自己编译器生成的 llvm代码，运行 my.sh 将 my.ll 与 lib.ll 链接后生成并运行 out.ll
+│  └─out.ll              //   运行的 llvm 代码
+│
+├─my.sh                //  使用系统自带llvm翻译 main.c 是使用
+└─start.sh              //  运行自己的 llvm 代码时使用
