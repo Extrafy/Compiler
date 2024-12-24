@@ -15,25 +15,29 @@ import java.io.IOException;
 public class Compiler {
     public static void main(String[] args) {
         try {
+            new FileWriter("lexer.txt", false).close(); // 清空 lexer.txt
+            new FileWriter("parser.txt", false).close(); // 清空 parser.txt
+            new FileWriter("symbol.txt", false).close(); // 清空 symbol.txt
+            new FileWriter("error.txt", false).close(); // 清空 error.txt
             new FileWriter("llvm_ir.txt", false).close(); // 清空 llvm_ir.txt
             new FileWriter("mips.txt", false).close();    // 清空 mips.txt
         } catch (IOException e) {
             System.err.println("清空文件时出错：" + e.getMessage());
         }
         String source = InputOutput.read(Config.inputPath);
-        Lexer lexer = Lexer.getInstance();
-        lexer.analyse(source);
         if(Config.lexerFlag){
+            Lexer lexer = Lexer.getInstance();
+            lexer.analyse(source);
             lexer.printLexerAnswer();
         }
-        Parser parser = Parser.getInstance();
-        parser.setTokenList(lexer.getTokenList());
-        parser.analyse();
         if (Config.parserFlag){
+            Parser parser = Parser.getInstance();
+            parser.setTokenList(Lexer.getInstance().getTokenList());
+            parser.analyse();
             parser.printParseAnswer();
         }
-        HandleError.getInstance().compUnitError(Parser.getInstance().getAst().compUnit);
         if (Config.symbolFlag){
+            HandleError.getInstance().compUnitError(Parser.getInstance().getAst().compUnit);
             SymbolTable.getRootSymbolTable().printSymbols();
         }
         if (Config.errorFlag){

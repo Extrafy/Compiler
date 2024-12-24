@@ -49,7 +49,7 @@ public class SymbolTable {
 
     public void printSymbols(){
         for (Symbol symbol : symbolMap.values()) {
-            InputOutput.write(symbol.toString());
+            InputOutput.writeSymbol(symbol.toString());
         }
         if (!sons.isEmpty()){
             for (SymbolTable son : sons){

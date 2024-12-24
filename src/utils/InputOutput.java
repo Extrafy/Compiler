@@ -26,8 +26,16 @@ public class InputOutput {
         }
     }
 
-    public static void write(String content){
-        write(content, Config.outputPath);
+    public static void writeLexer(String content){
+        write(content, Config.lexerOutputPath);
+    }
+
+    public static void writeParser(String content){
+        write(content, Config.parserOutputPath);
+    }
+
+    public static void writeSymbol(String content){
+        write(content, Config.symbolOutputPath);
     }
 
     public static void writeError(String error){

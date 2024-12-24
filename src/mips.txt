@@ -45,302 +45,302 @@ _str_0:
 
 .text
 main:
-	add	$sp,	$sp,	-56
+	add	$sp,	$sp,	-52
 b0_5:
-	move	$s5,	$sp
-	li	$fp,	2
-	sw	$fp,	0($s5)
-	addiu	$t4,	$sp,	4
-	li	$fp,	5
-	sw	$fp,	0($t4)
-	addiu	$k1,	$sp,	8
-	li	$fp,	1
-	sw	$fp,	0($k1)
-	addiu	$k0,	$sp,	12
-	li	$fp,	2
-	sw	$fp,	0($k0)
+	move	$k1,	$sp
+	li	$gp,	2
+	sw	$gp,	0($k1)
+	addiu	$t9,	$sp,	4
+	li	$gp,	5
+	sw	$gp,	0($t9)
+	addiu	$t8,	$sp,	8
+	li	$gp,	1
+	sw	$gp,	0($t8)
+	addiu	$fp,	$sp,	12
+	li	$gp,	2
+	sw	$gp,	0($fp)
 	getint
-	sw	$v0,	0($s5)
+	sw	$v0,	0($k1)
 	getint
-	sw	$v0,	0($t4)
-	lw	$fp,	0($s5)
-	lw	$s7,	0($t4)
-	mul	$fp,	$fp,	$s7
-	subu	$fp,	$zero,	$fp
+	sw	$v0,	0($t9)
+	lw	$gp,	0($k1)
+	lw	$s5,	0($t9)
+	mul	$gp,	$gp,	$s5
+	subu	$gp,	$zero,	$gp
 	li	$a0,	4
 	jal	fib
-	mul	$fp,	$fp,	$v0
-	move	$s7,	$fp
-	la	$fp,	a
-	addiu	$fp,	$fp,	4
-	lw	$fp,	0($fp)
-	sll	$fp,	$fp,	0
-	addu	$s7,	$s7,	$fp
-	li	$t1,	1
-	sra	$fp,	$t1,	31
-	srl	$fp,	$fp,	31
-	addu	$fp,	$t1,	$fp
-	sra	$fp,	$fp,	1
-	subu	$s7,	$s7,	$fp
-	li	$fp,	1717986919
-	mult	$s7,	$fp
-	mfhi	$fp
-	sra	$fp,	$fp,	1
-	srl	$at,	$s7,	31
-	addu	$fp,	$at,	$fp
-	sw	$fp,	0($s5)
-	li	$fp,	5923
-	sll	$at,	$fp,	3
-	subu	$t1,	$at,	$fp
-	li	$fp,	-1840700269
-	mthi	$t1
-	madd	$t1,	$fp
-	mfhi	$fp
-	sra	$fp,	$fp,	5
-	srl	$at,	$t1,	31
-	addu	$s7,	$at,	$fp
-	li	$fp,	56
-	mul	$fp,	$s7,	$fp
-	subu	$s7,	$t1,	$fp
-	li	$fp,	57
-	mul	$s7,	$s7,	$fp
+	mul	$gp,	$gp,	$v0
+	move	$s5,	$gp
+	la	$gp,	a
+	addiu	$gp,	$gp,	4
+	lw	$gp,	0($gp)
+	sll	$gp,	$gp,	0
+	addu	$s5,	$s5,	$gp
+	li	$a3,	1
+	sra	$gp,	$a3,	31
+	srl	$gp,	$gp,	31
+	addu	$gp,	$a3,	$gp
+	sra	$gp,	$gp,	1
+	subu	$s5,	$s5,	$gp
+	li	$gp,	1717986919
+	mult	$s5,	$gp
+	mfhi	$gp
+	sra	$gp,	$gp,	1
+	srl	$at,	$s5,	31
+	addu	$gp,	$at,	$gp
+	sw	$gp,	0($k1)
+	li	$gp,	5923
+	sll	$at,	$gp,	3
+	subu	$a3,	$at,	$gp
+	li	$gp,	-1840700269
+	mthi	$a3
+	madd	$a3,	$gp
+	mfhi	$gp
+	sra	$gp,	$gp,	5
+	srl	$at,	$a3,	31
+	addu	$s5,	$at,	$gp
+	li	$gp,	56
+	mul	$gp,	$s5,	$gp
+	subu	$s5,	$a3,	$gp
+	li	$gp,	57
+	mul	$s5,	$s5,	$gp
 	li	$a0,	5
 	jal	fib
-	addiu	$fp,	$v0,	2
-	move	$a0,	$fp
+	addiu	$a0,	$v0,	2
 	jal	fib
-	subu	$s3,	$s7,	$v0
-	lw	$s7,	0($k1)
-	lw	$fp,	0($k0)
-	addu	$t1,	$s7,	$fp
-	li	$s7,	89
-	sra	$fp,	$s7,	31
-	srl	$fp,	$fp,	31
-	addu	$fp,	$s7,	$fp
-	sra	$s7,	$fp,	1
-	li	$fp,	36
-	mul	$fp,	$s7,	$fp
-	addiu	$s7,	$fp,	-53
-	li	$fp,	6
-	mul	$fp,	$s7,	$fp
-	subu	$t1,	$t1,	$fp
+	move	$gp,	$v0
+	subu	$s1,	$s5,	$gp
+	lw	$s5,	0($t8)
+	lw	$gp,	0($fp)
+	addu	$a3,	$s5,	$gp
+	li	$s5,	89
+	sra	$gp,	$s5,	31
+	srl	$gp,	$gp,	31
+	addu	$gp,	$s5,	$gp
+	sra	$s5,	$gp,	1
+	li	$gp,	36
+	mul	$gp,	$s5,	$gp
+	addiu	$s5,	$gp,	-53
+	li	$gp,	6
+	mul	$gp,	$s5,	$gp
+	subu	$a3,	$a3,	$gp
+	li	$gp,	56
+	li	$s5,	45
+	mul	$s5,	$gp,	$s5
+	li	$gp,	1616928865
+	mult	$s5,	$gp
+	mfhi	$gp
+	sra	$gp,	$gp,	5
+	srl	$at,	$s5,	31
+	addu	$gp,	$at,	$gp
+	addiu	$gp,	$gp,	-56
 	li	$fp,	56
-	li	$s7,	45
-	mul	$s7,	$fp,	$s7
-	li	$fp,	1616928865
-	mult	$s7,	$fp
-	mfhi	$fp
-	sra	$fp,	$fp,	5
-	srl	$at,	$s7,	31
-	addu	$fp,	$at,	$fp
-	addiu	$fp,	$fp,	-56
-	li	$k0,	56
-	li	$s7,	35
-	mul	$s7,	$k0,	$s7
-	sra	$k0,	$s7,	31
-	srl	$k0,	$k0,	30
-	addu	$s7,	$s7,	$k0
-	sra	$s7,	$s7,	2
-	addu	$fp,	$fp,	$s7
-	addiu	$fp,	$fp,	-9
-	sll	$fp,	$fp,	1
-	subu	$fp,	$t1,	$fp
-	addu	$fp,	$s3,	$fp
-	sw	$fp,	0($t4)
-	li	$fp,	-6
-	addiu	$k0,	$sp,	16
-	sw	$fp,	0($k0)
-	la	$fp,	a
-	move	$s3,	$fp
-	la	$fp,	a
-	lw	$s7,	0($fp)
-	lw	$t1,	0($s5)
-	lw	$fp,	0($s5)
-	mul	$fp,	$t1,	$fp
-	addu	$fp,	$s7,	$fp
-	sw	$fp,	0($s3)
-	la	$fp,	a
-	move	$s7,	$fp
-	addiu	$s7,	$s7,	4
-	la	$fp,	a
-	addiu	$fp,	$fp,	4
-	lw	$fp,	0($fp)
-	lw	$s3,	0($s5)
-	lw	$t1,	0($s5)
-	mul	$t1,	$s3,	$t1
-	addu	$fp,	$fp,	$t1
-	sw	$fp,	0($s7)
-	la	$fp,	a
-	move	$s7,	$fp
-	addiu	$s7,	$s7,	8
-	la	$fp,	a
-	addiu	$fp,	$fp,	8
-	lw	$fp,	0($fp)
-	lw	$s3,	0($s5)
-	lw	$t1,	0($s5)
-	mul	$t1,	$s3,	$t1
-	addu	$fp,	$fp,	$t1
-	sw	$fp,	0($s7)
-	la	$fp,	a
-	move	$s7,	$fp
-	addiu	$s7,	$s7,	12
-	la	$fp,	a
-	addiu	$fp,	$fp,	12
-	lw	$fp,	0($fp)
-	lw	$s3,	0($s5)
-	lw	$t1,	0($s5)
-	mul	$t1,	$s3,	$t1
-	addu	$fp,	$fp,	$t1
-	sw	$fp,	0($s7)
-	la	$fp,	a
-	addiu	$fp,	$fp,	16
-	la	$s7,	a
-	addiu	$s7,	$s7,	16
-	lw	$s7,	0($s7)
-	lw	$s3,	0($s5)
-	lw	$t1,	0($s5)
-	mul	$t1,	$s3,	$t1
-	addu	$s7,	$s7,	$t1
-	sw	$s7,	0($fp)
-	la	$fp,	a
-	move	$s3,	$fp
-	addiu	$s3,	$s3,	20
-	la	$fp,	a
-	addiu	$fp,	$fp,	20
-	lw	$t1,	0($fp)
-	lw	$s7,	0($s5)
-	lw	$fp,	0($s5)
-	mul	$fp,	$s7,	$fp
-	addu	$fp,	$t1,	$fp
-	sw	$fp,	0($s3)
-	la	$fp,	a
-	addiu	$fp,	$fp,	24
-	la	$s7,	a
-	addiu	$s7,	$s7,	24
-	lw	$t1,	0($s7)
-	lw	$s3,	0($s5)
-	lw	$s7,	0($s5)
-	mul	$s7,	$s3,	$s7
-	addu	$s7,	$t1,	$s7
-	sw	$s7,	0($fp)
-	la	$fp,	a
-	move	$t1,	$fp
-	addiu	$t1,	$t1,	28
-	la	$fp,	a
-	addiu	$fp,	$fp,	28
-	lw	$s3,	0($fp)
-	lw	$s7,	0($s5)
-	lw	$fp,	0($s5)
-	mul	$fp,	$s7,	$fp
-	addu	$fp,	$s3,	$fp
-	sw	$fp,	0($t1)
-	la	$fp,	a
-	addiu	$fp,	$fp,	32
-	la	$s7,	a
-	addiu	$s7,	$s7,	32
-	lw	$t1,	0($s7)
-	lw	$s7,	0($s5)
-	lw	$s3,	0($s5)
-	mul	$s7,	$s7,	$s3
-	addu	$s7,	$t1,	$s7
-	sw	$s7,	0($fp)
-	la	$fp,	a
-	move	$s3,	$fp
-	addiu	$s3,	$s3,	36
-	la	$fp,	a
-	addiu	$fp,	$fp,	36
-	lw	$s7,	0($fp)
-	lw	$fp,	0($s5)
-	lw	$t1,	0($s5)
-	mul	$fp,	$fp,	$t1
-	addu	$fp,	$s7,	$fp
-	sw	$fp,	0($s3)
-	sw	$zero,	0($s5)
+	li	$s5,	35
+	mul	$s5,	$fp,	$s5
+	sra	$fp,	$s5,	31
+	srl	$fp,	$fp,	30
+	addu	$s5,	$s5,	$fp
+	sra	$s5,	$s5,	2
+	addu	$gp,	$gp,	$s5
+	addiu	$gp,	$gp,	-9
+	sll	$gp,	$gp,	1
+	subu	$gp,	$a3,	$gp
+	addu	$gp,	$s1,	$gp
+	sw	$gp,	0($t9)
+	li	$gp,	-6
+	addiu	$fp,	$sp,	16
+	sw	$gp,	0($fp)
+	la	$gp,	a
+	move	$s1,	$gp
+	la	$gp,	a
+	lw	$s5,	0($gp)
+	lw	$a3,	0($k1)
+	lw	$gp,	0($k1)
+	mul	$gp,	$a3,	$gp
+	addu	$gp,	$s5,	$gp
+	sw	$gp,	0($s1)
+	la	$gp,	a
+	move	$s5,	$gp
+	addiu	$s5,	$s5,	4
+	la	$gp,	a
+	addiu	$gp,	$gp,	4
+	lw	$gp,	0($gp)
+	lw	$s1,	0($k1)
+	lw	$a3,	0($k1)
+	mul	$a3,	$s1,	$a3
+	addu	$gp,	$gp,	$a3
+	sw	$gp,	0($s5)
+	la	$gp,	a
+	move	$s5,	$gp
+	addiu	$s5,	$s5,	8
+	la	$gp,	a
+	addiu	$gp,	$gp,	8
+	lw	$gp,	0($gp)
+	lw	$s1,	0($k1)
+	lw	$a3,	0($k1)
+	mul	$a3,	$s1,	$a3
+	addu	$gp,	$gp,	$a3
+	sw	$gp,	0($s5)
+	la	$gp,	a
+	move	$s5,	$gp
+	addiu	$s5,	$s5,	12
+	la	$gp,	a
+	addiu	$gp,	$gp,	12
+	lw	$gp,	0($gp)
+	lw	$s1,	0($k1)
+	lw	$a3,	0($k1)
+	mul	$a3,	$s1,	$a3
+	addu	$gp,	$gp,	$a3
+	sw	$gp,	0($s5)
+	la	$gp,	a
+	addiu	$gp,	$gp,	16
+	la	$s5,	a
+	addiu	$s5,	$s5,	16
+	lw	$s5,	0($s5)
+	lw	$s1,	0($k1)
+	lw	$a3,	0($k1)
+	mul	$a3,	$s1,	$a3
+	addu	$s5,	$s5,	$a3
+	sw	$s5,	0($gp)
+	la	$gp,	a
+	move	$s1,	$gp
+	addiu	$s1,	$s1,	20
+	la	$gp,	a
+	addiu	$gp,	$gp,	20
+	lw	$a3,	0($gp)
+	lw	$s5,	0($k1)
+	lw	$gp,	0($k1)
+	mul	$gp,	$s5,	$gp
+	addu	$gp,	$a3,	$gp
+	sw	$gp,	0($s1)
+	la	$gp,	a
+	addiu	$gp,	$gp,	24
+	la	$s5,	a
+	addiu	$s5,	$s5,	24
+	lw	$a3,	0($s5)
+	lw	$s1,	0($k1)
+	lw	$s5,	0($k1)
+	mul	$s5,	$s1,	$s5
+	addu	$s5,	$a3,	$s5
+	sw	$s5,	0($gp)
+	la	$gp,	a
+	move	$a3,	$gp
+	addiu	$a3,	$a3,	28
+	la	$gp,	a
+	addiu	$gp,	$gp,	28
+	lw	$s1,	0($gp)
+	lw	$s5,	0($k1)
+	lw	$gp,	0($k1)
+	mul	$gp,	$s5,	$gp
+	addu	$gp,	$s1,	$gp
+	sw	$gp,	0($a3)
+	la	$gp,	a
+	addiu	$gp,	$gp,	32
+	la	$s5,	a
+	addiu	$s5,	$s5,	32
+	lw	$a3,	0($s5)
+	lw	$s5,	0($k1)
+	lw	$s1,	0($k1)
+	mul	$s5,	$s5,	$s1
+	addu	$s5,	$a3,	$s5
+	sw	$s5,	0($gp)
+	la	$gp,	a
+	move	$s1,	$gp
+	addiu	$s1,	$s1,	36
+	la	$gp,	a
+	addiu	$gp,	$gp,	36
+	lw	$s5,	0($gp)
+	lw	$gp,	0($k1)
+	lw	$a3,	0($k1)
+	mul	$gp,	$gp,	$a3
+	addu	$gp,	$s5,	$gp
+	sw	$gp,	0($s1)
+	sw	$zero,	0($k1)
 b121_6:
-	lw	$fp,	0($s5)
-	blt	$fp,	10,	b124_7
+	lw	$gp,	0($k1)
+	blt	$gp,	10,	b124_7
 b132_9:
-	lw	$s7,	0($s5)
-	lw	$fp,	0($t4)
-	lw	$t1,	0($k0)
+	lw	$s5,	0($k1)
+	lw	$gp,	0($t9)
+	lw	$s1,	0($fp)
 	li	$a0,	10
 	putchar
-	move	$a0,	$s7
+	move	$a0,	$s5
 	putint
-	la	$s7,	_str_0
-	move	$a0,	$s7
+	la	$s5,	_str_0
+	move	$a0,	$s5
 	putstr
-	move	$a0,	$fp
+	move	$a0,	$gp
 	putint
-	la	$fp,	_str_0
-	move	$a0,	$fp
+	la	$gp,	_str_0
+	move	$a0,	$gp
 	putstr
-	move	$a0,	$t1
+	move	$a0,	$s1
 	putint
 	li	$a0,	10
 	putchar
 	li	$v0,	0
-	add	$sp, 	$sp,	56
+	add	$sp, 	$sp,	52
 	li	$v0,	10
 	syscall
 
 b124_7:
-	lw	$fp,	0($s5)
-	la	$s7,	a
-	sll	$at,	$fp,	2
-	addu	$s7,	$s7,	$at
-	lw	$a0,	0($s7)
+	lw	$gp,	0($k1)
+	la	$s5,	a
+	sll	$at,	$gp,	2
+	addu	$s5,	$s5,	$at
+	lw	$a0,	0($s5)
 	putint
-	la	$fp,	_str_0
-	move	$a0,	$fp
+	la	$gp,	_str_0
+	move	$a0,	$gp
 	putstr
-	lw	$fp,	0($s5)
-	addiu	$fp,	$fp,	1
-	sw	$fp,	0($s5)
+	lw	$gp,	0($k1)
+	addiu	$gp,	$gp,	1
+	sw	$gp,	0($k1)
 b131_8:
 	j	b121_6
 fib:
-	sw	$s7,	-4($sp)
-	sw	$fp,	-8($sp)
+	sw	$s5,	-4($sp)
+	sw	$gp,	-8($sp)
 	sw	$ra,	-12($sp)
 	add	$sp,	$sp,	-16
 b1_0:
-	move	$s7,	$sp
-	sw	$a0,	0($s7)
-	lw	$fp,	0($s7)
-	beq	$fp,	1,	b5_1
+	move	$gp,	$a0
+	move	$s5,	$sp
+	sw	$gp,	0($s5)
+	lw	$gp,	0($s5)
+	beq	$gp,	1,	b5_1
 b6_2:
-	lw	$fp,	0($s7)
-	beq	$fp,	2,	b9_3
+	lw	$gp,	0($s5)
+	beq	$gp,	2,	b9_3
 b10_4:
-	lw	$fp,	0($s7)
-	addiu	$fp,	$fp,	-1
-	move	$a0,	$fp
+	lw	$gp,	0($s5)
+	addiu	$gp,	$gp,	-1
+	move	$a0,	$gp
 	jal	fib
-	move	$fp,	$v0
-	lw	$s7,	0($s7)
-	addiu	$s7,	$s7,	-2
-	move	$a0,	$s7
+	move	$gp,	$v0
+	lw	$s5,	0($s5)
+	addiu	$s5,	$s5,	-2
+	move	$a0,	$s5
 	jal	fib
-	addu	$fp,	$fp,	$v0
-	move	$v0,	$fp
+	addu	$v0,	$gp,	$v0
 	add	$sp, 	$sp,	16
-	lw	$s7,	-4($sp)
-	lw	$fp,	-8($sp)
+	lw	$s5,	-4($sp)
+	lw	$gp,	-8($sp)
 	lw	$ra,	-12($sp)
 	jr	$ra
 b9_3:
 	li	$v0,	2
 	add	$sp, 	$sp,	16
-	lw	$s7,	-4($sp)
-	lw	$fp,	-8($sp)
+	lw	$s5,	-4($sp)
+	lw	$gp,	-8($sp)
 	lw	$ra,	-12($sp)
 	jr	$ra
 b5_1:
 	li	$v0,	1
 	add	$sp, 	$sp,	16
-	lw	$s7,	-4($sp)
-	lw	$fp,	-8($sp)
+	lw	$s5,	-4($sp)
+	lw	$gp,	-8($sp)
 	lw	$ra,	-12($sp)
 	jr	$ra
 

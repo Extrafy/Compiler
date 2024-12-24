@@ -2,14 +2,16 @@ package config;
 
 public class Config {
     public static String inputPath = "testfile.txt";
-    public static String outputPath = "symbol.txt";
+    public static String lexerOutputPath = "lexer.txt";
+    public static String parserOutputPath = "parser.txt";
+    public static String symbolOutputPath = "symbol.txt";
     public static String errorPath = "error.txt";
     public static String llvmPath = "llvm_ir.txt";
     public static String mipsPath = "mips.txt";
 
-    public static boolean lexerFlag = false;
-    public static boolean parserFlag = false;
-    public static boolean symbolFlag = false;
+    public static boolean lexerFlag = true;
+    public static boolean parserFlag = true;
+    public static boolean symbolFlag = true;
     public static boolean errorFlag = false;
     public static boolean irFlag = true;
     public static boolean mipsFlag = true;
@@ -18,7 +20,7 @@ public class Config {
     public static boolean chToStr = true;
 
     // 是否开启运算优化
-    public static boolean addToMul = true;
+    public static boolean addToMul = true; // 看看能否适当修改
 
     // 是否开启死代码，循环优化
 //    public static boolean openDeadCodeAndLoopOpt = false;

@@ -54,7 +54,7 @@ public class AST {
                 funcDef.print();
             }
             mainFuncDef.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
     }
 
@@ -140,14 +140,14 @@ public class AST {
 
         public void print(){
             funcType.print();
-            InputOutput.write(ident.toString());
-            InputOutput.write(lBraceToken.toString());
+            InputOutput.writeParser(ident.toString());
+            InputOutput.writeParser(lBraceToken.toString());
             if(funcFParams != null){
                 funcFParams.print();
             }
-            InputOutput.write(rBraceToken.toString());
+            InputOutput.writeParser(rBraceToken.toString());
             block.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
     }
     public static class MainFuncDef{
@@ -193,12 +193,12 @@ public class AST {
         }
 
         public void print(){
-            InputOutput.write(intToken.toString());
-            InputOutput.write(mainToken.toString());
-            InputOutput.write(lParentToken.toString());
-            InputOutput.write(rParentToken.toString());
+            InputOutput.writeParser(intToken.toString());
+            InputOutput.writeParser(mainToken.toString());
+            InputOutput.writeParser(lParentToken.toString());
+            InputOutput.writeParser(rParentToken.toString());
             block.print();
-            InputOutput.write(type);
+            InputOutput.writeParser(type);
         }
     }
 
@@ -245,15 +245,15 @@ public class AST {
         }
 
         public void print(){
-            InputOutput.write(constToken.toString());
+            InputOutput.writeParser(constToken.toString());
             bType.print();
             constDefList.get(0).print();
             for(int i = 1; i < constDefList.size(); i++){
-                InputOutput.write(commaTokens.get(i-1).toString());
+                InputOutput.writeParser(commaTokens.get(i-1).toString());
                 constDefList.get(i).print();
             }
-            InputOutput.write(semicnToken.toString());
-            InputOutput.write(getType());
+            InputOutput.writeParser(semicnToken.toString());
+            InputOutput.writeParser(getType());
         }
 
     }
@@ -298,11 +298,11 @@ public class AST {
             bType.print();
             varDefList.get(0).print();
             for (int i = 1; i < varDefList.size(); i++){
-                InputOutput.write(commaTokens.get(i-1).toString());
+                InputOutput.writeParser(commaTokens.get(i-1).toString());
                 varDefList.get(i).print();
             }
-            InputOutput.write(semicnToken.toString());
-            InputOutput.write(getType());
+            InputOutput.writeParser(semicnToken.toString());
+            InputOutput.writeParser(getType());
         }
 
     }
@@ -332,10 +332,10 @@ public class AST {
 
         public void print(){
             if (intToken != null){
-                InputOutput.write(intToken.toString());
+                InputOutput.writeParser(intToken.toString());
             }
             else {
-                InputOutput.write(charToken.toString());
+                InputOutput.writeParser(charToken.toString());
             }
         }
 
@@ -392,15 +392,15 @@ public class AST {
         }
 
         public void print(){
-            InputOutput.write(ident.toString());
+            InputOutput.writeParser(ident.toString());
             if(constExp != null){
-                InputOutput.write(lBrackToken.toString());
+                InputOutput.writeParser(lBrackToken.toString());
                 constExp.print();
-                InputOutput.write(rBrackToken.toString());
+                InputOutput.writeParser(rBrackToken.toString());
             }
-            InputOutput.write(assignToken.toString());
+            InputOutput.writeParser(assignToken.toString());
             constInitVal.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
     }
 
@@ -423,7 +423,7 @@ public class AST {
 
         public void print(){
             addExp.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
     }
@@ -475,20 +475,20 @@ public class AST {
                 constExpList.get(0).print();
             }
             else if (stringConst != null){
-                InputOutput.write(stringConst.toString());
+                InputOutput.writeParser(stringConst.toString());
             }
             else {
-                InputOutput.write(lBraceToken.toString());
+                InputOutput.writeParser(lBraceToken.toString());
                 if(!constExpList.isEmpty()){
                     constExpList.get(0).print();
                     for (int i = 1; i < constExpList.size(); i++){
-                        InputOutput.write(commaTokens.get(i-1).toString());
+                        InputOutput.writeParser(commaTokens.get(i-1).toString());
                         constExpList.get(i).print();
                     }
                 }
-                InputOutput.write(rBraceToken.toString());
+                InputOutput.writeParser(rBraceToken.toString());
             }
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
     }
@@ -541,17 +541,17 @@ public class AST {
         }
 
         public void print(){
-            InputOutput.write(ident.toString());
+            InputOutput.writeParser(ident.toString());
             if (constExp != null){
-                InputOutput.write(lBrackToken.toString());
+                InputOutput.writeParser(lBrackToken.toString());
                 constExp.print();
-                InputOutput.write(rBrackToken.toString());
+                InputOutput.writeParser(rBrackToken.toString());
             }
             if(initVal != null){
-                InputOutput.write(assignToken.toString());
+                InputOutput.writeParser(assignToken.toString());
                 initVal.print();
             }
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
     }
 
@@ -601,21 +601,21 @@ public class AST {
                 expList.get(0).print();
             }
             else if (lBraceToken != null){
-                InputOutput.write(lBraceToken.toString());
+                InputOutput.writeParser(lBraceToken.toString());
                 if(!expList.isEmpty()){
                     for (int i = 0; i < expList.size(); i++){
                         expList.get(i).print();
                         if(i != expList.size() - 1){
-                            InputOutput.write(commaTokens.get(i).toString());
+                            InputOutput.writeParser(commaTokens.get(i).toString());
                         }
                     }
                 }
-                InputOutput.write(rBraceToken.toString());
+                InputOutput.writeParser(rBraceToken.toString());
             }
             else {
-                InputOutput.write(stringConst.toString());
+                InputOutput.writeParser(stringConst.toString());
             }
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
     }
@@ -640,7 +640,7 @@ public class AST {
 
         public void print(){
             addExp.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
         public String getStr() {
@@ -681,15 +681,15 @@ public class AST {
 
         public void print(){
             if(voidToken == null && intToken == null){
-                InputOutput.write(charToken.toString());
+                InputOutput.writeParser(charToken.toString());
             }
             else if(voidToken == null){
-                InputOutput.write(intToken.toString());
+                InputOutput.writeParser(intToken.toString());
             }
             else {
-                InputOutput.write(voidToken.toString());
+                InputOutput.writeParser(voidToken.toString());
             }
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
     }
 
@@ -720,10 +720,10 @@ public class AST {
         public void print(){
             funcFParamList.get(0).print();
             for (int i = 1; i < funcFParamList.size(); i++){
-                InputOutput.write(commaTokens.get(i-1).toString());
+                InputOutput.writeParser(commaTokens.get(i-1).toString());
                 funcFParamList.get(i).print();
             }
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
     }
@@ -758,14 +758,14 @@ public class AST {
         }
 
         public void print(){
-            InputOutput.write(lBraceToken.toString());
+            InputOutput.writeParser(lBraceToken.toString());
             if(!blockItemList.isEmpty()){
                 for (BlockItem blockItem : blockItemList) {
                     blockItem.print();
                 }
             }
-            InputOutput.write(rBraceToken.toString());
-            InputOutput.write(getType());
+            InputOutput.writeParser(rBraceToken.toString());
+            InputOutput.writeParser(getType());
         }
 
     }
@@ -807,12 +807,12 @@ public class AST {
 
         public void print(){
             bType.print();
-            InputOutput.write(ident.toString());
+            InputOutput.writeParser(ident.toString());
             if(lBrackToken != null){
-                InputOutput.write(lBrackToken.toString());
-                InputOutput.write(rBrackToken.toString());
+                InputOutput.writeParser(lBrackToken.toString());
+                InputOutput.writeParser(rBrackToken.toString());
             }
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
     }
@@ -1087,16 +1087,16 @@ public class AST {
             switch (stmtType){
                 case LValAssignExp :
                     lVal.print();
-                    InputOutput.write(assignToken.toString());
+                    InputOutput.writeParser(assignToken.toString());
                     exp.print();
-                    InputOutput.write(semicnToken.toString());
+                    InputOutput.writeParser(semicnToken.toString());
                     break;
 
                 case Exp:
                     if(exp != null){
                         exp.print();
                     }
-                    InputOutput.write(semicnToken.toString());
+                    InputOutput.writeParser(semicnToken.toString());
                     break;
 
                 case Block:
@@ -1104,20 +1104,20 @@ public class AST {
                     break;
 
                 case If:
-                    InputOutput.write(ifToken.toString());
-                    InputOutput.write(lParentToken.toString());
+                    InputOutput.writeParser(ifToken.toString());
+                    InputOutput.writeParser(lParentToken.toString());
                     cond.print();
-                    InputOutput.write(rParentToken.toString());
+                    InputOutput.writeParser(rParentToken.toString());
                     stmtList.get(0).print();
                     if (elseToken != null){
-                        InputOutput.write(elseToken.toString());
+                        InputOutput.writeParser(elseToken.toString());
                         stmtList.get(1).print();
                     }
                     break;
 
                 case For:
-                    InputOutput.write(forToken.toString());
-                    InputOutput.write(lParentToken.toString());
+                    InputOutput.writeParser(forToken.toString());
+                    InputOutput.writeParser(lParentToken.toString());
                     boolean hasForStmt1 = false;
                     boolean hasCond = false;
                     boolean hasForStmt2 = false;
@@ -1126,91 +1126,91 @@ public class AST {
                     if (forStmt2 != null) hasForStmt2 = true;
                     if (hasForStmt1 && hasCond && hasForStmt2){
                         forStmt1.print();
-                        InputOutput.write(semicnToken.toString());
+                        InputOutput.writeParser(semicnToken.toString());
                         cond.print();
-                        InputOutput.write(semicnToken2.toString());
+                        InputOutput.writeParser(semicnToken2.toString());
                         forStmt2.print();
                     }
                     else if (hasForStmt1 && !hasCond && hasForStmt2){
                         forStmt1.print();
-                        InputOutput.write(semicnToken.toString());
-                        InputOutput.write(semicnToken2.toString());
+                        InputOutput.writeParser(semicnToken.toString());
+                        InputOutput.writeParser(semicnToken2.toString());
                         forStmt2.print();
                     }
                     else if(hasForStmt1 && hasCond && !hasForStmt2){
                         forStmt1.print();
-                        InputOutput.write(semicnToken.toString());
+                        InputOutput.writeParser(semicnToken.toString());
                         cond.print();
-                        InputOutput.write(semicnToken2.toString());
+                        InputOutput.writeParser(semicnToken2.toString());
                     }
                     else if(!hasForStmt1 && hasCond && hasForStmt2){
-                        InputOutput.write(semicnToken.toString());
+                        InputOutput.writeParser(semicnToken.toString());
                         cond.print();
-                        InputOutput.write(semicnToken2.toString());
+                        InputOutput.writeParser(semicnToken2.toString());
                         forStmt2.print();
                     }
                     else if (!hasForStmt1 && !hasCond && hasForStmt2){
-                        InputOutput.write(semicnToken.toString());
-                        InputOutput.write(semicnToken2.toString());
+                        InputOutput.writeParser(semicnToken.toString());
+                        InputOutput.writeParser(semicnToken2.toString());
                         forStmt2.print();
                     }
                     else if (hasForStmt1 && !hasCond && !hasForStmt2){
                         forStmt1.print();
-                        InputOutput.write(semicnToken.toString());
-                        InputOutput.write(semicnToken2.toString());
+                        InputOutput.writeParser(semicnToken.toString());
+                        InputOutput.writeParser(semicnToken2.toString());
                     }
                     else if (!hasForStmt1 && hasCond && !hasForStmt2){
-                        InputOutput.write(semicnToken.toString());
+                        InputOutput.writeParser(semicnToken.toString());
                         cond.print();
-                        InputOutput.write(semicnToken2.toString());
+                        InputOutput.writeParser(semicnToken2.toString());
                     }
                     else {
-                        InputOutput.write(semicnToken.toString());
-                        InputOutput.write(semicnToken2.toString());
+                        InputOutput.writeParser(semicnToken.toString());
+                        InputOutput.writeParser(semicnToken2.toString());
                     }
-                    InputOutput.write(rParentToken.toString());
+                    InputOutput.writeParser(rParentToken.toString());
                     stmtList.get(0).print();
                     break;
 
                 case Break:
 
                 case Continue:
-                    InputOutput.write(breakOrcontinueToken.toString());
-                    InputOutput.write(semicnToken.toString());
+                    InputOutput.writeParser(breakOrcontinueToken.toString());
+                    InputOutput.writeParser(semicnToken.toString());
                     break;
 
                 case Return:
-                    InputOutput.write(returnToken.toString());
+                    InputOutput.writeParser(returnToken.toString());
                     if (exp != null){
                         exp.print();
                     }
-                    InputOutput.write(semicnToken.toString());
+                    InputOutput.writeParser(semicnToken.toString());
                     break;
 
                 case LValAssignGetint:
 
                 case LValAssignGetchar:
                     lVal.print();
-                    InputOutput.write(assignToken.toString());
-                    InputOutput.write(getintOrGetcharToken.toString());
-                    InputOutput.write(lParentToken.toString());
-                    InputOutput.write(rParentToken.toString());
-                    InputOutput.write(semicnToken.toString());
+                    InputOutput.writeParser(assignToken.toString());
+                    InputOutput.writeParser(getintOrGetcharToken.toString());
+                    InputOutput.writeParser(lParentToken.toString());
+                    InputOutput.writeParser(rParentToken.toString());
+                    InputOutput.writeParser(semicnToken.toString());
                     break;
 
                 case Printf:
-                    InputOutput.write(printfToken.toString());
-                    InputOutput.write(lParentToken.toString());
-                    InputOutput.write(stringConst.toString());
+                    InputOutput.writeParser(printfToken.toString());
+                    InputOutput.writeParser(lParentToken.toString());
+                    InputOutput.writeParser(stringConst.toString());
                     for (int i = 0 ; i < commaTokens.size(); i++){
-                        InputOutput.write(commaTokens.get(i).toString());
+                        InputOutput.writeParser(commaTokens.get(i).toString());
                         expList.get(i).print();
                     }
-                    InputOutput.write(rParentToken.toString());
-                    InputOutput.write(semicnToken.toString());
+                    InputOutput.writeParser(rParentToken.toString());
+                    InputOutput.writeParser(semicnToken.toString());
                     break;
             }
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
     }
@@ -1251,13 +1251,13 @@ public class AST {
         }
 
         public void print(){
-            InputOutput.write(ident.toString());
+            InputOutput.writeParser(ident.toString());
             if(exp != null){
-                InputOutput.write(lBrackToken.toString());
+                InputOutput.writeParser(lBrackToken.toString());
                 exp.print();
-                InputOutput.write(rBrackToken.toString());
+                InputOutput.writeParser(rBrackToken.toString());
             }
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
         public String getStr() {
@@ -1289,7 +1289,7 @@ public class AST {
 
         public void print(){
             lOrExp.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
     }
@@ -1325,9 +1325,9 @@ public class AST {
 
         public void print(){
             lVal.print();
-            InputOutput.write(assignToken.toString());
+            InputOutput.writeParser(assignToken.toString());
             exp.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
     }
@@ -1363,9 +1363,9 @@ public class AST {
 
         public void print(){
             mulExp.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
             if(opToken != null){
-                InputOutput.write(opToken.toString());
+                InputOutput.writeParser(opToken.toString());
                 addExp.print();
             }
         }
@@ -1406,9 +1406,9 @@ public class AST {
 
         public void print(){
             lAndExp.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
             if(opToken != null){
-                InputOutput.write(opToken.toString());
+                InputOutput.writeParser(opToken.toString());
                 if (lOrExp != null){
                     lOrExp.print();
                 }
@@ -1467,9 +1467,9 @@ public class AST {
 
         public void print(){
             if (exp != null){
-                InputOutput.write(lParentToken.toString());
+                InputOutput.writeParser(lParentToken.toString());
                 exp.print();
-                InputOutput.write(rParentToken.toString());
+                InputOutput.writeParser(rParentToken.toString());
             }
             else if(lVal != null){
                 lVal.print();
@@ -1480,7 +1480,7 @@ public class AST {
             else {
                 character.print();
             }
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
         public String getStr() {
@@ -1518,8 +1518,8 @@ public class AST {
         }
 
         public void print(){
-            InputOutput.write(intConst.toString());
-            InputOutput.write(getType());
+            InputOutput.writeParser(intConst.toString());
+            InputOutput.writeParser(getType());
         }
 
         public String getStr() {
@@ -1545,8 +1545,8 @@ public class AST {
         }
 
         public void print(){
-            InputOutput.write(charConst.toString());
-            InputOutput.write(getType());
+            InputOutput.writeParser(charConst.toString());
+            InputOutput.writeParser(getType());
         }
 
         public String getStr() {
@@ -1615,18 +1615,18 @@ public class AST {
                 primaryExp.print();
             }
             else if(ident != null){
-                InputOutput.write(ident.toString());
-                InputOutput.write(lParentToken.toString());
+                InputOutput.writeParser(ident.toString());
+                InputOutput.writeParser(lParentToken.toString());
                 if(funcRParams != null){
                     funcRParams.print();
                 }
-                InputOutput.write(rParentToken.toString());
+                InputOutput.writeParser(rParentToken.toString());
             }
             else {
                 unaryOp.print();
                 unaryExp.print();
             }
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
         public String getStr() {
@@ -1666,8 +1666,8 @@ public class AST {
         }
 
         public void print(){
-            InputOutput.write(token.toString());
-            InputOutput.write(getType());
+            InputOutput.writeParser(token.toString());
+            InputOutput.writeParser(getType());
         }
 
         public String getStr() {
@@ -1702,10 +1702,10 @@ public class AST {
         public void print(){
             expList.get(0).print();
             for (int i = 1; i < expList.size(); i++){
-                InputOutput.write(commaTokens.get(i - 1).toString());
+                InputOutput.writeParser(commaTokens.get(i - 1).toString());
                 expList.get(i).print();
             }
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
         }
 
         public String getStr() {
@@ -1752,9 +1752,9 @@ public class AST {
 
         public void print(){
             unaryExp.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
             if (opToken != null){
-                InputOutput.write(opToken.toString());
+                InputOutput.writeParser(opToken.toString());
                 mulExp.print();
             }
         }
@@ -1796,9 +1796,9 @@ public class AST {
 
         public void print(){
             addExp.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
             if(opToken != null){
-                InputOutput.write(opToken.toString());
+                InputOutput.writeParser(opToken.toString());
                 relExp.print();
             }
         }
@@ -1836,9 +1836,9 @@ public class AST {
 
         public void print(){
             relExp.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
             if(opToken != null){
-                InputOutput.write(opToken.toString());
+                InputOutput.writeParser(opToken.toString());
                 eqExp.print();
             }
         }
@@ -1875,9 +1875,9 @@ public class AST {
 
         public void print(){
             eqExp.print();
-            InputOutput.write(getType());
+            InputOutput.writeParser(getType());
             if(opToken != null){
-                InputOutput.write(opToken.toString());
+                InputOutput.writeParser(opToken.toString());
                 if (lAndExp != null) {
                     lAndExp.print();
                 }

@@ -405,7 +405,7 @@ public class Lexer {
 
     public void printLexerAnswer(){
         for (Token token: tokenList){
-            InputOutput.write(token.toString());
+            InputOutput.writeLexer(token.toString());
         }
     }
 }
