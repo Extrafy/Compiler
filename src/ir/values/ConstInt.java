@@ -26,7 +26,7 @@ public class ConstInt extends Const{
         this.type = type;
     }
 
-    public ConstInt(int value, boolean isI1){  // ???可能需要加i8
+    public ConstInt(int value, boolean isI1){
         super(String.valueOf(value), IntegerType.i1);
         this.value = value;
         this.type = IntegerType.i1;

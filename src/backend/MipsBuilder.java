@@ -208,7 +208,7 @@ public class MipsBuilder {
         }
         // 该ir没有被解析过, 则根据其类型进行解析
         else{
-            // 函数形参 ???mips 函数参数
+            // 函数形参
             if((irValue instanceof Function.Argument) && irFunction.getArgumentList().contains(irValue)){
                 return buildArgOperand(irValue, irFunction);
             }
@@ -239,7 +239,6 @@ public class MipsBuilder {
                 return buildImmOperand(((ConstChar) irValue).getValue(), isImm, irFunction, irBlock);
             }
             else if ((irValue instanceof ConvInst) && (((ConvInst)irValue).getOperands().get(0) instanceof ConstChar)){
-                // ???mips
                 Value temp = ((ConvInst)irValue).getOperands().get(0);
                 return buildImmOperand(((ConstChar) temp).getValue(), isImm, irFunction, irBlock);
             }
@@ -290,7 +289,7 @@ public class MipsBuilder {
 
     public static MipsOperand buildGlobalOperand(GlobalVar irValue, Function irFunction, BasicBlock irBlock){
         MipsVirtualReg dst = allocVirtualReg(irFunction);
-        // move指令 ???mips
+        // move指令
         buildMove(dst, new MipsLabel(irValue.getName().substring(1)), irBlock);
         return dst;
     }

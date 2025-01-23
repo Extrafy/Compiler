@@ -385,7 +385,6 @@ public class Mem2Reg {
      */
     private void insertPhi(AllocaInst alloca, HashSet<BasicBlock> phiBlocks) {
         for (BasicBlock phiBlock : phiBlocks) {
-            // ???优化
             PhiInst phi = BuildFactory.getInstance().buildPhi(phiBlock, alloca.getAllocaType(), new ArrayList<>());
 //            PhiInst phi = IrBuilder.buildPhi(alloca.getAllocaedType(), phiBlock);
             phi2AllocaMap.put(phi, alloca);

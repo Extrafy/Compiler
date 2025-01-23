@@ -19,7 +19,7 @@ public class PointerType implements Type{
         return targetType.toString() + "*";
     }
 
-    // 指针的大小为4 ???mips
+    // 指针的大小为4
     public int getSize() {
         return 4;
     }

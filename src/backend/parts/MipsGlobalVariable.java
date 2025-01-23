@@ -81,7 +81,7 @@ public class MipsGlobalVariable {
             // char变量或数组 .char
             case Char -> {
                 for (Integer integer : ints) {
-                    // integer & 0xff ???mips
+                    // integer & 0xff
                     sb.append(".word\t").append(integer).append("\n");
                 }
             }

@@ -76,7 +76,7 @@ public class AllocaInst extends MemInst{
         MipsOperand allocaedSizeOperand = MipsBuilder.buildImmOperand(allocaedSize, true, MipsBuildingContext.curIrFunction, getParent());
         // 记录 分配出指向类型那么多的空间
         int newSize = allocaType.getSize();
-//        if (newSize % 4 != 0){  // 4字节对其(???mips)
+//        if (newSize % 4 != 0){  // 4字节对其
 //            newSize = (newSize/4 + 1) * 4;
 //        }
         curFunction.addAllocaSize(newSize);

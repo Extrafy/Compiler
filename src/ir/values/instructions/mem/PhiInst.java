@@ -43,7 +43,6 @@ public class PhiInst extends MemInst{
     }
 
     public void addIncoming(Value value, BasicBlock currentBlock) {
-        // ???优化
     }
 
 }

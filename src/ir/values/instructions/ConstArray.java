@@ -66,7 +66,7 @@ public class ConstArray extends Const {
         this.isInit = init;
     }
 
-    public List<Value> get1DArray() {  // ??? 这个感觉可以简化
+    public List<Value> get1DArray() {
         List<Value> result = new ArrayList<>();
         for (Value value : array) {
             if (value instanceof ConstArray) {
@@ -81,7 +81,7 @@ public class ConstArray extends Const {
 
     public void storeValue(int offset, Value value) {
         // recursion
-        if (elementType instanceof ArrayType) {  // ??? 这个感觉可以简化
+        if (elementType instanceof ArrayType) {
             ((ConstArray) (array.get(offset / ((ArrayType) elementType).getCapacity()))).storeValue(offset % ((ArrayType) elementType).getCapacity(), value);
         }
         else {
@@ -96,7 +96,7 @@ public class ConstArray extends Const {
                     return false;
                 }
             }
-            else {   // ??? 这个感觉可以简化
+            else {
                 if (!((ConstArray) value).allZero()) {
                     return false;
                 }

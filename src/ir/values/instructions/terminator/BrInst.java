@@ -31,7 +31,7 @@ public class BrInst extends TerminatorInst{
 
         Value temp = cond;
         if (!(cond.getType() instanceof IntegerType && ((IntegerType) cond.getType()).isI1())) {
-            temp = BuildFactory.getInstance().buildBinary(basicBlock, Operator.Ne, cond, new ConstInt(0)); // ???
+            temp = BuildFactory.getInstance().buildBinary(basicBlock, Operator.Ne, cond, new ConstInt(0));
         }
         this.addOperand(temp);
         this.addOperand(trueBlock);

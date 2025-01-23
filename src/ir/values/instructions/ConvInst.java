@@ -57,7 +57,7 @@ public class ConvInst extends Instruction{
         addOperand(value);
     }
 
-    public String toString() {  // ??? int 和 char 互转的时候有问题
+    public String toString() {
         if (getOperator() == Operator.Bitcast) {
             return getName() + " = bitcast " + getOperands().get(0).getType() + getOperands().get(0).getName() + " to " + getType();
         }
@@ -75,7 +75,6 @@ public class ConvInst extends Instruction{
     public void buildMips() {
         switch (this.getOperator()){
             case Zext -> {
-                // ???mips 这里i8 to i1可能有问题
                 Value i1 = this.getOperands().get(0);
 //                System.out.println(i1.toString());
                 if (i1 instanceof BinaryInst){

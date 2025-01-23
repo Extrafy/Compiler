@@ -22,7 +22,6 @@ public class BinaryInst extends Instruction{
     public BinaryInst(BasicBlock block, Operator op , Value leftValue, Value rightValue) {
         super(VoidType.voidType, op, block);
         this.belongBlock = block;
-        // ???可能需要修改
         boolean leftIsI1 = leftValue.getType() instanceof IntegerType && ((IntegerType) leftValue.getType()).isI1();
         boolean rightIsI1 = rightValue.getType() instanceof IntegerType && ((IntegerType) rightValue.getType()).isI1();
         boolean leftIsI8 = leftValue.getType() instanceof IntegerType && ((IntegerType) leftValue.getType()).isI8();

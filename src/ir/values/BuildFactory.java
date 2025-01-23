@@ -157,7 +157,7 @@ public class BuildFactory {
 
     // ConvInst
     public Value buildZext(Value value, BasicBlock basicBlock, Type from, Type to) {
-        if (value instanceof ConstInt) { // ??? constchar?
+        if (value instanceof ConstInt) {
             return new ConstInt(((ConstInt) value).getValue());
         }
         ConvInst tmp = new ConvInst(basicBlock, Operator.Zext, value, from, to);
@@ -166,8 +166,8 @@ public class BuildFactory {
     }
 
     public Value buildTrunc(Value value, BasicBlock basicBlock, Type from, Type to) {
-        if (value instanceof ConstInt) { // ??? constchar?
-            return new ConstInt(((ConstInt) value).getValue(), IntegerType.i8); // ???
+        if (value instanceof ConstInt) {
+            return new ConstInt(((ConstInt) value).getValue(), IntegerType.i8);
         }
         ConvInst tmp = new ConvInst(basicBlock, Operator.Trunc, value, from, to);
         tmp.addInstToBlock(basicBlock);

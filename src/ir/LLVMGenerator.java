@@ -204,7 +204,7 @@ public class LLVMGenerator {
     public void visitConstDecl(AST.ConstDecl constDecl){
         // ConstDecl → 'const' BType ConstDef { ',' ConstDef } ';'
         if (constDecl.getbType().getIntToken() != null){
-            tmpType = IntegerType.i32; // ??? 可能有问题
+            tmpType = IntegerType.i32;
         }
         else tmpType = IntegerType.i8;
         for (AST.ConstDef constDef : constDecl.getConstDefList()){
@@ -267,11 +267,11 @@ public class LLVMGenerator {
 
     public void visitConstInitVal(AST.ConstInitVal constInitVal){
         // ConstInitVal → ConstExp | '{' [ ConstExp { ',' ConstExp } ] '}' | StringConst
-        if (constInitVal.getStringConst() != null){  // ???
+        if (constInitVal.getStringConst() != null){
             String str = constInitVal.getStringConst().getValue();
             tmpDepth = 1;
             for (int i = 1; i < str.length() - 1; i++){
-                int ascii = (int)str.charAt(i); // '\n' ???
+                int ascii = (int)str.charAt(i); // '\n'
                 if (ascii == 92){
                     ascii = 10;
                     i++;
@@ -436,7 +436,7 @@ public class LLVMGenerator {
 
     public void visitInitVal(AST.InitVal initVal){
         // InitVal → Exp | '{' [ Exp { ',' Exp } ] '}' | StringConst
-        if (initVal.getStringConst() != null){ // ???
+        if (initVal.getStringConst() != null){
             String str = initVal.getStringConst().getValue();
             if (isGlobal){
                 isConst = true;
@@ -445,7 +445,7 @@ public class LLVMGenerator {
             tmpValue = null;
             tmpDepth = 1;
             for (int i = 1; i < str.length() - 1; i++) {
-                int ascii = (int)str.charAt(i); // '\n' ???
+                int ascii = (int)str.charAt(i); // '\n'
                 if (ascii == 92){
                     ascii = 10;
                     i++;
@@ -671,7 +671,7 @@ public class LLVMGenerator {
                     else tmpValue = buildFactory.buildStore(curBlock, input, tmpValue);
                 }
                 else {
-                    // 数组 ???
+                    // 数组
                     List<Value> indexList = new ArrayList<>();
                     visitExp(stmt.getlVal().getExp());
                     indexList.add(tmpValue);
@@ -783,7 +783,7 @@ public class LLVMGenerator {
                  }
                  forFinalBlock;
                 */
-                // ???
+                //
                 BasicBlock basicBlock = curBlock;
                 BasicBlock tmpContinueBlock = continueBlock;
                 BasicBlock tmpForFinalBlock = curForFinalBlock;
@@ -842,7 +842,7 @@ public class LLVMGenerator {
                     buildFactory.buildRet(curBlock);
                 }
                 else {
-                    //tmpType = ((FunctionType)curFunction.getType()).getReturnType(); //???
+                    //tmpType = ((FunctionType)curFunction.getType()).getReturnType();
                     visitExp(stmt.getExp());
 //                    System.out.println(tmpValue.toString());
 //                    System.out.println(tmpValue.getType());
@@ -873,7 +873,6 @@ public class LLVMGenerator {
                     Type type = tmpValue.getType();
                     Type targetType = ((PointerType) type).getTargetType();
                     if (targetType instanceof PointerType) {
-                        // ???
                         // arr[][3]
                         tmpValue = buildFactory.buildLoad(curBlock, tmpValue);
                     }
@@ -895,7 +894,6 @@ public class LLVMGenerator {
                     buildFactory.buildStore(curBlock, input, truncValue);
                 }
                 else {
-                    // ??? 修改待确定
                     List<Value> indexList = new ArrayList<>();
                     visitExp(stmt.getlVal().getExp());
                     indexList.add(tmpValue);
@@ -904,7 +902,6 @@ public class LLVMGenerator {
                     Type type = tmpValue.getType();
                     Type targetType = ((PointerType) type).getTargetType();
                     if (targetType instanceof PointerType) {
-                        // ???
                         // arr[][3]
                         tmpValue = buildFactory.buildLoad(curBlock, tmpValue);
                     }
@@ -998,7 +995,7 @@ public class LLVMGenerator {
             else tmpValue = buildFactory.buildStore(curBlock, input, tmpValue);
         }
         else {
-            // 数组 ???
+            // 数组
             List<Value> indexList = new ArrayList<>();
             visitExp(forStmt.getlVal().getExp());
             indexList.add(tmpValue);
@@ -1136,7 +1133,6 @@ public class LLVMGenerator {
 
     public void visitCharacter(AST.Character character){
         // Character → CharConst
-        // ???
         String str = character.getCharConst().getValue();
         if (isConst){
             char ch1 = str.charAt(1);
@@ -1189,7 +1185,7 @@ public class LLVMGenerator {
     }
 
     public void visitUnaryExp(AST.UnaryExp unaryExp){
-        // UnaryExp → PrimaryExp | Ident '(' [FuncRParams] ')' | UnaryOp UnaryExp  // ??? return fun();
+        // UnaryExp → PrimaryExp | Ident '(' [FuncRParams] ')' | UnaryOp UnaryExp  //  return fun();
         if (unaryExp.getPrimaryExp() != null){
             visitPrimaryExp(unaryExp.getPrimaryExp());
         }

@@ -64,7 +64,7 @@ public abstract class Instruction extends User {
         return this.getNode().getParent().getValue();
     }
 
-    public void addInstToBlock(BasicBlock basicBlock) { // ???
+    public void addInstToBlock(BasicBlock basicBlock) {
         if (basicBlock.getInstructions().getEnd() == null || (!(basicBlock.getInstructions().getEnd().getValue() instanceof BrInst) && !(basicBlock.getInstructions().getEnd().getValue() instanceof RetInst))) {
             this.getNode().insertAtEnd(basicBlock.getInstructions());
         }
@@ -85,7 +85,7 @@ public abstract class Instruction extends User {
         getParent().delInstruction(getNode());
     }
 
-//    public Instruction copySelf(Map<Value, Value> replaceMap) {  // ???
+//    public Instruction copySelf(Map<Value, Value> replaceMap) {
 //        Instruction copyInst = null;
 //        BuildFactory factory = BuildFactory.getInstance();
 //        BasicBlock fatherBB2insert = (BasicBlock) replaceMap.get(this.getParent());
@@ -166,7 +166,7 @@ public abstract class Instruction extends User {
 //        return copyInst;
 //    }
 
-//    public Value findValue(Map<Value, Value> replaceMap, Value value) {   // ???
+//    public Value findValue(Map<Value, Value> replaceMap, Value value) {
 //        if (value instanceof ConstInt) {
 //            return value;
 //        } else {

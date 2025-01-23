@@ -106,7 +106,6 @@ public class Function extends Value{
     }
 
     public BasicBlock getHeadBlock() {
-         // ???mips
         return blockList.getBegin().getValue();
     }
 

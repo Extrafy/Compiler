@@ -47,7 +47,6 @@ public class GEPInst extends MemInst{
     }
 
     private static Type getElementType(Value pointer, List<Value> indices) {
-        // ???
         Type type = pointer.getType();
         for (Value ignored : indices) {
             if (type instanceof ArrayType) {
@@ -156,7 +155,7 @@ public class GEPInst extends MemInst{
         else {
             // 利用mid寄存器周转
             // mid = offset = elementSize * offset
-            MipsBuilder.buildOptMul(mid, irOffset, new ConstInt(elementSize, IntegerType.i32), MipsBuildingContext.curIrFunction, getParent());// ???mips ConstChar
+            MipsBuilder.buildOptMul(mid, irOffset, new ConstInt(elementSize, IntegerType.i32), MipsBuildingContext.curIrFunction, getParent());
             // dst = base + mid
             MipsBuilder.buildBinary(MipsBinary.BinaryType.ADDU, dst, base, mid, getParent());
         }

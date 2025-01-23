@@ -46,7 +46,6 @@ public class GlobalVar extends User{
         return value instanceof ConstString;
     }
 
-    // ??? 还有单个字符
 
     public boolean isArray() {
         return value instanceof ConstArray;
