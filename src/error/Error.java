@@ -25,6 +25,20 @@ public class Error {
         return errorType;
     }
 
+    public boolean equals(Error error) {
+        return errorLine == error.errorLine;
+    }
+
+    public int compareTo(Error error) {
+        if (equals(error)) {
+            return 0;
+        }
+        else if (errorLine < error.errorLine) {
+            return -1;
+        }
+        return 1;
+    }
+
     @Override
     public String toString() {
         return Integer.toString(errorLine) + ' ' + errorType.toString();
