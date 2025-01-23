@@ -81,6 +81,10 @@ public abstract class Instruction extends User {
         System.out.println("Instruction类: buildMips");
     }
 
+    public void eraseFromParent() {
+        getParent().delInstruction(getNode());
+    }
+
 //    public Instruction copySelf(Map<Value, Value> replaceMap) {  // ???
 //        Instruction copyInst = null;
 //        BuildFactory factory = BuildFactory.getInstance();

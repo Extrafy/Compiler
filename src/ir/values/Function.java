@@ -11,6 +11,7 @@ import backend.parts.MipsBlock;
 import backend.parts.MipsFunction;
 import config.Config;
 import ir.IRModule;
+import ir.opt.Loop;
 import ir.types.FunctionType;
 import ir.types.Type;
 import ir.values.instructions.Instruction;
@@ -22,12 +23,20 @@ import utils.Pair;
 import java.util.*;
 
 public class Function extends Value{
-    private final MyList<BasicBlock, Function> blockList;
+    private  MyList<BasicBlock, Function> blockList;
     private final MyNode<Function, IRModule> node;
     private final List<Argument> argumentList;
     private final List<Function> predecessors;
     private final List<Function> successors;
     private final boolean isLibFunc;
+    /**
+     * 函数内的所有Loop
+     */
+    private ArrayList<Loop> loops;
+    /**
+     * 函数内深度为1的loop
+     */
+    private ArrayList<Loop> loopsAtTop;
 
 
     public Function(String name, Type type, boolean isLibFunc) {
@@ -47,6 +56,19 @@ public class Function extends Value{
 
     public MyList<BasicBlock, Function> getBlockList() {
         return blockList;
+    }
+
+    public void setBlockList(MyList<BasicBlock, Function> blockList) {
+        blockList.clear();
+        blockList.addAll(blockList);
+    }
+
+    public void setLoops(ArrayList<Loop> loops) {
+        this.loops = loops;
+    }
+
+    public void setLoopsAtTop(ArrayList<Loop> loopsAtTop) {
+        this.loopsAtTop = loopsAtTop;
     }
 
     public MyNode<Function, IRModule> getNode() {
@@ -119,7 +141,7 @@ public class Function extends Value{
 //                parsePhis();
 //                System.out.println("[字典]\n" + phiCopysLists + "\n[进入Serial]\n");
 //                mipsFunction.blockSerialPHI(firstMipsBlock, phiCopysLists);
-//                mipsFunction.blockSerialize(firstMipsBlock);
+                mipsFunction.blockSerialize(firstMipsBlock);
             }
             // 关闭Mem2Reg以及PHI优化
             else {

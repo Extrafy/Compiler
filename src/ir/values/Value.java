@@ -50,6 +50,31 @@ public class Value {
         return useList;
     }
 
+    public ArrayList<User> getUsers() {
+        ArrayList<User> users = new ArrayList<>();
+        for (Use use : getUseList()){
+            users.add(use.getUser());
+        }
+        return users;
+    }
+
+    /**
+     * For PHI
+     */
+    public void replaceAllUsesWith(Value replacement) {
+        List<Use> usesClone = new ArrayList<>(useList);
+        for (Use use : usesClone) {
+            User user = use.getUser();
+            for (int i = 0; i < user.getOperands().size(); i++) {
+                if (user.getOperands().get(i) == this) {
+                    user.setOperands(i, replacement);
+                }
+            }
+        }
+        useList.clear();
+    }
+
+
     public void setUseList(List<Use> useList) {
         this.useList = useList;
     }

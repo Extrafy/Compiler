@@ -10,6 +10,7 @@ import ir.types.ArrayType;
 import ir.types.PointerType;
 import ir.types.Type;
 import ir.values.BasicBlock;
+import ir.values.User;
 import ir.values.instructions.Operator;
 
 public class AllocaInst extends MemInst{
@@ -44,6 +45,23 @@ public class AllocaInst extends MemInst{
 
     public void setAllocaType(Type allocaType) {
         this.allocaType = allocaType;
+    }
+
+    /**
+     * 只要是没有使用 gep 的，都可以在 mem2reg 中被提升
+     */
+    public boolean canPromotable() {
+        if (getUsers().isEmpty()) {
+            return true;
+        }
+        for (User user : getUsers()) {
+            if (user instanceof GEPInst getElementPtr) {
+                if (getElementPtr.getOperands().get(0) == this) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     @Override

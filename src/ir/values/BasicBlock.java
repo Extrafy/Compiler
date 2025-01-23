@@ -35,6 +35,10 @@ public class BasicBlock extends Value{
         return instructions;
     }
 
+    public void delAllInstruction() {
+        instructions.clear();
+    }
+
     public void setInstructions(MyList<Instruction, BasicBlock> instructions) {
         this.instructions = instructions;
     }
@@ -73,6 +77,10 @@ public class BasicBlock extends Value{
 
     public Function getParent() {
         return this.node.getParent().getValue();
+    }
+
+    public void delInstruction(MyNode<Instruction, BasicBlock> node) {
+        instructions.removeNode(node);
     }
 
     public void refreshReg() {

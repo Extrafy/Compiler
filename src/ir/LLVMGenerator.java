@@ -2,6 +2,8 @@ package ir;
 
 import AST.AST;
 import config.Config;
+import frontend.Parser;
+import ir.opt.*;
 import ir.types.*;
 import ir.values.*;
 import ir.values.instructions.ConstArray;
@@ -15,6 +17,21 @@ public class LLVMGenerator {
 
     public static LLVMGenerator getInstance(){
         return llvmGenerator;
+    }
+
+    public void process() {
+        // ============ 生成中间代码 ============
+        LLVMGenerator.getInstance().visitCompUnit(Parser.getInstance().getAst().compUnit);  // 生成中间代码
+        // 优化
+        if (Config.openDeadCodeAndLoopOpt){
+            DeadCodeRemove.analyze();           // 死代码删除
+            // ControlFlowGraphAnalyzer.analyze(); // 控制流图构建 // TLE
+            DomainTreeAnalyzer.analyze();       // domain树生成
+            LoopAnalyzer.analyze();             // 循环分析
+        }
+        if (Config.openMem2RegOpt) {
+            new Mem2Reg().analyze();           // Mem2Reg
+        }
     }
 
     private BuildFactory buildFactory = BuildFactory.getInstance();

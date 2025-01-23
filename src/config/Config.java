@@ -17,6 +17,10 @@ public class Config {
     public static boolean chToStr = true;
     public static boolean addToMul = false;
 
+    // 是否开启死代码，循环优化
+//    public static boolean openDeadCodeAndLoopOpt = false;
+    public static boolean openDeadCodeAndLoopOpt = true;
+
     // 是否开启Mem2Reg优化
     public static boolean openMem2RegOpt = false;
 //    public static boolean openMem2RegOpt = true;
