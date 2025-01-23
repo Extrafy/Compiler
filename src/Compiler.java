@@ -16,18 +16,15 @@ public class Compiler {
         if(Config.lexerFlag){
             lexer.printLexerAnswer();
         }
-//        Parser parser = Parser.getInstance();
-//        parser.setTokenList(lexer.getTokenList());
-//        parser.analyse();
-//        if (Config.parserFlag){
-//            parser.printParseAnswer();
-//        }
+        Parser parser = Parser.getInstance();
+        parser.setTokenList(lexer.getTokenList());
+        parser.analyse();
+        if (Config.parserFlag){
+            parser.printParseAnswer();
+        }
         if (Config.errorFlag){
             HandleError handleError = HandleError.getInstance();
-            List<Error> errorList = handleError.getErrorList();
-            for (Error error: errorList){
-                InputOutput.writeError(error.toString());
-            }
+            handleError.printErrors();
         }
     }
 }
