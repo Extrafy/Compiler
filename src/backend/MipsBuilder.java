@@ -251,6 +251,7 @@ public class MipsBuilder {
         }
     }
 
+    // 函数参数是怎么传参
     /**
      * 根据irValue 生成MipsOperand对象
      * @param irArg         参数的Value对象

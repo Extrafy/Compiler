@@ -101,6 +101,7 @@ public class MipsFunction {
      * 2.其他alloca
      * 3.参数alloca
      */
+    // 在题目代码中的一个函数中调用另一个函数，调用时保存了什么寄存器
     public void rebuildStack() {
         // 遍历下属所有语句，记录所有用过的寄存器，作为函数调用前要保存的现场
         for (MipsBlock block : blocks) {
