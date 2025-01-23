@@ -6,4 +6,9 @@ public class VoidType implements Type{
     public String toString(){
         return "void";
     }
+
+    public int getSize() {
+        System.out.println("[VoidTypeSize] 非法获取Void类型的Size！");
+        return 0;
+    }
 }

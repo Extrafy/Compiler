@@ -37,4 +37,8 @@ public class InputOutput {
     public static void writeLlvmIr(String content){
         write(content, Config.llvmPath);
     }
+
+    public static void writeMips(String content){
+        write(content, Config.mipsPath);
+    }
 }

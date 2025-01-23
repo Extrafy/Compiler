@@ -1,5 +1,8 @@
 package ir.values.instructions.mem;
 
+import backend.MipsBuilder;
+import backend.MipsBuildingContext;
+import backend.operands.MipsOperand;
 import ir.types.ArrayType;
 import ir.types.PointerType;
 import ir.types.Type;
@@ -28,5 +31,12 @@ public class LoadInst extends MemInst{
 
     public String toString() {
         return getName() + " = load " + getType() + ", " + getPointer().getType() + " " + getPointer().getName();
+    }
+
+    public void buildMips() {
+        MipsOperand dst = MipsBuilder.buildOperand(this, false, MipsBuildingContext.curIrFunction, getParent());
+        MipsOperand base = MipsBuilder.buildOperand(getOperands().get(0), false, MipsBuildingContext.curIrFunction, getParent());
+        MipsOperand offset = MipsBuilder.buildImmOperand(0, true, MipsBuildingContext.curIrFunction, getParent());
+        MipsBuilder.buildLoad(dst, base, offset, getParent());
     }
 }

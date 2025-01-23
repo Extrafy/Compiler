@@ -77,6 +77,10 @@ public abstract class Instruction extends User {
         this.getNode().insertAtBegin(basicBlock.getInstructions());
     }
 
+    public void buildMips() {
+        System.out.println("Instruction类: buildMips");
+    }
+
 //    public Instruction copySelf(Map<Value, Value> replaceMap) {  // ???
 //        Instruction copyInst = null;
 //        BuildFactory factory = BuildFactory.getInstance();

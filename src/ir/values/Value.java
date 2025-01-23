@@ -104,4 +104,8 @@ public class Value {
         }
         this.useList.clear();
     }
+
+    public void buildMips() {
+        System.out.println("Value类: buildMips");
+    }
 }

@@ -67,6 +67,10 @@ public class ArrayType implements Type{
         return offset;
     }
 
+    public int getSize() {
+        return arrayLength * elementType.getSize();
+    }
+
     public String toString(){
         return "[" + arrayLength + " x " + elementType.toString() + "]";
     }

@@ -11,4 +11,9 @@ public class LabelType implements Type{
     public String toString(){
         return "label_" + handler;
     }
+
+    public int getSize() {
+        System.out.println("[LabelTypeSize] 非法获取Label类型的Size！");
+        return 0;
+    }
 }

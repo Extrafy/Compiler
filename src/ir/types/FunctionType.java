@@ -52,4 +52,8 @@ public class FunctionType implements Type{
             parametersType.set(index, new PointerType(((ArrayType) parametersType.get(index)).getElementType()));
         }
     }
+    public int getSize() {
+        System.out.println("[FunctionTypeSize] 非法获取Function类型的Size！");
+        return 0;
+    }
 }

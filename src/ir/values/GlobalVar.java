@@ -1,9 +1,14 @@
 package ir.values;
 
+import backend.parts.MipsGlobalVariable;
+import backend.parts.MipsModule;
 import ir.IRModule;
+import ir.types.IntegerType;
 import ir.types.PointerType;
 import ir.types.Type;
 import ir.values.instructions.ConstArray;
+
+import java.util.ArrayList;
 
 public class GlobalVar extends User{
     private boolean isConst;
@@ -60,5 +65,58 @@ public class GlobalVar extends User{
             s.append(value);
         }
         return s.toString();
+    }
+
+    public void buildMips(){
+        MipsGlobalVariable mipsGlobalVariable = null;
+        // 无初始值错误
+        if(value == null){
+            System.out.println("[buildMips] GlobalVariable：initValue == null");
+        }
+        // 未初始化的int数组
+        else if(value instanceof ConstArray && ((ConstArray) value).allZero()){
+            mipsGlobalVariable = new MipsGlobalVariable(getName(), value.getType().getSize());
+        }
+        // 常量字符串
+        else if(value instanceof ConstString){
+            mipsGlobalVariable = new MipsGlobalVariable(getName(), ((ConstString) value).getContent());
+        }
+        // int变量
+        else if((value instanceof ConstInt)  && (((ConstInt)value).getIntType() == IntegerType.i32)){
+            mipsGlobalVariable = new MipsGlobalVariable(getName(), new ArrayList<>(){{
+                add(((ConstInt) value).getValue());
+            }});
+        }
+        // int数组
+        else if((value instanceof ConstArray) && (((ConstArray) value).getElementType() == IntegerType.i32)){
+            ArrayList<Integer> ints = new ArrayList<>();
+            for (Value element : ((ConstArray) value).getArray()){
+                ints.add(((ConstInt) element).getValue());
+            }
+            mipsGlobalVariable = new MipsGlobalVariable(getName(), ints);
+        }
+        // char变量
+        else if(((value instanceof ConstInt)  && (((ConstInt)value).getIntType() == IntegerType.i8)) || (value instanceof ConstChar)){
+            if (value instanceof ConstChar){
+                mipsGlobalVariable = new MipsGlobalVariable(getName(), new ArrayList<>(){{
+                    add(((ConstChar) value).getValue());
+                }}, true);
+            }
+            else {
+                mipsGlobalVariable = new MipsGlobalVariable(getName(), new ArrayList<>(){{
+                    add(((ConstInt) value).getValue());
+                }}, true);
+            }
+
+        }
+        // char数组
+        else if((value instanceof ConstArray) && (((ConstArray) value).getElementType() == IntegerType.i8)){
+            ArrayList<Integer> ints = new ArrayList<>();
+            for (Value element : ((ConstArray) value).getArray()){
+                ints.add(((ConstInt) element).getValue());
+            }
+            mipsGlobalVariable = new MipsGlobalVariable(getName(), ints, true);
+        }
+        MipsModule.addGlobalVariable(mipsGlobalVariable);
     }
 }

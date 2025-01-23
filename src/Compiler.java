@@ -1,18 +1,24 @@
+import backend.MipsBuilder;
 import config.Config;
-import error.Error;
 import error.HandleError;
 import frontend.Lexer;
 import frontend.Parser;
 import ir.IRModule;
 import ir.LLVMGenerator;
 import symbol.SymbolTable;
-import token.Token;
 import utils.InputOutput;
 
-import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Compiler {
     public static void main(String[] args) {
+        try {
+            new FileWriter("llvm_ir.txt", false).close(); // 清空 llvm_ir.txt
+            new FileWriter("mips.txt", false).close();    // 清空 mips.txt
+        } catch (IOException e) {
+            System.err.println("清空文件时出错：" + e.getMessage());
+        }
         String source = InputOutput.read(Config.inputPath);
         Lexer lexer = Lexer.getInstance();
         lexer.analyse(source);
@@ -39,6 +45,13 @@ public class Compiler {
         if (Config.irFlag){
             LLVMGenerator.getInstance().visitCompUnit(Parser.getInstance().getAst().compUnit);
             InputOutput.writeLlvmIr(IRModule.getInstance().toString());
+        }
+        if (Config.mipsFlag){
+            MipsBuilder mipsBuilder = new MipsBuilder(IRModule.getInstance());
+            // 生成目标代码
+            mipsBuilder.process();
+            // 输出目标代码
+            mipsBuilder.outputResult();
         }
     }
 }
