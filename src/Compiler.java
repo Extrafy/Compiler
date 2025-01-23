@@ -3,6 +3,8 @@ import error.Error;
 import error.HandleError;
 import frontend.Lexer;
 import frontend.Parser;
+import ir.IRModule;
+import ir.LLVMGenerator;
 import symbol.SymbolTable;
 import token.Token;
 import utils.InputOutput;
@@ -30,6 +32,13 @@ public class Compiler {
         if (Config.errorFlag){
             HandleError handleError = HandleError.getInstance();
             handleError.printErrors();
+        }
+        if (!HandleError.getInstance().getErrorList().isEmpty()){
+            return;
+        }
+        if (Config.irFlag){
+            LLVMGenerator.getInstance().visitCompUnit(Parser.getInstance().getAst().compUnit);
+            InputOutput.writeLlvmIr(IRModule.getInstance().toString());
         }
     }
 }

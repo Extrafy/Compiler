@@ -643,6 +643,9 @@ public class AST {
             InputOutput.write(getType());
         }
 
+        public String getStr() {
+            return addExp.getStr();
+        }
     }
 
 
@@ -1257,6 +1260,14 @@ public class AST {
             InputOutput.write(getType());
         }
 
+        public String getStr() {
+            StringBuilder s = new StringBuilder(ident.getValue());
+            if (exp != null){
+                s.append("[").append(exp.getStr()).append("]");
+            }
+            return s.toString();
+        }
+
     }
 
     public static class Cond{
@@ -1359,6 +1370,9 @@ public class AST {
             }
         }
 
+        public String getStr() {
+            return mulExp.getStr() + (opToken == null ? "" : opToken.getValue() + addExp.getStr());
+        }
     }
 
     public static class LOrExp{
@@ -1469,6 +1483,21 @@ public class AST {
             InputOutput.write(getType());
         }
 
+        public String getStr() {
+            if (exp!= null) {
+                return "(" + exp.getStr() + ")";
+            }
+            else if (lVal != null) {
+                return lVal.getStr();
+            }
+            else if (number != null){
+                return number.getStr();
+            }
+            else {
+                return character.getStr();
+            }
+        }
+
     }
 
     public static class Number{
@@ -1493,6 +1522,9 @@ public class AST {
             InputOutput.write(getType());
         }
 
+        public String getStr() {
+            return intConst.getValue();
+        }
     }
 
     public static class Character{
@@ -1517,6 +1549,9 @@ public class AST {
             InputOutput.write(getType());
         }
 
+        public String getStr() {
+            return charConst.getValue();
+        }
     }
 
 
@@ -1594,6 +1629,22 @@ public class AST {
             InputOutput.write(getType());
         }
 
+        public String getStr() {
+            if (primaryExp != null) {
+                return primaryExp.getStr();
+            }
+            else if (ident != null) {
+                String s = ident.getValue() + lParentToken.getValue();
+                if (funcRParams != null) {
+                    s += funcRParams.getStr();
+                }
+                s += rParentToken.getValue();
+                return s;
+            }
+            else {
+                return unaryOp.getStr() + unaryExp.getStr();
+            }
+        }
     }
 
     public static class UnaryOp{
@@ -1619,6 +1670,9 @@ public class AST {
             InputOutput.write(getType());
         }
 
+        public String getStr() {
+            return token.getValue();
+        }
     }
 
     public static class FuncRParams{
@@ -1654,6 +1708,16 @@ public class AST {
             InputOutput.write(getType());
         }
 
+        public String getStr() {
+            StringBuilder s = new StringBuilder();
+            for (int i = 0; i < expList.size(); i++) {
+                s.append(expList.get(i).getStr());
+                if (i != expList.size() - 1) {
+                    s.append(commaTokens.get(i).getValue());
+                }
+            }
+            return s.toString();
+        }
     }
 
     public static class MulExp{
@@ -1693,6 +1757,10 @@ public class AST {
                 InputOutput.write(opToken.toString());
                 mulExp.print();
             }
+        }
+
+        public String getStr() {
+            return unaryExp.getStr() + (opToken == null ? "" : opToken.getValue() + mulExp.getStr());
         }
 
     }
@@ -1774,7 +1842,6 @@ public class AST {
                 eqExp.print();
             }
         }
-
     }
 
     public static class LAndExp{
