@@ -11,30 +11,30 @@ public class Config {
 
     public static boolean lexerFlag = true;
     public static boolean parserFlag = true;
-    public static boolean symbolFlag = true;
+    public static boolean symbolFlag = false;
     public static boolean errorFlag = false;
-    public static boolean irFlag = true;
-    public static boolean mipsFlag = true;
+    public static boolean irFlag = false;
+    public static boolean mipsFlag = false;
 
     // llvm是否开启str输出
-    public static boolean chToStr = true;
+    public static boolean chToStr = false;
 
     // 是否开启运算优化
-    public static boolean addToMul = true; // 看看能否适当修改
+    public static boolean addToMul = false; // 看看能否适当修改
 
     // 是否开启死代码，循环优化
-//    public static boolean openDeadCodeAndLoopOpt = false;
-    public static boolean openDeadCodeAndLoopOpt = true;
+    public static boolean openDeadCodeAndLoopOpt = false;
+//    public static boolean openDeadCodeAndLoopOpt = true;
 
     // 是否开启Mem2Reg优化
     public static boolean openMem2RegOpt = false;
 //    public static boolean openMem2RegOpt = true;
 
     // 是否开启窥孔优化
-//    public static boolean openPeepHoleOpt = false;
-    public static boolean openPeepHoleOpt = true;
+    public static boolean openPeepHoleOpt = false;
+//    public static boolean openPeepHoleOpt = true;
 
     // 是否开启寄存器分配
-//    public static boolean openRegAllocOpt = false;
-    public static boolean openRegAllocOpt = true;
+    public static boolean openRegAllocOpt = false;
+//    public static boolean openRegAllocOpt = true;
 }

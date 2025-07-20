@@ -34,11 +34,11 @@ public class Lexer {
         reservedWords.put("if", TokenType.IFTK);
         reservedWords.put("else", TokenType.ELSETK);
         reservedWords.put("for", TokenType.FORTK);
-        reservedWords.put("getint", TokenType.GETINTTK);
         reservedWords.put("getchar", TokenType.GETCHARTK);
         reservedWords.put("printf", TokenType.PRINTFTK);
         reservedWords.put("return", TokenType.RETURNTK);
         reservedWords.put("void", TokenType.VOIDTK);
+        reservedWords.put("static", TokenType.STATICTK);
     }
 
     private Lexer(){

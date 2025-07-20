@@ -259,7 +259,8 @@ public class AST {
     }
 
     public static class VarDecl{
-        // VarDecl → BType VarDef { ',' VarDef } ';'
+        // VarDecl → [ 'static' ] BType VarDef { ',' VarDef } ';'
+        private Token staticToken;
         private BType bType;
         private List<VarDef> varDefList;
         private List<Token> commaTokens;
@@ -267,11 +268,16 @@ public class AST {
 
         private String type = "<VarDecl>";
 
-        public VarDecl(BType bType, List<VarDef> varDefList, List<Token> commaTokens, Token semicnToken) {
+        public VarDecl(Token staticToken, BType bType, List<VarDef> varDefList, List<Token> commaTokens, Token semicnToken) {
+            this.staticToken = staticToken;
             this.bType = bType;
             this.varDefList = varDefList;
             this.commaTokens = commaTokens;
             this.semicnToken = semicnToken;
+        }
+
+        public Token getStaticToken() {
+            return staticToken;
         }
 
         public BType getbType() {
@@ -295,6 +301,7 @@ public class AST {
         }
 
         public void print(){
+            if (staticToken != null) InputOutput.writeParser(staticToken.toString());
             bType.print();
             varDefList.get(0).print();
             for (int i = 1; i < varDefList.size(); i++){
@@ -1296,27 +1303,34 @@ public class AST {
 
     public static class ForStmt{
         // ForStmt → LVal '=' Exp
-        private LVal lVal;
-        private Token assignToken;
-        private Exp exp;
+        // ForStmt → LVal '=' Exp { ',' LVal '=' Exp }
+        private List<LVal> lVals;
+        private List<Token> assignTokens;
+        private List<Exp> exps;
+        private List<Token> commaTokens;
         private String type = "<ForStmt>";
 
-        public ForStmt(LVal lVal, Token assignToken, Exp exp) {
-            this.lVal = lVal;
-            this.assignToken = assignToken;
-            this.exp = exp;
+        public ForStmt(List<LVal> lVals, List<Token> assignTokens, List<Exp> exps, List<Token> commaTokens) {
+            this.lVals = lVals;
+            this.assignTokens = assignTokens;
+            this.exps = exps;
+            this.commaTokens = commaTokens;
         }
 
-        public LVal getlVal() {
-            return lVal;
+        public List<LVal> getlVals() {
+            return lVals;
         }
 
-        public Token getAssignToken() {
-            return assignToken;
+        public List<Token> getAssignTokens() {
+            return assignTokens;
         }
 
-        public Exp getExp() {
-            return exp;
+        public List<Exp> getExps() {
+            return exps;
+        }
+
+        public List<Token> getCommaTokens() {
+            return commaTokens;
         }
 
         public String getType() {
@@ -1324,9 +1338,15 @@ public class AST {
         }
 
         public void print(){
-            lVal.print();
-            InputOutput.writeParser(assignToken.toString());
-            exp.print();
+            lVals.get(0).print();
+            InputOutput.writeParser(assignTokens.get(0).toString());
+            exps.get(0).print();
+            for (int i = 1; i < lVals.size(); i++){
+                InputOutput.writeParser(commaTokens.get(i-1).toString());
+                lVals.get(i).print();
+                InputOutput.writeParser(assignTokens.get(i).toString());
+                exps.get(i).print();
+            }
             InputOutput.writeParser(getType());
         }
 

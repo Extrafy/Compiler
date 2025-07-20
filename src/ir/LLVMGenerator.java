@@ -980,48 +980,51 @@ public class LLVMGenerator {
 
     public void visitForStmt(AST.ForStmt forStmt){
         // ForStmt → LVal '=' Exp
-        if (forStmt.getlVal().getExp() == null){
-            // 非数组
-            Value input = getValue(forStmt.getlVal().getIdent().getValue());
-            visitExp(forStmt.getExp());
-            if ((((PointerType) input.getType()).getTargetType() instanceof IntegerType) && (((PointerType) input.getType()).getTargetType() == IntegerType.i8) && (tmpValue.getType() == IntegerType.i32)){
-                Value truncValue =  buildFactory.buildTrunc(tmpValue, curBlock, IntegerType.i32, IntegerType.i8);
-                tmpValue = buildFactory.buildStore(curBlock, input, truncValue);
+        // ForStmt → LVal '=' Exp { ',' LVal '=' Exp }
+        for(int i = 0; i < forStmt.getlVals().size(); i++){
+            if (forStmt.getlVals().get(i).getExp() == null){
+                // 非数组
+                Value input = getValue(forStmt.getlVals().get(i).getIdent().getValue());
+                visitExp(forStmt.getExps().get(i));
+                if ((((PointerType) input.getType()).getTargetType() instanceof IntegerType) && (((PointerType) input.getType()).getTargetType() == IntegerType.i8) && (tmpValue.getType() == IntegerType.i32)){
+                    Value truncValue =  buildFactory.buildTrunc(tmpValue, curBlock, IntegerType.i32, IntegerType.i8);
+                    tmpValue = buildFactory.buildStore(curBlock, input, truncValue);
+                }
+                else if ((((PointerType) input.getType()).getTargetType() instanceof IntegerType) && (((PointerType) input.getType()).getTargetType() == IntegerType.i32) && (tmpValue.getType() == IntegerType.i8)){
+                    Value zextValue = buildFactory.buildZext(tmpValue, curBlock, IntegerType.i8, IntegerType.i32);
+                    tmpValue = buildFactory.buildStore(curBlock, input, zextValue);
+                }
+                else tmpValue = buildFactory.buildStore(curBlock, input, tmpValue);
             }
-            else if ((((PointerType) input.getType()).getTargetType() instanceof IntegerType) && (((PointerType) input.getType()).getTargetType() == IntegerType.i32) && (tmpValue.getType() == IntegerType.i8)){
-                Value zextValue = buildFactory.buildZext(tmpValue, curBlock, IntegerType.i8, IntegerType.i32);
-                tmpValue = buildFactory.buildStore(curBlock, input, zextValue);
-            }
-            else tmpValue = buildFactory.buildStore(curBlock, input, tmpValue);
-        }
-        else {
-            // 数组
-            List<Value> indexList = new ArrayList<>();
-            visitExp(forStmt.getlVal().getExp());
-            indexList.add(tmpValue);
+            else {
+                // 数组
+                List<Value> indexList = new ArrayList<>();
+                visitExp(forStmt.getlVals().get(i).getExp());
+                indexList.add(tmpValue);
 
-            tmpValue = getValue(forStmt.getlVal().getIdent().getValue());
-            Value addr;
-            Type type = tmpValue.getType();
-            Type targetType = ((PointerType) type).getTargetType();
-            if (targetType instanceof PointerType) {
-                // arr[][3]
-                tmpValue = buildFactory.buildLoad(curBlock, tmpValue);
-            } else {
-                // arr[3][2]
-                indexList.add(0, ConstInt.zero);
+                tmpValue = getValue(forStmt.getlVals().get(i).getIdent().getValue());
+                Value addr;
+                Type type = tmpValue.getType();
+                Type targetType = ((PointerType) type).getTargetType();
+                if (targetType instanceof PointerType) {
+                    // arr[][3]
+                    tmpValue = buildFactory.buildLoad(curBlock, tmpValue);
+                } else {
+                    // arr[3][2]
+                    indexList.add(0, ConstInt.zero);
+                }
+                addr = buildFactory.buildGEP(curBlock, tmpValue, indexList);
+                visitExp(forStmt.getExps().get(i));
+                if ((((PointerType) addr.getType()).getTargetType() instanceof IntegerType) && (((PointerType) addr.getType()).getTargetType() == IntegerType.i8) && (tmpValue.getType() == IntegerType.i32)){
+                    Value truncValue =  buildFactory.buildTrunc(tmpValue, curBlock, IntegerType.i32, IntegerType.i8);
+                    tmpValue = buildFactory.buildStore(curBlock, addr, truncValue);
+                }
+                else if ((((PointerType) addr.getType()).getTargetType() instanceof IntegerType) && (((PointerType) addr.getType()).getTargetType() == IntegerType.i32) && (tmpValue.getType() == IntegerType.i8)){
+                    Value zextValue = buildFactory.buildZext(tmpValue, curBlock, IntegerType.i8, IntegerType.i32);
+                    tmpValue = buildFactory.buildStore(curBlock, addr, zextValue);
+                }
+                else tmpValue = buildFactory.buildStore(curBlock, addr, tmpValue);
             }
-            addr = buildFactory.buildGEP(curBlock, tmpValue, indexList);
-            visitExp(forStmt.getExp());
-            if ((((PointerType) addr.getType()).getTargetType() instanceof IntegerType) && (((PointerType) addr.getType()).getTargetType() == IntegerType.i8) && (tmpValue.getType() == IntegerType.i32)){
-                Value truncValue =  buildFactory.buildTrunc(tmpValue, curBlock, IntegerType.i32, IntegerType.i8);
-                tmpValue = buildFactory.buildStore(curBlock, addr, truncValue);
-            }
-            else if ((((PointerType) addr.getType()).getTargetType() instanceof IntegerType) && (((PointerType) addr.getType()).getTargetType() == IntegerType.i32) && (tmpValue.getType() == IntegerType.i8)){
-                Value zextValue = buildFactory.buildZext(tmpValue, curBlock, IntegerType.i8, IntegerType.i32);
-                tmpValue = buildFactory.buildStore(curBlock, addr, zextValue);
-            }
-            else tmpValue = buildFactory.buildStore(curBlock, addr, tmpValue);
         }
     }
 

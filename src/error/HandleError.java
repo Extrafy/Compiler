@@ -409,14 +409,17 @@ public class HandleError {
 
     public void forStmtError(AST.ForStmt forStmt){
         // ForStmt → LVal '=' Exp // h
-        lValError(forStmt.getlVal());
-        if (symbolStack.get(forStmt.getlVal().getIdent().getValue()) instanceof VarSymbol){
-            VarSymbol varSymbol = (VarSymbol) symbolStack.get(forStmt.getlVal().getIdent().getValue());
-            if (varSymbol.isConst()){
-                HandleError.getInstance().addError(new Error(forStmt.getlVal().getIdent().getLine(), ErrorType.h));
+        //  ForStmt → LVal '=' Exp { ',' LVal '=' Exp }
+        for(int i = 0; i < forStmt.getlVals().size(); i++){
+            lValError(forStmt.getlVals().get(i));
+            if (symbolStack.get(forStmt.getlVals().get(i).getIdent().getValue()) instanceof VarSymbol){
+                VarSymbol varSymbol = (VarSymbol) symbolStack.get(forStmt.getlVals().get(i).getIdent().getValue());
+                if (varSymbol.isConst()){
+                    HandleError.getInstance().addError(new Error(forStmt.getlVals().get(i).getIdent().getLine(), ErrorType.h));
+                }
             }
+            expError(forStmt.getExps().get(i));
         }
-        expError(forStmt.getExp());
     }
 
     public void expError(AST.Exp exp){

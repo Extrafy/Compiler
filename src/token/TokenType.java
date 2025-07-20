@@ -44,4 +44,5 @@ public enum TokenType {
     RBRACE, // }
     NONE, // none
     ERROR, // & 和 |
+    STATICTK,
 }

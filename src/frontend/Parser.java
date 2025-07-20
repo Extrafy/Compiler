@@ -194,7 +194,11 @@ public class Parser {
     }
 
     public AST.VarDecl parseVarDecl(){
-        // VarDecl → BType VarDef { ',' VarDef } ';'
+        // VarDecl → [ 'static' ] BType VarDef { ',' VarDef } ';'
+        Token staticToken = null;
+        if (curToken.getTokenType() == TokenType.STATICTK){
+            staticToken = expect(TokenType.STATICTK);
+        }
         AST.BType bType = parseBType();
         List<AST.VarDef> varDefList = new ArrayList<>();
         List<Token> commaTokens = new ArrayList<>();
@@ -205,7 +209,7 @@ public class Parser {
             varDefList.add(parseVarDef());
         }
         semicnToken = expect(TokenType.SEMICN);
-        return new AST.VarDecl(bType, varDefList, commaTokens, semicnToken);
+        return new AST.VarDecl(staticToken, bType, varDefList, commaTokens, semicnToken);
     }
 
     public AST.VarDef parseVarDef(){
@@ -337,7 +341,7 @@ public class Parser {
         // BlockItem → Decl | Stmt
         AST.Decl decl = null;
         AST.Stmt stmt = null;
-        if (curToken.getTokenType() == TokenType.CONSTTK || curToken.getTokenType() == TokenType.INTTK || curToken.getTokenType() == TokenType.CHARTK){
+        if (curToken.getTokenType() == TokenType.CONSTTK || curToken.getTokenType() == TokenType.INTTK || curToken.getTokenType() == TokenType.CHARTK || curToken.getTokenType() == TokenType.STATICTK){
             decl = parseDecl();
         }
         else {
@@ -492,10 +496,21 @@ public class Parser {
 
     public AST.ForStmt parseForStmt(){
         // ForStmt → LVal '=' Exp
-        AST.LVal lVal = parseLval();
-        Token assignToken = expect(TokenType.ASSIGN);
-        AST.Exp exp = parseExp();
-        return new AST.ForStmt(lVal, assignToken, exp);
+        // ForStmt → LVal '=' Exp { ',' LVal '=' Exp }
+        List<AST.LVal> lVals = new ArrayList<>();
+        List<Token> assignTokens = new ArrayList<>();
+        List<AST.Exp> exps = new ArrayList<>();
+        List<Token> commaTokens = new ArrayList<>();
+        lVals.add(parseLval());
+        assignTokens.add(expect(TokenType.ASSIGN));
+        exps.add(parseExp());
+        while (curToken.getTokenType() == TokenType.COMMA){
+            commaTokens.add(expect(TokenType.COMMA));
+            lVals.add(parseLval());
+            assignTokens.add(expect(TokenType.ASSIGN));
+            exps.add(parseExp());
+        }
+        return new AST.ForStmt(lVals, assignTokens, exps, commaTokens);
     }
 
     public AST.Exp parseExp(){

@@ -1,0 +1,9 @@
+int fun1(){
+    return 1;
+}
+
+
+int main(){
+    int a = fun2();
+    return 0;
+}
