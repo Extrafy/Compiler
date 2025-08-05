@@ -14,7 +14,7 @@ public class Config {
     public static boolean symbolFlag = true;
     public static boolean errorFlag = false;
     public static boolean irFlag = true;
-    public static boolean mipsFlag = false;
+    public static boolean mipsFlag = true;
 
     // llvm是否开启str输出
     public static boolean chToStr = false;
