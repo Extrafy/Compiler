@@ -11,7 +11,7 @@ public class Config {
 
     public static boolean lexerFlag = true;
     public static boolean parserFlag = true;
-    public static boolean symbolFlag = false;
+    public static boolean symbolFlag = true;
     public static boolean errorFlag = false;
     public static boolean irFlag = false;
     public static boolean mipsFlag = false;

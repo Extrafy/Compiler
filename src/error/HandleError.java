@@ -96,7 +96,7 @@ public class HandleError {
         else {
             symbolType = SymbolType.ConstCharArray;
         }
-        symbolStack.put(constDef.getIdent().getValue(), new VarSymbol(constDef.getIdent().getValue(),symbolType,symbolStack.getStackTop().declLineNum,true, size));
+        symbolStack.put(constDef.getIdent().getValue(), new VarSymbol(constDef.getIdent().getValue(),symbolType,symbolStack.getStackTop().declLineNum,true, false, size));
         constInitValError(constDef.getConstInitVal());
     }
 
@@ -113,13 +113,14 @@ public class HandleError {
     }
 
     public void varDeclError(AST.VarDecl varDecl){
-        // VarDecl → BType VarDef { ',' VarDef } ';' // i
+        // VarDecl → [ 'static' ] BType VarDef { ',' VarDef } ';'  // i
         for (AST.VarDef varDef : varDecl.getVarDefList()){
-            varDefError(varDef, varDecl.getbType());
+            boolean flag = varDecl.getStaticToken() != null;
+            varDefError(varDef, varDecl.getbType(), flag);
         }
     }
 
-    public void varDefError(AST.VarDef varDef, AST.BType bType){
+    public void varDefError(AST.VarDef varDef, AST.BType bType, boolean isStatic){
         // VarDef → Ident [ '[' ConstExp ']' ] | Ident [ '[' ConstExp ']' ] '=' InitVal // b k
         if (symbolStack.isInCurrent(varDef.getIdent().getValue())){
             HandleError.getInstance().addError(new Error(varDef.getIdent().getLine(), ErrorType.b));
@@ -132,10 +133,12 @@ public class HandleError {
         }
         SymbolType symbolType = null;
         if (bType.getIntToken()!=null && size == 0){
-            symbolType = SymbolType.Int;
+            if (isStatic) symbolType = SymbolType.StaticInt;
+            else symbolType = SymbolType.Int;
         }
         else if (bType.getIntToken()!=null && size == 1){
-            symbolType = SymbolType.IntArray;
+            if (isStatic) symbolType = SymbolType.StaticIntArray;
+            else symbolType = SymbolType.IntArray;
         }
         else if (bType.getCharToken()!=null && size == 0){
             symbolType = SymbolType.Char;
@@ -143,7 +146,7 @@ public class HandleError {
         else {
             symbolType = SymbolType.CharArray;
         }
-        symbolStack.put(varDef.getIdent().getValue(), new VarSymbol(varDef.getIdent().getValue(), symbolType, symbolStack.getStackTop().declLineNum, false, size));
+        symbolStack.put(varDef.getIdent().getValue(), new VarSymbol(varDef.getIdent().getValue(), symbolType, symbolStack.getStackTop().declLineNum, false, isStatic, size));
         if (varDef.getInitVal() != null){
             initValError(varDef.getInitVal());
         }
@@ -258,7 +261,7 @@ public class HandleError {
         else {
             symbolType = SymbolType.CharArray;
         }
-        symbolStack.put(funcFParam.getIdent().getValue(), new VarSymbol(funcFParam.getIdent().getValue(), symbolType, symbolStack.getStackTop().declLineNum, false, size));
+        symbolStack.put(funcFParam.getIdent().getValue(), new VarSymbol(funcFParam.getIdent().getValue(), symbolType, symbolStack.getStackTop().declLineNum, false, false, size));
     }
 
     public void blockError(AST.Block block){
