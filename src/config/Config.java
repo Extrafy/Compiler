@@ -13,7 +13,7 @@ public class Config {
     public static boolean parserFlag = true;
     public static boolean symbolFlag = true;
     public static boolean errorFlag = false;
-    public static boolean irFlag = false;
+    public static boolean irFlag = true;
     public static boolean mipsFlag = false;
 
     // llvm是否开启str输出

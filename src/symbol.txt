@@ -1,1 +1,2 @@
-2 a Int
+2 i Int
+2 j Int

@@ -360,18 +360,19 @@ public class LLVMGenerator {
             tmpType = IntegerType.i8;
         }
         for (AST.VarDef varDef : varDecl.getVarDefList()){
-            visitVarDef(varDef);
+            boolean isStatic = varDecl.getStaticToken() != null;
+            visitVarDef(varDef, isStatic);
         }
     }
 
-    public void visitVarDef(AST.VarDef varDef){
+    public void visitVarDef(AST.VarDef varDef, boolean isStatic){
         // VarDef → Ident [ '[' ConstExp ']' ] | Ident [ '[' ConstExp ']' ] '=' InitVal
         String name = varDef.getIdent().getValue();
         if (varDef.getConstExp() == null){
             // 非数组
             if (varDef.getInitVal() != null){
                 tmpValue = null;
-                if (isGlobal){
+                if (isGlobal || isStatic){
                     isConst = true;
                     saveValue = null;
                 }
@@ -380,11 +381,11 @@ public class LLVMGenerator {
             }
             else {
                 tmpValue = null;
-                if (isGlobal){
+                if (isGlobal || isStatic){
                     saveValue = null;
                 }
             }
-            if (isGlobal){
+            if (isGlobal || isStatic){
                 if (tmpType == IntegerType.i8){
                     tmpValue = buildFactory.buildGlobalVar(name, tmpType, false, buildFactory.getConstInt(saveValue == null ? 0 : saveValue, IntegerType.i8));
                 }
@@ -413,7 +414,7 @@ public class LLVMGenerator {
                     type = buildFactory.getArrayType(type, dims.get(i));
                 }
             }
-            if (isGlobal){
+            if (isGlobal || isStatic){
                 tmpValue = buildFactory.buildGlobalArray(name, type, false);
                 if (varDef.getInitVal() != null){
                     ((ConstArray) ((GlobalVar) tmpValue).getValue()).setInit(true);
