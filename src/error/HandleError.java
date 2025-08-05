@@ -494,6 +494,7 @@ public class HandleError {
             unaryExpError(unaryExp.getUnaryExp());
         }
         else {
+            if (Objects.equals(unaryExp.getIdent().getValue(), "getint")) return;
             if (!symbolStack.contains(unaryExp.getIdent().getValue())){
                 HandleError.getInstance().addError(new Error(unaryExp.getIdent().getLine(), ErrorType.c));
                 return;
