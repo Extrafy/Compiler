@@ -13,10 +13,12 @@ import java.util.ArrayList;
 public class GlobalVar extends User{
     private boolean isConst;
     private Value value;
+    private static int globalIdx = 0;
 
 
     public GlobalVar(String name, Type type, boolean isConst, Value value) {
-        super("@"+name, new PointerType(type));
+        super("@"+name+"_"+globalIdx, new PointerType(type));
+        globalIdx++;
         this.isConst = isConst;
         this.value = value;
         IRModule.getInstance().addGlobalVar(this);

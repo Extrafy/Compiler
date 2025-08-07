@@ -1,0 +1,43 @@
+# LLVM to Mips 
+.macro putstr
+	li	$v0,	4
+	syscall
+.end_macro
+
+.macro putint
+	li	$v0,	1
+	syscall
+.end_macro
+
+.macro getint
+	li	$v0,	5
+	syscall
+.end_macro
+
+.macro putchar
+	li	$v0,	11
+	syscall
+.end_macro
+
+.macro getchar
+	li	$v0,	12
+	syscall
+.end_macro
+
+.data
+.text
+main:
+b0_0:
+	addiu	v0,	$sp,	0
+	getint
+	move	v1,	$v0
+	sw	v1,	0(v0)
+	lw	v2,	0(v0)
+	move	$a0,	v2
+	putint
+	lw	v3,	0(v0)
+	move	$v0,	v3
+		li	$v0,	10
+	syscall
+
+

@@ -372,8 +372,11 @@ public class LLVMGenerator {
             // 非数组
             if (varDef.getInitVal() != null){
                 tmpValue = null;
-                if (isGlobal || isStatic){
+                if (isGlobal){
                     isConst = true;
+                    saveValue = null;
+                }
+                else if (isStatic){
                     saveValue = null;
                 }
                 visitInitVal(varDef.getInitVal());
