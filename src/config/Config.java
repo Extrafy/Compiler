@@ -35,6 +35,6 @@ public class Config {
 //    public static boolean openPeepHoleOpt = true;
 
     // 是否开启寄存器分配
-    public static boolean openRegAllocOpt = false;
+    public static boolean openRegAllocOpt = true;
 //    public static boolean openRegAllocOpt = true;
 }
